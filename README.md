@@ -9,9 +9,7 @@
 
 ### Development:
 
-[Fill-in] List of team members responsible for development:
-
-- Jan Janssens | @janjanssens(githubusername)
+- Jeff Wellekens | @jeffwellekens
 - Giovany De Murel | @GiovanyDeMurel-HoGent
 - ...
 
