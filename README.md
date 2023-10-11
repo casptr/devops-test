@@ -14,6 +14,8 @@
 - Tiê Proost | @TieProost
 - Sandro Smet | @SandroSmet
 - Frédéric De Tender | @fredjeeeuuuhhh
+- Pieter Vandewalle | @PieterVandewalle
+- ...
 
 ### Operations:
 
