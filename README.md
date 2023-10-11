@@ -12,7 +12,7 @@
 [Fill-in] List of team members responsible for development:
 
 - Jan Janssens | @janjanssens(githubusername)
-- ...
+- Giovany De Murel | @GiovanyDeMurel-HoGent
 - ...
 
 ### Operations:
