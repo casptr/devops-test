@@ -13,7 +13,7 @@
 - Giovany De Murel | @GiovanyDeMurel-HoGent
 - Tiê Proost | @TieProost
 - Sandro Smet | @SandroSmet
-- ...
+- Frédéric De Tender | @fredjeeeuuuhhh
 
 ### Operations:
 
