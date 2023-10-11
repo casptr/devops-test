@@ -11,6 +11,7 @@
 
 - Jeff Wellekens | @jeffwellekens
 - Giovany De Murel | @GiovanyDeMurel-HoGent
+- Tiê Proost | @TieProost
 - ...
 
 ### Operations:
