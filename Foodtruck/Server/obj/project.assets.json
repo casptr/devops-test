@@ -315,38 +315,6 @@
           "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
-      "Microsoft.Extensions.Localization/6.0.16": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
-          "Microsoft.Extensions.Localization.Abstractions": "6.0.16",
-          "Microsoft.Extensions.Logging.Abstractions": "6.0.3",
-          "Microsoft.Extensions.Options": "6.0.0"
-        },
-        "compile": {
-          "lib/net6.0/Microsoft.Extensions.Localization.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Microsoft.Extensions.Localization.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Microsoft.Extensions.Localization.Abstractions/6.0.16": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/Microsoft.Extensions.Localization.Abstractions.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/Microsoft.Extensions.Localization.Abstractions.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Microsoft.Extensions.Logging/6.0.0": {
         "type": "package",
         "dependencies": {
@@ -446,30 +414,6 @@
           "lib/net6.0/Microsoft.JSInterop.WebAssembly.dll": {
             "related": ".xml"
           }
-        }
-      },
-      "MudBlazor/6.11.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNetCore.Components": "6.0.16",
-          "Microsoft.AspNetCore.Components.Web": "6.0.16",
-          "Microsoft.Extensions.Localization": "6.0.16"
-        },
-        "compile": {
-          "lib/net6.0/MudBlazor.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/MudBlazor.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/MudBlazor.props": {}
-        },
-        "buildMultiTargeting": {
-          "buildMultiTargeting/MudBlazor.props": {}
         }
       },
       "System.Diagnostics.DiagnosticSource/6.0.0": {
@@ -573,8 +517,7 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "Foodtruck.Shared": "1.0.0",
-          "Microsoft.AspNetCore.Components.WebAssembly": "6.0.22",
-          "MudBlazor": "6.11.0"
+          "Microsoft.AspNetCore.Components.WebAssembly": "6.0.22"
         },
         "compile": {
           "bin/placeholder/Foodtruck.Client.dll": {}
@@ -951,44 +894,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.Extensions.Localization/6.0.16": {
-      "sha512": "/CCqV+sFHge5PTOIRYvMp37H5yRGfSJSN+1r1Dd8jyagVPBqDzk6cx377KuB/e1m41TDrQFUg40QIIrSorVWcw==",
-      "type": "package",
-      "path": "microsoft.extensions.localization/6.0.16",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net461/Microsoft.Extensions.Localization.dll",
-        "lib/net461/Microsoft.Extensions.Localization.xml",
-        "lib/net6.0/Microsoft.Extensions.Localization.dll",
-        "lib/net6.0/Microsoft.Extensions.Localization.xml",
-        "lib/netstandard2.0/Microsoft.Extensions.Localization.dll",
-        "lib/netstandard2.0/Microsoft.Extensions.Localization.xml",
-        "microsoft.extensions.localization.6.0.16.nupkg.sha512",
-        "microsoft.extensions.localization.nuspec"
-      ]
-    },
-    "Microsoft.Extensions.Localization.Abstractions/6.0.16": {
-      "sha512": "eRCoZcG/6YqGJQrYziPOc2SmbgJq2ZtP6A9dnvc+9QBDvBHMQZLijpX68NbjGP4OlBpVId512uyuB72boOofuA==",
-      "type": "package",
-      "path": "microsoft.extensions.localization.abstractions/6.0.16",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "Icon.png",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/net461/Microsoft.Extensions.Localization.Abstractions.dll",
-        "lib/net461/Microsoft.Extensions.Localization.Abstractions.xml",
-        "lib/net6.0/Microsoft.Extensions.Localization.Abstractions.dll",
-        "lib/net6.0/Microsoft.Extensions.Localization.Abstractions.xml",
-        "lib/netstandard2.0/Microsoft.Extensions.Localization.Abstractions.dll",
-        "lib/netstandard2.0/Microsoft.Extensions.Localization.Abstractions.xml",
-        "microsoft.extensions.localization.abstractions.6.0.16.nupkg.sha512",
-        "microsoft.extensions.localization.abstractions.nuspec"
-      ]
-    },
     "Microsoft.Extensions.Logging/6.0.0": {
       "sha512": "eIbyj40QDg1NDz0HBW0S5f3wrLVnKWnDJ/JtZ+yJDFnDj90VoPuoPmFkeaXrtu+0cKm5GRAwoDf+dBWXK0TUdg==",
       "type": "package",
@@ -1136,29 +1041,6 @@
         "lib/net6.0/Microsoft.JSInterop.WebAssembly.xml",
         "microsoft.jsinterop.webassembly.6.0.22.nupkg.sha512",
         "microsoft.jsinterop.webassembly.nuspec"
-      ]
-    },
-    "MudBlazor/6.11.0": {
-      "sha512": "gP97w+oP0G0slw2P+EKfHfhN126GBHJpL61haQJy3iAo9JSWMkzlcEQ1yFlHSWJQeI9jOZ6pb1IK9XggFOI7lA==",
-      "type": "package",
-      "path": "mudblazor/6.11.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "LICENSE",
-        "Nuget.png",
-        "build/Microsoft.AspNetCore.StaticWebAssets.props",
-        "build/MudBlazor.props",
-        "buildMultiTargeting/MudBlazor.props",
-        "buildTransitive/MudBlazor.props",
-        "lib/net6.0/MudBlazor.dll",
-        "lib/net6.0/MudBlazor.xml",
-        "lib/net7.0/MudBlazor.dll",
-        "lib/net7.0/MudBlazor.xml",
-        "mudblazor.6.11.0.nupkg.sha512",
-        "mudblazor.nuspec",
-        "staticwebassets/MudBlazor.min.css",
-        "staticwebassets/MudBlazor.min.js"
       ]
     },
     "System.Diagnostics.DiagnosticSource/6.0.0": {
@@ -1336,37 +1218,35 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\frede\\.nuget\\packages\\": {}
+    "/Users/gigi/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Server\\Foodtruck.Server.csproj",
+      "projectUniqueName": "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Server/Foodtruck.Server.csproj",
       "projectName": "Foodtruck.Server",
-      "projectPath": "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Server\\Foodtruck.Server.csproj",
-      "packagesPath": "C:\\Users\\frede\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Server\\obj\\",
+      "projectPath": "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Server/Foodtruck.Server.csproj",
+      "packagesPath": "/Users/gigi/.nuget/packages/",
+      "outputPath": "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Server/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\frede\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/gigi/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Client\\Foodtruck.Client.csproj": {
-              "projectPath": "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Client\\Foodtruck.Client.csproj"
+            "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Client/Foodtruck.Client.csproj": {
+              "projectPath": "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Client/Foodtruck.Client.csproj"
             },
-            "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Shared\\Foodtruck.Shared.csproj": {
-              "projectPath": "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Shared\\Foodtruck.Shared.csproj"
+            "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Shared/Foodtruck.Shared.csproj": {
+              "projectPath": "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Shared/Foodtruck.Shared.csproj"
             }
           }
         }
@@ -1405,7 +1285,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.401/RuntimeIdentifierGraph.json"
       }
     }
   }

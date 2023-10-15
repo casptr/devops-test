@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8expx+uML8Ahhty89NRh2zwCGRECggvTn1HtLMM8XEyIUEcrlsi02s6ZBOzFGOZh84LjQjbd8sx5VGaGxlhFuw==",
+  "dgSpecHash": "Z68mgGuEWd94fxnLSTILRFO5GB7iIywWF2RfXvTYOLC34gX/NgV3/fuIXxRp3h45WERyyKXGVSBTYcHJpWovRA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\frede\\Source\\Repos\\devops-23-24-net-vct02\\Foodtruck\\Shared\\Foodtruck.Shared.csproj",
+  "projectFilePath": "/Users/gigi/Developer/HoGent/devops/devops-23-24-net-vct02/Foodtruck/Shared/Foodtruck.Shared.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
