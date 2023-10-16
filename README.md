@@ -2,31 +2,28 @@
 
 ## Group
 
-- [Fill-in] Project
-- [Fill-in] Group number
+- Foodtruck
+- VCT02
 
 ## Team members
 
 ### Development:
 
-[Fill-in] List of team members responsible for development:
-
-- Jan Janssens | @janjanssens(githubusername)
-- ...
-- ...
+- Jeff Wellekens | @jeffwellekens
+- Giovany De Murel | @GiovanyDeMurel-HoGent
+- Tiê Proost | @TieProost
+- Sandro Smet | @SandroSmet
+- Frédéric De Tender | @fredjeeeuuuhhh
+- Pieter Vandewalle | @PieterVandewalle
+- Sean Van den Branden | @SeanVandenBranden
 
 ### Operations:
 
-[Fill-in] List of team members responsible for operations:
-
-- Jan Janssens | @janjanssens(githubusername)
-- ...
-- ...
+- Michiel De Smet | @MichielDeS
+- Casper Trog | @casptr
 
 ## Technologies & Packages
 
-[Fill-in] List of technologies and packages used in this project:
-
-- Database: ...
-- ...
+- Database: MYSQL
+- Mudblazor
 - ...
