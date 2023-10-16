@@ -19,7 +19,7 @@ public class Supplement
     public string Description
     {
         get => description;
-        set => name = Guard.Against.NullOrWhiteSpace(value, nameof(Description));
+        set => description = Guard.Against.NullOrWhiteSpace(value, nameof(Description));
     }
     private double price= default!;
     public double Price 

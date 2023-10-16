@@ -1,0 +1,37 @@
+﻿@page "/formules"
+@inject DataGenerator data
+<h3 class="pa-3 ma-3">Formules</h3>
+
+<MudSimpleTable Style="overflow-x: auto;" Class="pa-3 ma-3">
+    <thead>
+        <tr>
+            @foreach (var h in headings)
+            {
+                <th>@h</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var f in formules)
+        {
+            <tr>
+                <td>@f.Name</td>
+                <td>@f.Description</td>
+                <td>@f.Price</td>
+            </tr>
+        }
+    </tbody>
+</MudSimpleTable>
+
+@code {
+    private List<Formula> formules = new();
+    string[] headings = { "Name", "Description", "Price"};
+
+    protected override Task OnInitializedAsync()
+    {
+        var results = data.GenerateFormulas().Take(3);
+        formules.AddRange(results);
+        return base.OnInitializedAsync();
+    }
+}
+

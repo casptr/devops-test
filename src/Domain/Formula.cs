@@ -23,7 +23,7 @@ public class Formula
     public string Description 
     {
         get=>description; 
-        set=> name = Guard.Against.NullOrWhiteSpace(value, nameof(Description)); 
+        set=> description = Guard.Against.NullOrWhiteSpace(value, nameof(Description)); 
     }
    
     private double price = default!;
@@ -40,6 +40,7 @@ public class Formula
         set => imageUrl = Guard.Against.NullOrWhiteSpace(value, nameof(ImageUrl));
     }
 
+    public Formula(){ }
     public Formula(string name, string description, double price, string imageUrl) 
     {
         Name = name;
