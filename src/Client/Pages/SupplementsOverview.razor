@@ -1,0 +1,52 @@
+﻿@page "/supplementen"
+@inject HttpClient http
+
+<h1 Class="ma-4">Supplementen</h1>
+
+
+<MudPaper Class="d-flex flex-wrap" Elevation="0">
+    @if (supplements != null)
+    {
+        @foreach (var s in supplements)
+        {
+                    <MudCard Outlined="true" Class="ma-3 rounded-lg" Style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+                    <MudCardContent>
+                       <MudPaper Style="text-align: center" Elevation="0">
+                            <MudImage src="@s.ImageUrl" Width="220" Height="165" />
+                        </MudPaper>
+                                <MudPaper Class="d-flex justify-space-between" Elevation="0">
+                            <MudText Typo="Typo.h6" Style="font-weight: bold;">€ @s.Price</MudText>
+                            <MudText Typo="Typo.h6" Style="font-weight: bold;">Aantal: @s.AmountAvailable</MudText>
+                        </MudPaper>
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;">@s.Name</MudText>
+                        <MudText Typo="Typo.body2">@s.Description</MudText>
+
+                    </MudCardContent>
+                </MudCard>
+        }
+    }
+</MudPaper>
+
+
+
+@code {
+    private Supplement[]? supplements;
+
+    protected override async Task OnInitializedAsync()
+    {
+        supplements = await http.GetFromJsonAsync<Supplement[]>
+       (
+           "Sample-data/SupplementData.json"
+       );
+    }
+
+    public class Supplement
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Category { get; set; }
+        public int AmountAvailable { get; set; }
+        public double Price { get; set; }
+        public string ImageUrl { get; set; }
+    }
+}
