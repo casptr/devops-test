@@ -1,0 +1,72 @@
+[
+  {
+    "Id": "35",
+    "Category": "verlichting",
+    "Name": "LED Lampionnen",
+    "Description": "Sfeervolle LED lampionnen die een warme gloed creëren, perfect voor tuinfeesten en bruiloften.",
+    "Price": 12.99,
+    "Imagery": "led_lampionnen.png",
+    "AmountAvailable": 25,
+    "IsSupplement": true
+  },
+  {
+    "Id": "36",
+    "Category": "verlichting",
+    "Name": "Zonne-energie Tuinverlichting",
+    "Description": "Milieuvriendelijke tuinverlichting met zonne-energie, ideaal om je tuinpaden en terras 's avonds te verlichten.",
+    "Price": 19.99,
+    "Imagery": "zonne-energie_verlichting.png",
+    "AmountAvailable": 15,
+    "IsSupplement": true
+  },
+  {
+    "Id": "37",
+    "Category": "verlichting",
+    "Name": "Buiten LED Strips",
+    "Description": "Flexibele LED-strips voor buitengebruik, waarmee je eenvoudig sfeerverlichting kunt creëren op terrassen en in tuinen.",
+    "Price": 24.99,
+    "Imagery": "buiten_led_strips.png",
+    "AmountAvailable": 20,
+    "IsSupplement": true
+  },
+  {
+    "Id": "38",
+    "Category": "verlichting",
+    "Name": "Solar Tafellampen",
+    "Description": "Stijlvolle solar tafellampen met een automatische aan/uit-functie, perfect voor diners in de buitenlucht.",
+    "Price": 17.99,
+    "Imagery": "solar_tafellampen.png",
+    "AmountAvailable": 12,
+    "IsSupplement": true
+  },
+  {
+    "Id": "39",
+    "Category": "verlichting",
+    "Name": "Lichtslingers",
+    "Description": "Decoratieve lichtslingers met verschillende kleuren en patronen, geschikt voor feestelijke sfeercreatie in de open lucht.",
+    "Price": 14.99,
+    "Imagery": "lichtslingers.png",
+    "AmountAvailable": 30,
+    "IsSupplement": true
+  },
+  {
+    "Id": "40",
+    "Category": "verlichting",
+    "Name": "Gezellige Kaarsen",
+    "Description": "Creëer een warme en knusse sfeer met deze gezellige kaarsen, perfect voor romantische avonden in de buitenlucht.",
+    "Price": 9.99,
+    "Imagery": "gezellige_kaarsen.png",
+    "AmountAvailable": 18,
+    "IsSupplement": true
+  },
+  {
+    "Id": "41",
+    "Category": "verlichting",
+    "Name": "Citronella Kaarsen",
+    "Description": "Houd vervelende insecten op afstand met deze citronella kaarsen, ideaal voor zomeravonden in de tuin.",
+    "Price": 11.99,
+    "Imagery": "citronella_kaarsen.png",
+    "AmountAvailable": 20,
+    "IsSupplement": true
+  }
+]

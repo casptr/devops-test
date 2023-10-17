@@ -1,0 +1,32 @@
+[
+  {
+    "Id": "11",
+    "Category": "eten",
+    "Name": "Hamburger",
+    "Description": "Een sappige hamburger gemaakt van mals rundvlees, geserveerd op een vers broodje met knapperige sla, sappige tomaten en smeltende kaas. De perfecte snack voor liefhebbers van hartig eten.",
+    "Price": 4.99,
+    "Imagery": "hamburger.png",
+    "AmountAvailable": 30,
+    "IsSupplement": true
+  },
+  {
+    "Id": "12",
+    "Category": "eten",
+    "Name": "Frietjes",
+    "Description": "Krokante, goudbruine frietjes, perfect gebakken en op smaak gebracht met een vleugje zout. Heerlijk bij elke maaltijd en onweerstaanbaar lekker.",
+    "Price": 2.99,
+    "Imagery": "frietjes.png",
+    "AmountAvailable": 50,
+    "IsSupplement": true
+  },
+  {
+    "Id": "13",
+    "Category": "eten",
+    "Name": "Panini broodjes",
+    "Description": "Een smakelijke gegrilde broodcreatieve versnapering. Knapperig en warm, belegd met heerlijke smeltende kaas, sappige vleeswaren, verse groenten en smaakvolle sauzen. Elke hap is een smaakexplosie die je zintuigen prikkelt.",
+    "Price": 6.49,
+    "Imagery": "paninibroodje.png",
+    "AmountAvailable": 25,
+    "IsSupplement": true
+  }
+]

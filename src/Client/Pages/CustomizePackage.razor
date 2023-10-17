@@ -1,0 +1,60 @@
+@page "/formule-uitbreiden"
+@using Packages
+@using System.Net.Http
+@inject HttpClient HttpClient
+
+<h1>Formule uitbreiden</h1>
+<p></p>
+
+@if (data.SupplementsList == null || data.SupplementsList.SupplementList == null)
+{
+    <p>Loading data...</p>
+}
+else
+{
+    @foreach (var supplementList in data.SupplementsList.SupplementList)
+    {
+        <div>
+    <select @onchange="OnSupplementSelected">
+        <option value="">-- Maak een keuze --</option>
+        @foreach (var supplement in supplementList)
+                {
+                    <option value="@supplement.Id">@supplement.Name</option>
+                }
+            </select>
+        </div>
+
+    }
+
+}
+@if (selectedSupplement != null)
+{
+    <div>
+    <h2>@selectedSupplement.Name</h2>
+        <p>ID: @selectedSupplement.Id</p>
+        <p>Categorie: @selectedSupplement.Category</p>
+        <p>Beschrijving: @selectedSupplement.Description</p>
+        <p>Prijs: €@selectedSupplement.Price</p>
+        <p>imageurl: @selectedSupplement.Imagery</p>
+        <p>IsSupplement: @selectedSupplement.IsSupplement</p>
+    </div>
+}
+
+@code {
+    private PackageDataGenerator data;
+    private PackageSupplement selectedSupplement;
+    protected override async Task OnInitializedAsync()
+    {
+        data = new PackageDataGenerator(HttpClient);
+        await data.InitializeDataAsync();
+        StateHasChanged();
+    }
+
+    private void OnSupplementSelected(ChangeEventArgs e)
+    {
+        string selectedId = e.Value.ToString();
+        selectedSupplement = data.SupplementsList.SupplementList
+        .SelectMany(supplementList => supplementList)
+        .FirstOrDefault(supplement => supplement.Id == selectedId);
+    }
+}
