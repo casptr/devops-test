@@ -1,0 +1,14 @@
+{
+    "id": "1",
+    "name": "Blanche",
+    "vat": "BE0123456789",
+    "address": {
+      "street": "Valentin Vaerwyckweg 1",
+      "city": "Gent",
+      "postalcode": "9000"
+    },
+    "contactinfo": {
+      "email": "info@blanche.be",
+      "phone": "092432004"
+    }
+}

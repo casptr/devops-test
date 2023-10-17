@@ -1,0 +1,92 @@
+[
+    {
+      "id": "1",
+      "category": "drank",
+      "name": "50L vat Jupiler",
+      "description": "Haal de smaak van Belgische cafés in huis en ervaar de voldoening van het schenken van een perfect glas Jupiler.",
+      "price": 150,
+      "imagery": "jupiler.png",
+      "amount available": 15
+    },
+    {
+      "id": "2",
+      "category": "drank",
+      "name": "50L vat Stella Artois",
+      "description": "Smaakvol en verfrissend, gebrouwen om van te genieten. Een vleugje hop en florale tonen met een toets van specerijen.",
+      "price": 19.99,
+      "imagery": "stella.png",
+      "amount available": 4
+    },
+    {
+      "id": "3",
+      "category": "drank",
+      "name": "50L vat Primus",
+      "description": "Een karaktervolle smaak bij iedere slok. lichtzoet met een ingetoomde bitterheid, die daarna uitmondt in een droge en dorstlessende afdronk. ",
+      "price": 79.99,
+      "imagery": "primus.png",
+      "amount available": 5
+    },
+    {
+      "id": "4",
+      "category": "drank",
+      "name": "20L vat Liefmans Kriek-Brut",
+      "description": "Liefmans Kriek-Brut is een frisrijpe blend die anderhalf jaar lang rijpt waardoor de smaken van hout en amandel complexer en intenser worden. ",
+      "price": 90,
+      "imagery": "liefmans.png",
+      "amount available": 4
+    },
+    {
+      "id": "5",
+      "category": "drank",
+      "name": "20L vat Hoegaarden witbier",
+      "description": "Wellicht dé klassieker der klassiekers onder de witbieren. Met een aroma van sinaasappelschillen, koriander en specerijen is zijn karakteristieke smaak werkelijk uniek.",
+      "price": 80,
+      "imagery": "hoegaarden.png",
+      "amount available": 20
+    },
+    {
+      "id": "6",
+      "category": "drank",
+      "name": "24x33cl bak Duvel",
+      "description": "Duvel is een natuurlijk bier met een subtiele bitterheid, een verfijnd aroma en een uitgesproken hopkarakter. De hergisting op fles en een lange rijping, garandeert een pure stijl, een delicate pareling en een aangename alcoholzoete smaak.",
+      "price": 35,
+      "imagery": "duvel.png",
+      "amount available": 20
+    },
+    {
+      "id": "7",
+      "category": "drank",
+      "name": "4x33cl bak Orval",
+      "description": "Orval is een bier van hoge gisting en lange lagering. Op die manier krijgt het zijn complex-fruitige karakter en die subtiele harmonie tussen volrond en bitter.",
+      "price": 45,
+      "imagery": "orval.png",
+      "amount available": 12
+    },
+    {
+      "id": "8",
+      "category": "drank",
+      "name": "6x75cl flessen Rode wijn",
+      "description": "Gezellig tafelen met rode wijn en rode wangetjes.",
+      "price": 48,
+      "imagery": "rood.png",
+      "amount available": 22
+    },
+    {
+      "id": "9",
+      "category": "drank",
+      "name": "6x75cl flessen Witte wijn",
+      "description": "Past goed bij de fishburger.",
+      "price": 46,
+      "imagery": "wit.png",
+      "amount available": 19
+    },
+    {
+      "id": "10",
+      "category": "drank",
+      "name": "6x75cl flessen Cava Freixenete",
+      "description": "Een lichte zeer moderne cava, die erg gewaardeerd wordt vanwege de verfrissende stijl; gecreëerd door de speciale mix van drie traditionele witte druivensoorten die eigen zijn aan de Penedes streek.",
+      "price": 399.99,
+      "imagery": "freixenete.png",
+      "amount available": 15
+    }
+  ]
