@@ -1,0 +1,31 @@
+[
+    {
+        "id": 1,
+        "name": "Wite wijnglazen"
+    },
+    {
+        "id": 2,
+        "name": "Rode wijnglazen"
+    },
+    {
+        "id": 3,
+        "name": "Tafels"
+    },
+    {
+        "id": 4,
+        "name": "Stoelen"
+    },
+    {
+        "id": 5,
+        "name": "Verlichting"
+    },
+    {
+        "id": 6,
+        "name": "BBQ"
+
+    },
+    {
+        "id": 7,
+        "name": "Kampvuur"
+    }
+]
