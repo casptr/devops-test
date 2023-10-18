@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain;
 
-public class Supplement
+public class Supplement : Entity
 {
     private string name = default!;
     public string Name
@@ -30,11 +31,11 @@ public class Supplement
         set => category = Guard.Against.NullOrWhiteSpace(value,nameof(Category));
     }
 
-    private double price= default!;
-    public double Price 
+    private Money price = default!;
+    public Money Price 
     { 
         get=>price; 
-        set=>price = Guard.Against.Negative(value, nameof(Price));
+        set=>price = Guard.Against.Null(value, nameof(Price));
     }
 
     private string imageUrl = default!;
@@ -50,7 +51,11 @@ public class Supplement
       set=>amountAvailable = Guard.Against.Negative(value,nameof(AmountAvailable)); 
     }
 
-    public Supplement(string name, string description, string category, double price, string imageUrl, int amountAvailable) 
+    private Supplement()
+    {
+
+    }
+    public Supplement(string name, string description, string category, Money price, string imageUrl, int amountAvailable) 
     { 
         Name = name;
         Description = description;

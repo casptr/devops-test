@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="_currentTheme"/>
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -25,5 +25,27 @@
     {
         _drawerOpen = !_drawerOpen;
     }
-}
 
+    // Charcoal = #252425
+    // Forest = #303D38
+    // Mustard = #C2983D
+    // Putty = C2CCC5
+    // Mushroom = #928A74
+
+    private readonly MudTheme _currentTheme = new()
+        {
+            Palette = new PaletteLight()
+            {
+                Primary = "#C2983D",
+                Secondary = "#303D38",
+                Info = "#64a7e2",
+                Success = Colors.Green.Accent1,
+                Warning = Colors.Orange.Accent1,
+                Error = Colors.Red.Accent1,
+                AppbarBackground = "#928A74",
+                TextPrimary = "#252425",
+                TextSecondary = "#928A74",
+                // more color properties
+            },
+        };
+}
