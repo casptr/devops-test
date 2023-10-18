@@ -1,0 +1,41 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_currentTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+	<Navmenu />
+	@* <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" /> *@
+	<MudMainContent>
+		<MudContainer MaxWidth="MaxWidth.Large" Class="pl-0 pr-0 pt-5">
+			@Body
+		</MudContainer>
+	</MudMainContent>
+</MudLayout>
+@code {
+	// Text: #242324 (rgb(36, 35, 36) - hsl(300, 1%, 14%))
+	// 		Background: #fff9ec (rgb(255, 249, 236) - hsl(41, 100%, 96%))
+	// 		Primary: #d8b05a (rgb(216, 176, 90) - hsl(41, 62%, 60%))
+	// 		Secondary: #405d7a (rgb(64, 93, 122) - hsl(210, 31%, 36%))
+	// 		Accent: #C2CCC5 (rgb(194, 204, 197) - hsl(138, 9%, 78%))
+	private readonly MudTheme _currentTheme = new()
+		{
+			Palette = new PaletteLight()
+			{
+				Primary = "#d8b05a",
+				Secondary = "#405d7a",
+				Info = "#C2CCC5",
+				Success = Colors.Green.Accent1,
+				Warning = Colors.Orange.Accent1,
+				Error = Colors.Red.Accent1,
+				AppbarBackground = "#fffdf5",
+				TextPrimary = "#242324",
+				TextSecondary = "#928A74",
+				Background = "#fffdf5",
+				AppbarText = "#242324",
+				Dark = "#242324"
+				// more color properties
+			},
+		};
+}

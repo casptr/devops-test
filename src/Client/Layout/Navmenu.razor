@@ -1,0 +1,20 @@
+﻿<MudAppBar Elevation="3">
+	<MudContainer MaxWidth="MaxWidth.Large">
+		<MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+			@* Change width to variable with when the css file can be attached to this component specifically *@
+			<div style="display: flex; width: 170.92px;">
+				<MudImage Src="images/logo.svg" ObjectFit="ObjectFit.Contain" Width="50"></MudImage>
+				<MudText Typo="Typo.h6" Class="ml-5 align-self-center">Blanche</MudText>
+			</div>
+			<MudStack Row="true" Spacing="13" AlignItems="AlignItems.Center">
+				<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/">Home</MudLink>
+				<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/aanbod">Aanbod</MudLink>
+				<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/formules">Formules</MudLink>
+				<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/over-ons">Over ons</MudLink>
+			</MudStack>
+			<div style="width: 170.92px;">
+				<MudButton Variant="Variant.Filled" Color="Color.Primary" Style="text-transform:unset; min-width: max-content;">Vraag uw offerte aan</MudButton>
+			</div>
+		</MudStack>
+	</MudContainer>
+</MudAppBar>
