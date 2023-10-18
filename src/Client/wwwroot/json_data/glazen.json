@@ -1,0 +1,102 @@
+[
+  {
+    "Id": "17",
+    "Category": "glazen",
+    "Name": "Jupiler Glas",
+    "Description": "Officieel Jupiler-merkglaswerk, perfect om van je Jupiler-bier te genieten.",
+    "Price": 10,
+    "Imagery": "jupiler_glas.png",
+    "AmountAvailable": 50,
+    "IsSupplement": true
+  },
+  {
+    "Id": "18",
+    "Category": "glazen",
+    "Name": "Stella Artois Kelkglas",
+    "Description": "Het iconische Stella Artois kelkglas voor een premium bierdrinkervaring.",
+    "Price": 8.99,
+    "Imagery": "stella_kelkglas.png",
+    "AmountAvailable": 40,
+    "IsSupplement": true
+  },
+  {
+    "Id": "19",
+    "Category": "glazen",
+    "Name": "Primus Glas",
+    "Description": "Authentiek Primus-merkglas om van de onderscheidende smaak van Primus-bier te genieten.",
+    "Price": 12,
+    "Imagery": "primus_glas.png",
+    "AmountAvailable": 35,
+    "IsSupplement": true
+  },
+  {
+    "Id": "20",
+    "Category": "glazen",
+    "Name": "Liefmans Kriek-Brut Glas",
+    "Description": "Speciaal ontworpen Liefmans Kriek-Brut-glas om je Kriek-ervaring te verbeteren.",
+    "Price": 15,
+    "Imagery": "liefmans_glas.png",
+    "AmountAvailable": 30,
+    "IsSupplement": true
+  },
+  {
+    "Id": "21",
+    "Category": "glazen",
+    "Name": "Hoegaarden Witbier Glas",
+    "Description": "Het perfecte glas om te genieten van de unieke smaak van Hoegaarden's witbier.",
+    "Price": 9.99,
+    "Imagery": "hoegaarden_glas.png",
+    "AmountAvailable": 45,
+    "IsSupplement": true
+  },
+  {
+    "Id": "6",
+    "Category": "glazen",
+    "Name": "Duvel Tulpenglas",
+    "Description": "Officieel Duvel tulpenglas, ontworpen voor een heerlijke Duvel-bierervaring.",
+    "Price": 11,
+    "Imagery": "duvel_tulpenglas.png",
+    "AmountAvailable": 25,
+    "IsSupplement": true
+  },
+  {
+    "Id": "22",
+    "Category": "glazen",
+    "Name": "Orval Kelkglas",
+    "Description": "De klassieke Orval kelk voor een ware Orval-bierkenner.",
+    "Price": 14.99,
+    "Imagery": "orval_kelkglas.png",
+    "AmountAvailable": 20,
+    "IsSupplement": true
+  },
+  {
+    "Id": "23",
+    "Category": "glazen",
+    "Name": "Rode Wijnglas",
+    "Description": "Elegante en veelzijdige rode wijnglazen, perfect voor je favoriete rode wijnen.",
+    "Price": 6.99,
+    "Imagery": "rode_wijnglas.png",
+    "AmountAvailable": 60,
+    "IsSupplement": true
+  },
+  {
+    "Id": "24",
+    "Category": "glazen",
+    "Name": "Witte Wijnglas",
+    "Description": "Klassieke witte wijnglazen om je selectie van witte wijnen aan te vullen.",
+    "Price": 6.99,
+    "Imagery": "witte_wijnglas.png",
+    "AmountAvailable": 55,
+    "IsSupplement": true
+  },
+  {
+    "Id": "25",
+    "Category": "glazen",
+    "Name": "Cava Flute Glas",
+    "Description": "Elegante cava fluitglazen ontworpen voor een toost met Cava Freixenete.",
+    "Price": 9.99,
+    "Imagery": "cava_fluitglas.png",
+    "AmountAvailable": 40,
+    "IsSupplement": true
+  }
+]

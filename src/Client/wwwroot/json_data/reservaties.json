@@ -1,0 +1,242 @@
+[
+  {
+    "Id": "1",
+    "Address": {
+      "Street": "Kerkstraat 1",
+      "City": "Gent",
+      "Postalcode": "9000"
+    },
+    "DatetimeStart": "2020-01-15T13:00:00",
+    "DatetimeEnd": "2020-01-15T23:00:00"
+  },
+  {
+    "Id": "2",
+    "Address": {
+      "Street": "Dorpstraat 2",
+      "City": "Antwerpen",
+      "Postalcode": "2000"
+    },
+    "DatetimeStart": "2020-05-20T13:45:00",
+    "DatetimeEnd": "2020-05-20T22:00:00"
+  },
+  {
+    "Id": "3",
+    "Address": {
+      "Street": "Stationsstraat 3",
+      "City": "Brugge",
+      "Postalcode": "8000"
+    },
+    "DatetimeStart": "2020-08-10T13:00:00",
+    "DatetimeEnd": "2020-08-10T21:30:00"
+  },
+  {
+    "Id": "4",
+    "Address": {
+      "Street": "Markt 4",
+      "City": "Kortrijk",
+      "Postalcode": "8500"
+    },
+    "DatetimeStart": "2020-10-05T13:30:00",
+    "DatetimeEnd": "2020-10-05T20:30:00"
+  },
+  {
+    "Id": "5",
+    "Address": {
+      "Street": "Hoogstraat 5",
+      "City": "Leuven",
+      "Postalcode": "3000"
+    },
+    "DatetimeStart": "2021-03-12T13:15:00",
+    "DatetimeEnd": "2021-03-12T20:30:00"
+  },
+  {
+    "Id": "6",
+    "Address": {
+      "Street": "Zandstraat 6",
+      "City": "Oostende",
+      "Postalcode": "8400"
+    },
+    "DatetimeStart": "2021-06-25T13:45:00",
+    "DatetimeEnd": "2021-06-25T21:30:00"
+  },
+  {
+    "Id": "7",
+    "Address": {
+      "Street": "Veldweg 7",
+      "City": "Hasselt",
+      "Postalcode": "3500"
+    },
+    "DatetimeStart": "2021-09-08T13:30:00",
+    "DatetimeEnd": "2021-09-08T22:00:00"
+  },
+  {
+    "Id": "8",
+    "Address": {
+      "Street": "Dennenlaan 8",
+      "City": "Genk",
+      "Postalcode": "3600"
+    },
+    "DatetimeStart": "2022-02-17T13:45:00",
+    "DatetimeEnd": "2022-02-17T21:00:00"
+  },
+  {
+    "Id": "9",
+    "Address": {
+      "Street": "Wilgenweg 9",
+      "City": "Mechelen",
+      "Postalcode": "2800"
+    },
+    "DatetimeStart": "2022-05-29T13:00:00",
+    "DatetimeEnd": "2022-05-29T20:30:00"
+  },
+  {
+    "Id": "10",
+    "Address": {
+      "Street": "Kastanjelaan 10",
+      "City": "Leuven",
+      "Postalcode": "3000"
+    },
+    "DatetimeStart": "2022-08-03T13:30:00",
+    "DatetimeEnd": "2022-08-03T21:30:00"
+  },
+  {
+    "Id": "11",
+    "Address": {
+      "Street": "Lindenstraat 11",
+      "City": "Brussel",
+      "Postalcode": "1000"
+    },
+    "DatetimeStart": "2023-01-14T13:45:00",
+    "DatetimeEnd": "2023-01-14T21:30:00"
+  },
+  {
+    "Id": "12",
+    "Address": {
+      "Street": "Berkenweg 12",
+      "City": "Genk",
+      "Postalcode": "3600"
+    },
+    "DatetimeStart": "2023-04-20T13:30:00",
+    "DatetimeEnd": "2023-04-20T23:00:00"
+  },
+  {
+    "Id": "13",
+    "Address": {
+      "Street": "Esdoornlaan 13",
+      "City": "Hasselt",
+      "Postalcode": "3500"
+    },
+    "DatetimeStart": "2023-06-30T13:00:00",
+    "DatetimeEnd": "2023-06-30T21:00:00"
+  },
+  {
+    "Id": "14",
+    "Address": {
+      "Street": "Elzenstraat 14",
+      "City": "Oostende",
+      "Postalcode": "8400"
+    },
+    "DatetimeStart": "2023-08-25T13:45:00",
+    "DatetimeEnd": "2023-08-25T22:00:00"
+  },
+  {
+    "Id": "15",
+    "Address": {
+      "Street": "Wilgenweg 15",
+      "City": "Mechelen",
+      "Postalcode": "2800"
+    },
+    "DatetimeStart": "2023-10-10T13:30:00",
+    "DatetimeEnd": "2023-10-10T22:00:00"
+  },
+  {
+    "Id": "16",
+    "Address": {
+      "Street": "Kastanjelaan 16",
+      "City": "Leuven",
+      "Postalcode": "3000"
+    },
+    "DatetimeStart": "2023-02-28T14:45:00",
+    "DatetimeEnd": "2023-02-28T21:30:00"
+  },
+  {
+    "Id": "17",
+    "Address": {
+      "Street": "Lindenstraat 17",
+      "City": "Brussel",
+      "Postalcode": "1000"
+    },
+    "DatetimeStart": "2023-04-12T13:30:00",
+    "DatetimeEnd": "2023-04-12T21:00:00"
+  },
+  {
+    "Id": "18",
+    "Address": {
+      "Street": "Berkenweg 18",
+      "City": "Genk",
+      "Postalcode": "3600"
+    },
+    "DatetimeStart": "2023-06-22T13:45:00",
+    "DatetimeEnd": "2023-06-22T22:30:00"
+  },
+  {
+    "Id": "19",
+    "Address": {
+      "Street": "Esdoornlaan 19",
+      "City": "Hasselt",
+      "Postalcode": "3500"
+    },
+    "DatetimeStart": "2023-10-16T13:30:00",
+    "DatetimeEnd": "2023-10-16T22:30:00"
+  },
+  {
+    "Id": "20",
+    "Address": {
+      "Street": "Beukstraat 20",
+      "City": "Mechelen",
+      "Postalcode": "2800"
+    },
+    "DatetimeStart": "2023-11-01T13:00:00",
+    "DatetimeEnd": "2023-11-03T23:00:00"
+  },
+  {
+    "Id": "21",
+    "Address": {
+      "Street": "Eikenlaan 21",
+      "City": "Gent",
+      "Postalcode": "9000"
+    },
+    "DatetimeStart": "2023-11-16T14:30:00",
+    "DatetimeEnd": "2023-11-16T23:00:00"
+  },
+  {
+    "Id": "22",
+    "Address": {
+      "Street": "Kastanjelaan 22",
+      "City": "Antwerpen",
+      "Postalcode": "2000"
+    },
+    "DatetimeStart": "2023-11-20T16:00:00",
+    "DatetimeEnd": "2023-11-22T19:00:00"
+  },
+  {
+    "Id": "23",
+    "Address": {
+      "Street": "Lindenstraat 23",
+      "City": "Brugge",
+      "Postalcode": "8000"
+    },
+    "DatetimeStart": "2024-08-10T16:15:00",
+    "DatetimeEnd": "2024-08-12T20:30:00"
+  },
+  {
+    "Id": "24",
+    "Address": {
+      "Street": "Wilgenweg 24",
+      "City": "Kortrijk",
+      "Postalcode": "8500"
+    },
+    "DatetimeStart": "2024-10-05T13:00:00",
+    "DatetimeEnd": "2024-10-07T23:00:00"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "Id": "42",
+    "Category": "verwarming",
+    "Name": "Vuurkorf",
+    "Description": "Een sfeervolle vuurkorf om je gasten warm te houden en een gezellige sfeer te creëren tijdens je buitenevenement.",
+    "Price": 39.99,
+    "Imagery": "vuurkorf.png",
+    "AmountAvailable": 10,
+    "IsSupplement": true
+  },
+  {
+    "Id": "43",
+    "Category": "verwarming",
+    "Name": "Terrasverwarmers",
+    "Description": "Krachtige terrasverwarmers die de temperatuur op je terras aangenaam houden, zelfs op koele avonden.",
+    "Price": 59.99,
+    "Imagery": "terrasverwarmers.png",
+    "AmountAvailable": 8,
+    "IsSupplement": true
+  },
+  {
+    "Id": "44",
+    "Category": "verwarming",
+    "Name": "Mobiele Radiatoren",
+    "Description": "Handige mobiele radiatoren die je overal kunt plaatsen voor extra warmte, perfect voor kleine buitenbijeenkomsten.",
+    "Price": 49.99,
+    "Imagery": "mobiele_radiatoren.png",
+    "AmountAvailable": 12,
+    "IsSupplement": true
+  }
+]
