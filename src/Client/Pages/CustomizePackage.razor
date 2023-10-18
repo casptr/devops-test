@@ -6,7 +6,7 @@
 <h1>Formule uitbreiden</h1>
 <p></p>
 
-@if (data.SupplementsList == null || data.SupplementsList.SupplementList.Count == 0)
+@if (data == null || data.SupplementsList == null || data.SupplementsList.SupplementList == null)
 {
     <p>Loading data...</p>
 }
@@ -27,7 +27,7 @@ else
                 </select>
             </div>
             <div>
-                @if (SelectedSupplements.Count > currentIndex && SelectedSupplements[currentIndex] != null)
+                @if (SelectedSupplements != null && SelectedSupplements.Count > currentIndex && SelectedSupplements[currentIndex] != null)
                 {
                     <h3>@SelectedSupplements[currentIndex].Name</h3>
                     <p>ID: @SelectedSupplements[currentIndex].Id</p>
@@ -42,33 +42,34 @@ else
 }
 
 @code {
-    private PackageDataGenerator data;
-    private List<PackageSupplement> SelectedSupplements;
+    private PackageDataGenerator? data;
+    private List<PackageSupplement>? SelectedSupplements;
 
     protected override async Task OnInitializedAsync()
     {
         data = new PackageDataGenerator(HttpClient);
         await data.InitializeDataAsync();
         SelectedSupplements=new();
-                for (var i = 0; i < data.SupplementsList.SupplementList.Count; i++)
+        if(data.SupplementsList.SupplementList != null){
+        for (var i = 0; i < data.SupplementsList.SupplementList.Count; i++)
         {
-            SelectedSupplements.Add(data.SupplementsList.SupplementList[i].FirstOrDefault());
+            SelectedSupplements.Add(data.SupplementsList.SupplementList[i].FirstOrDefault() ?? new PackageSupplement());
+        }
         }
         StateHasChanged();
     }
 
     private void OnSupplementSelected(ChangeEventArgs e, int index)
     {
-        string selectedId = e.Value.ToString();
-        Console.WriteLine("ID: " +selectedId);
-        Console.WriteLine("index:" +index);
-        Console.WriteLine(data.SupplementsList.SupplementList[index]);
+        if(e.Value != null && data != null && data.SupplementsList.SupplementList != null){
+        string? selectedId = e.Value.ToString();
         var selectedSupplement = data.SupplementsList.SupplementList[index]
             .FirstOrDefault(supplement => supplement.Id == selectedId);
-        Console.WriteLine(selectedSupplement.Name);
-        if (selectedSupplement != null && index >= 0 && index < SelectedSupplements.Count)
+
+        if (SelectedSupplements != null && selectedSupplement != null && index >= 0 && index < SelectedSupplements.Count)
         {
             SelectedSupplements[index] = selectedSupplement;
+        }
         }
     }
 }
