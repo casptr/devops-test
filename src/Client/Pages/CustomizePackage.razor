@@ -3,58 +3,74 @@
 @using System.Net.Http
 @inject HttpClient HttpClient
 
+
+
 <h1>Formule uitbreiden</h1>
 <p></p>
 
-@if (data.SupplementsList == null || data.SupplementsList.SupplementList == null)
+@if (data.SupplementsList == null || data.SupplementsList.SupplementList.Count == 0)
 {
     <p>Loading data...</p>
 }
 else
 {
-    @foreach (var supplementList in data.SupplementsList.SupplementList)
+    @for (var i = 0; i < data.SupplementsList.SupplementList.Count; i++)
     {
+        var supplementList = data.SupplementsList.SupplementList[i];
+        var currentIndex = i; // Capture the current value of i in a local variable
         <div>
-    <select @onchange="OnSupplementSelected">
-        <option value="">-- Maak een keuze --</option>
-        @foreach (var supplement in supplementList)
+            <div>
+                <h2>@supplementList[0].Category</h2>
+                <select @onchange="e => OnSupplementSelected(e, currentIndex)">
+                    @foreach (var supplement in supplementList)
+                    {
+                        <option value="@supplement.Id">@supplement.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                @if (SelectedSupplements.Count > currentIndex && SelectedSupplements[currentIndex] != null)
                 {
-                    <option value="@supplement.Id">@supplement.Name</option>
+                    <h3>@SelectedSupplements[currentIndex].Name</h3>
+                    <p>ID: @SelectedSupplements[currentIndex].Id</p>
+                    <p>Beschrijving: @SelectedSupplements[currentIndex].Description</p>
+                    <p>Prijs: €@SelectedSupplements[currentIndex].Price</p>
+                    <p>imageurl: @SelectedSupplements[currentIndex].Imagery</p>
+                    <p>IsSupplement: @SelectedSupplements[currentIndex].IsSupplement</p>
                 }
-            </select>
+            </div>
         </div>
-
     }
-
-}
-@if (selectedSupplement != null)
-{
-    <div>
-    <h2>@selectedSupplement.Name</h2>
-        <p>ID: @selectedSupplement.Id</p>
-        <p>Categorie: @selectedSupplement.Category</p>
-        <p>Beschrijving: @selectedSupplement.Description</p>
-        <p>Prijs: €@selectedSupplement.Price</p>
-        <p>imageurl: @selectedSupplement.Imagery</p>
-        <p>IsSupplement: @selectedSupplement.IsSupplement</p>
-    </div>
 }
 
 @code {
     private PackageDataGenerator data;
-    private PackageSupplement selectedSupplement;
+    private List<PackageSupplement> SelectedSupplements;
+
     protected override async Task OnInitializedAsync()
     {
         data = new PackageDataGenerator(HttpClient);
         await data.InitializeDataAsync();
+        SelectedSupplements=new();
+                for (var i = 0; i < data.SupplementsList.SupplementList.Count; i++)
+        {
+            SelectedSupplements.Add(data.SupplementsList.SupplementList[i].FirstOrDefault());
+        }
         StateHasChanged();
     }
 
-    private void OnSupplementSelected(ChangeEventArgs e)
+    private void OnSupplementSelected(ChangeEventArgs e, int index)
     {
         string selectedId = e.Value.ToString();
-        selectedSupplement = data.SupplementsList.SupplementList
-        .SelectMany(supplementList => supplementList)
-        .FirstOrDefault(supplement => supplement.Id == selectedId);
+        Console.WriteLine("ID: " +selectedId);
+        Console.WriteLine("index:" +index);
+        Console.WriteLine(data.SupplementsList.SupplementList[index]);
+        var selectedSupplement = data.SupplementsList.SupplementList[index]
+            .FirstOrDefault(supplement => supplement.Id == selectedId);
+        Console.WriteLine(selectedSupplement.Name);
+        if (selectedSupplement != null && index >= 0 && index < SelectedSupplements.Count)
+        {
+            SelectedSupplements[index] = selectedSupplement;
+        }
     }
 }

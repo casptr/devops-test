@@ -27,7 +27,8 @@ namespace Packages
             };
         }
         public async Task InitializeDataAsync()
-        {
+        {//
+
             var BeverageListJson = await _httpClient.GetStringAsync("/json_data/dranken.json");
             BeverageList = JsonSerializer.Deserialize<List<PackageSupplement>>(BeverageListJson);
 
