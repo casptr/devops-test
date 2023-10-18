@@ -5,8 +5,8 @@ namespace Packages
 {
     public class Package
     {
-        public PackageFormula Formula { get; set; }
-        public PackageSupplements Supplements { get; set; }
+        public PackageFormula? Formula { get; set; }
+        public PackageSupplements? Supplements { get; set; }
     }
 
     public class PackageFormula
@@ -32,19 +32,19 @@ namespace Packages
 
     public class PackageProducts
     {
-        public List<PackageProduct> ProductList { get; set; }
+        public List<PackageProduct>? ProductList { get; set; }
     }
     public class PackageProduct
     {
-        public string Id { get; set; }
-        public string Category { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public string Imagery { get; set; }
-        public int Quantity { get; set; }
-        public int AmountAvailable { get; set; }
-        public bool IsSupplement { get; set; }
+        public string? Id { get; set; }
+        public string? Category { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public decimal? Price { get; set; }
+        public string? Imagery { get; set; }
+        public int? Quantity { get; set; }
+        public int? AmountAvailable { get; set; }
+        public bool? IsSupplement { get; set; }
 
 
         public PackageProduct()
@@ -54,21 +54,26 @@ namespace Packages
     }
     public class PackageSupplement
     {
-        public string Id { get; set; }
-        public string Category { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public string Imagery { get; set; }
-        public int AmountAvailable { get; set; }
-        public bool IsSupplement { get; set; }
+        public string? Id { get; set; }
+        public string? Category { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public decimal? Price { get; set; }
+        public string? Imagery { get; set; }
+        public int? AmountAvailable { get; set; }
+        public bool? IsSupplement { get; set; }
     }
     public class PackageSupplements : IEnumerable<List<PackageSupplement>>
     {
-        public List<List<PackageSupplement>> SupplementList { get; set; }
+        public List<List<PackageSupplement>>? SupplementList { get; set; }
         public IEnumerator<List<PackageSupplement>> GetEnumerator()
         {
-            return SupplementList.GetEnumerator();
+            if (SupplementList != null)
+            {
+                return SupplementList.GetEnumerator();
+            }
+            return new List<List<PackageSupplement>>().GetEnumerator();
+
         }
 
         IEnumerator IEnumerable.GetEnumerator()

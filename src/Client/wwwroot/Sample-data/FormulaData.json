@@ -1,0 +1,88 @@
+[
+    {
+        "id": 1,
+        "name": "Basis",
+        "description": "Alleen de foodtruck.",
+        "price": 150.00,
+        "imageUrl": "https://fastly.picsum.photos/id/52/640/480.jpg?hmac=JfxA9hxlr7p2XRnbl1TzVvDKVpurVJ0G7w4c-KCOCmI",
+        "includedSupplements": [
+            {
+                "name": "Wite wijnglazen"
+
+            },
+            {
+                "name": "Rode wijnglazen"
+
+            }
+        ]
+
+    },
+    {
+        "id": 2,
+        "name": "Go to",
+        "description": "Meest populaire keuze",
+        "price": 300.00,
+        "imageUrl": "https://fastly.picsum.photos/id/537/640/480.jpg?hmac=Db2ulse6qxBDzgmjrsSL84tu_Ieq9mGXn1PA3svxKmE",
+        "includedSupplements": [
+            {
+                "name": "Wite wijnglazen"
+
+            },
+            {
+                "name": "Rode wijnglazen"
+
+            },
+            {
+                "name": "Tafels"
+
+            },
+            {
+                "name": "Stoelen"
+
+            },
+            {
+                "name": "Verlichting"
+
+            }
+        ]
+
+    },
+    {
+        "id": 3,
+        "name": "All in",
+        "description": "Alles inbegrepen",
+        "price": 500.00,
+        "imageUrl": "https://fastly.picsum.photos/id/276/640/480.jpg?hmac=MFPeK8J7moa3wzzAbyDahMd02i6RD1gtsEtTwEIAH6w",
+        "includedSupplements": [
+            {
+                "name": "Wite wijnglazen"
+
+            },
+            {
+                "name": "Rode wijnglazen"
+
+            },
+            {
+                "name": "Tafels"
+
+            },
+            {
+                "name": "Stoelen"
+
+            },
+            {
+                "name": "Verlichting"
+
+            },
+            {
+                "name": "BBQ"
+
+            },
+            {
+                "name": "Kampvuur"
+
+            }
+        ]
+
+    }
+]

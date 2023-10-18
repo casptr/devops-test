@@ -5,6 +5,7 @@ namespace Packages
 
     public class PackageDataGenerator
     {
+        
         private readonly HttpClient _httpClient;
         public List<PackageSupplement> BeverageList { get; set; }
         public List<PackageSupplement> FoodList { get; set; }
@@ -26,7 +27,8 @@ namespace Packages
             };
         }
         public async Task InitializeDataAsync()
-        {
+        {//
+
             var BeverageListJson = await _httpClient.GetStringAsync("/json_data/dranken.json");
             BeverageList = JsonSerializer.Deserialize<List<PackageSupplement>>(BeverageListJson);
 

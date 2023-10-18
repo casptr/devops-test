@@ -1,37 +1,106 @@
 ﻿@page "/formules"
-@inject DataGenerator data
-<h3 class="pa-3 ma-3">Formules</h3>
+@inject HttpClient http
 
-<MudSimpleTable Style="overflow-x: auto;" Class="pa-3 ma-3">
-    <thead>
-        <tr>
-            @foreach (var h in headings)
-            {
-                <th>@h</th>
-            }
-        </tr>
-    </thead>
+<MudSimpleTable Style="overflow-x: auto;" Bordered="true" Class="ma-8">
+   
     <tbody>
-        @foreach (var f in formules)
+        <tr>
+            <td>
+                <h3 class="compareFormulas">Vergelijk formules</h3>
+                <p>Kies de formule die het best past bij jouw wensen.</p>
+            </td>
+            @if (formulas != null)
+            {
+                @foreach (var f in formulas)
+                {
+                     <td class="formulas">
+                        <h3 class="formulaName">@f.Name</h3>
+                        <p>
+                            @f.Description
+                        </p>
+
+                        <MudImage Src="@f.ImageUrl" Width="200" Height="150" Alt="@f.Name" Elevation="25" Class="rounded-lg ma-4" />
+                        
+                       
+                    </td>
+                }
+            }
+           
+        </tr>
+        @if (supplements!=null)
         {
-            <tr>
-                <td>@f.Name</td>
-                <td>@f.Description</td>
-                <td>@f.Price</td>
-            </tr>
+            @foreach (var s in supplements)
+            {
+                <tr>
+                            <td><b>@s.Name</b></td>
+                    @if (formulas != null)
+                    {
+                        @foreach (var f in formulas)
+                        {
+                            @if (f.IncludedSupplements != null)
+                            {
+                                @if (f.IncludedSupplements.Contains(s))
+                                {
+                                    <td class="supplements">
+                                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success"  />
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            }
+                            
+                        }
+                    }
+                   
+                   
+                </tr>
+            }
         }
+      
     </tbody>
 </MudSimpleTable>
 
 @code {
-    private List<Formula> formules = new();
-    string[] headings = { "Name", "Description", "Price"};
-
-    protected override Task OnInitializedAsync()
+    private Formula[]? formulas;
+    private Supplement[]? supplements;
+    protected override async Task OnInitializedAsync()
     {
-        var results = data.GenerateFormulas().Take(3);
-        formules.AddRange(results);
-        return base.OnInitializedAsync();
+        formulas = await http.GetFromJsonAsync<Formula[]>
+        (
+            "Sample-data/FormulaData.json"                          
+        );
+        supplements = await http.GetFromJsonAsync<Supplement[]>
+       (
+           "Sample-data/SupplementData.json"
+       );
+    }
+
+    public class Formula
+    {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public double Price { get; set; }
+        public string? ImageUrl { get; set; }
+        public IEnumerable<Supplement>? IncludedSupplements  { get; set; }
+    }
+
+    public class Supplement
+    {
+        public string Name { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            return Name.ToString() == obj.ToString();
+        }
+        public override string ToString()
+        {
+            return Name.ToString();
+        }
     }
 }
+
+
+
 
