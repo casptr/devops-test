@@ -1,11 +1,11 @@
 using System.Text.Json;
-using Quotation;
 namespace Packages
 {
 
 
     public class PackageDataGenerator
     {
+        
         private readonly HttpClient _httpClient;
         public List<PackageSupplement> BeverageList { get; set; }
         public List<PackageSupplement> FoodList { get; set; }
