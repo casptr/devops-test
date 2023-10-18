@@ -3,8 +3,6 @@
 @using System.Net.Http
 @inject HttpClient HttpClient
 
-
-
 <h1>Formule uitbreiden</h1>
 <p></p>
 
@@ -17,7 +15,7 @@ else
     @for (var i = 0; i < data.SupplementsList.SupplementList.Count; i++)
     {
         var supplementList = data.SupplementsList.SupplementList[i];
-        var currentIndex = i; // Capture the current value of i in a local variable
+        var currentIndex = i;
         <div>
             <div>
                 <h2>@supplementList[0].Category</h2>
