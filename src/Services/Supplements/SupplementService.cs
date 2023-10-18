@@ -7,6 +7,10 @@ using Foodtruck.Shared.Supplements;
 using Domain;
 using Foodtruck.Persistence;
 using Microsoft.EntityFrameworkCore;
+using Domain.Exceptions;
+using Bogus;
+using Domain.Common;
+using Foodtruck.Shared.Formulas;
 
 namespace Services.Supplements;
 public class SupplementService : ISupplementService
@@ -21,22 +25,95 @@ public class SupplementService : ISupplementService
 
     public async Task<int> CreateAsync(SupplementDto.Mutate model)
     {
-        throw new NotImplementedException();
+        if (await dbContext.Supplements.AnyAsync(x => x.Name == model.Name))
+            throw new EntityAlreadyExistsException(nameof(Supplement), nameof(Supplement.Name), model.Name);
+
+        Faker imageFaker = new();
+
+        Money price = new(model.Price);
+        Supplement supplement = new(model.Name, model.Description, model.Category, price, imageFaker.Image.PicsumUrl(), model.AmountAvailable);
+
+        dbContext.Supplements.Add(supplement);
+        await dbContext.SaveChangesAsync();
+
+        return supplement.Id;
     }
 
     public async Task DeleteAsync(int supplementId)
     {
-        throw new NotImplementedException();
+        Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
+
+        if (supplement is null)
+            throw new EntityNotFoundException(nameof(Supplement), supplementId);
+
+        dbContext.Supplements.Remove(supplement);
+
+        await dbContext.SaveChangesAsync();
     }
 
     public async Task EditAsync(int supplementId, SupplementDto.Mutate model)
     {
-        throw new NotImplementedException();
+        Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
+
+        if (supplement is null)
+            throw new EntityNotFoundException(nameof(Supplement), supplementId);
+
+        Money price = new(model.Price);
+        supplement.Name = model.Name!;
+        supplement.Description = model.Description!;
+        supplement.Category = model.Category!;
+        supplement.Price = price;
+        supplement.ImageUrl = model.ImageUrl!;
+        supplement.AmountAvailable = model.AmountAvailable;
+
+        await dbContext.SaveChangesAsync();
     }
+
+    public async Task<SupplementResult.Index> GetAllAsync()
+    {
+        List<SupplementDto.Detail> supplements = await dbContext.Supplements
+            .Select(s => new SupplementDto.Detail
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Price = s.Price.Value,
+                Description = s.Description,
+                Category = s.Category,
+                ImageUrl = s.ImageUrl,
+                AmountAvailable = s.AmountAvailable,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+            })
+            .ToListAsync();
+
+        var result = new SupplementResult.Index
+        {
+            Supplements = supplements,
+            TotalAmount = supplements.Count
+        };
+        return result;
+    }
+
 
     public async Task<SupplementDto.Detail> GetDetailAsync(int supplementId)
     {
-        throw new NotImplementedException();
+        SupplementDto.Detail? supplement = await dbContext.Supplements.Select(x => new SupplementDto.Detail
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Price = x.Price.Value,
+            Description = x.Description,
+            Category = x.Category,
+            ImageUrl = x.ImageUrl,
+            AmountAvailable = x.AmountAvailable,
+            CreatedAt = x.CreatedAt,
+            UpdatedAt = x.UpdatedAt
+        }).SingleOrDefaultAsync(x => x.Id == supplementId);
+
+        if (supplement is null)
+            throw new EntityNotFoundException(nameof(Supplement), supplementId);
+
+        return supplement;
     }
 
     public async Task<SupplementResult.Index> GetIndexAsync(SupplementRequest.Index request)
@@ -79,7 +156,7 @@ public class SupplementService : ISupplementService
            .Skip((request.Page - 1) * request.PageSize)
            .Take(request.PageSize)
            .OrderBy(x => x.Id)
-           .Select(x => new SupplementDto.Index
+           .Select(x => new SupplementDto.Detail
            {
                Id = x.Id,
                Name = x.Name,

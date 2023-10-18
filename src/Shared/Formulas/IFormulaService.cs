@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Foodtruck.Shared.Supplements;
 
 namespace Foodtruck.Shared.Formulas;
 
@@ -12,4 +13,5 @@ public interface IFormulaService
     Task<int> CreateAsync(FormulaDto.Mutate model);
     Task EditAsync(int formulaId, FormulaDto.Mutate model);
     Task DeleteAsync(int formulaId);
+    Task<FormulaResult.Index> GetIndexAsync(FormulaRequest.Index request);
 }

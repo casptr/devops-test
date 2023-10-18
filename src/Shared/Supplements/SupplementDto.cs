@@ -24,6 +24,8 @@ public abstract class SupplementDto
         public int AmountAvailable { get; set; }
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 
     // Worden alle values meegestuurd of enkel degene die geweizigd zijn

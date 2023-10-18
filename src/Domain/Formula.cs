@@ -49,4 +49,13 @@ public class Formula : Entity
         Price = price;
         ImageUrl = imageUrl;
     }
+
+    public void AddIncludedSupplement(Supplement supplement)
+    {
+        Guard.Against.Null(supplement, nameof(supplement));
+        if (includedSupplemets.Contains(supplement))
+            throw new ApplicationException($"{nameof(Formula)} '{name}' already contains the supplement:{supplement.Name}");
+
+        includedSupplemets.Add(supplement);
+    }
 }

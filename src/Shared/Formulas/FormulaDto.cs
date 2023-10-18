@@ -23,7 +23,9 @@ public abstract class FormulaDto
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
-        public IEnumerable<SupplementDto.Index>? IncludedSupplements { get; set; } 
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public IEnumerable<string>? IncludedSupplements { get; set; }
     }
 
     // Worden alle values meegestuurd of enkel degene die geweizigd zijn
@@ -33,7 +35,7 @@ public abstract class FormulaDto
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
-        public IEnumerable<SupplementDto.Index>? IncludedSupplements { get; set; }
+        public IEnumerable<string>? IncludedSupplements { get; set; }
 
         public class Validator : AbstractValidator<Mutate>
         {
