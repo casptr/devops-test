@@ -13,5 +13,5 @@ public interface IFormulaService
     Task<int> CreateAsync(FormulaDto.Mutate model);
     Task EditAsync(int formulaId, FormulaDto.Mutate model);
     Task DeleteAsync(int formulaId);
-    Task<FormulaResult.Index> GetIndexAsync(FormulaRequest.Index request);
+    Task<FormulaResult.Index> GetAllAsync();
 }

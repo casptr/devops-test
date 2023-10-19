@@ -66,6 +66,7 @@ public class FormulaService : IFormulaService
         await dbContext.SaveChangesAsync();
     }
 
+
     public async Task<FormulaDto.Detail> GetDetailAsync(int formulaId)
     {
         FormulaDto.Detail? formula = await dbContext.Formulas.Select(x => new FormulaDto.Detail
@@ -86,10 +87,10 @@ public class FormulaService : IFormulaService
         return formula;
     }
 
-    public async Task<FormulaResult.Index> GetIndexAsync(FormulaRequest.Index request)
+    public async Task<FormulaResult.Index> GetAllAsync()
     {
         var query = dbContext.Formulas.AsQueryable();
-
+        query = dbContext.Formulas;
         int totalAmount = await query.CountAsync();
 
         var items = await query

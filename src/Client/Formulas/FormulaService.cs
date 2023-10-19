@@ -9,7 +9,7 @@ namespace Foodtruck.Client.Formulas;
 public class FormulaService : IFormulaService
 {
     private readonly HttpClient client;
-    private const string endpoint = "api/formule";
+    private const string endpoint = "api/formula";
     public FormulaService(HttpClient client)
     {
         this.client = client;
@@ -36,9 +36,10 @@ public class FormulaService : IFormulaService
         return response;
     }
 
-    public async Task<FormulaResult.Index> GetIndexAsync(FormulaRequest.Index request)
+    public async Task<FormulaResult.Index> GetAllAsync()
     {
-        var response = await client.GetFromJsonAsync<FormulaResult.Index>($"{endpoint}?{request.AsQueryString()}");
+        var response = await client.GetFromJsonAsync<FormulaResult.Index>($"{endpoint}/all");
         return response!;
     }
+    
 }
