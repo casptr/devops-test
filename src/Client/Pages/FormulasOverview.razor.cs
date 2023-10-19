@@ -16,9 +16,9 @@ public partial class FormulasOverview
     protected override async Task OnParametersSetAsync()
     {
         var response1 = await SupplementService.GetAllAsync();
-       
+
         supplements = response1.Supplements;
-        names = supplements.Select(s=>s.Name).ToHashSet();
+        names = supplements?.Select(s => s.Name).ToHashSet();
 
 
         var response = await FormulaService.GetAllAsync();
