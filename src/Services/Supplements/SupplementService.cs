@@ -71,25 +71,28 @@ public class SupplementService : ISupplementService
 
     public async Task<SupplementResult.Index> GetAllAsync()
     {
-        List<SupplementDto.Detail> supplements = await dbContext.Supplements
-            .Select(s => new SupplementDto.Detail
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Price = s.Price.Value,
-                Description = s.Description,
-                Category = s.Category,
-                ImageUrl = s.ImageUrl,
-                AmountAvailable = s.AmountAvailable,
-                CreatedAt = s.CreatedAt,
-                UpdatedAt = s.UpdatedAt,
-            })
-            .ToListAsync();
-
+        var query = dbContext.Supplements.AsQueryable();
+        query = dbContext.Supplements;
+        int totalAmount = await query.CountAsync();
+       
+        var items = await query
+          .OrderBy(x => x.Id)
+          .Select(x => new SupplementDto.Detail
+          {
+              Id = x.Id,
+              Name = x.Name,
+              Price = x.Price.Value,
+              Description = x.Description,
+              Category = x.Category,
+              ImageUrl = x.ImageUrl,
+              AmountAvailable = x.AmountAvailable,
+              CreatedAt = x.CreatedAt,
+              UpdatedAt = x.UpdatedAt
+          }).ToListAsync();
         var result = new SupplementResult.Index
         {
-            Supplements = supplements,
-            TotalAmount = supplements.Count
+            Supplements = items,
+            TotalAmount = totalAmount
         };
         return result;
     }

@@ -23,7 +23,7 @@ public class SupplementController : ControllerBase
     }
 
     [SwaggerOperation("Returns all supplements")]
-    [HttpGet("/all"), AllowAnonymous]
+    [HttpGet("all"), AllowAnonymous]
     public async Task<SupplementResult.Index> GetAll()
     {
         return await supplementService.GetAllAsync();

@@ -12,6 +12,6 @@ public class SupplementFaker : EntityFaker<Supplement>
 {
     public SupplementFaker(string locale = "nl") : base(locale)
     {
-        CustomInstantiator(f => new Supplement(f.Commerce.ProductName(), f.Commerce.ProductName(), f.Commerce.ProductMaterial(), new MoneyFaker(locale), f.Image.PicsumUrl(), f.Random.Int(0, 101)));
+        CustomInstantiator(f => new Supplement(f.Commerce.Product(), f.Commerce.ProductName(), f.Commerce.ProductMaterial(), new MoneyFaker(locale), f.Image.PicsumUrl(), f.Random.Int(0, 101)));
     }
 }

@@ -44,7 +44,7 @@ public class SupplementService : ISupplementService
 
     public async Task<SupplementResult.Index> GetAllAsync()
     {
-        var response = await client.GetFromJsonAsync<SupplementResult.Index>($"{endpoint}?/all");
+        var response = await client.GetFromJsonAsync<SupplementResult.Index>($"{endpoint}/all");
         return response!;
     }
 }

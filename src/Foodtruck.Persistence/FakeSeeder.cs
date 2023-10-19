@@ -24,14 +24,14 @@ public class FakeSeeder
     }
     private void SeedSupplements()
     {
-        var supplements = new SupplementFaker().AsTransient().UseSeed(123).Generate(10);
+        var supplements = new SupplementFaker().AsTransient().UseSeed(101).Generate(14);
         dbContext.Supplements.AddRange(supplements);
         dbContext.SaveChanges();
     }
 
     private void SeedFormulas()
     {
-        var formulas = new FormulaFaker().AsTransient().UseSeed(123).Generate(3);
+        var formulas = new FormulaFaker().AsTransient().UseSeed(101).Generate(3);
         dbContext.Formulas.AddRange(formulas);
         dbContext.SaveChanges();
     }
