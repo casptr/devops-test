@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain;
 
-public class Formula
+public class Formula : Entity
 {
   
     private readonly List<Supplement> includedSupplemets= new();
@@ -26,11 +27,11 @@ public class Formula
         set=> description = Guard.Against.NullOrWhiteSpace(value, nameof(Description)); 
     }
    
-    private double price = default!;
-    public double Price
+    private Money price = default!;
+    public Money Price
     {
         get => price;
-        set => price = Guard.Against.Negative(value, nameof(Price));
+        set => price = Guard.Against.Null(value, nameof(Price));
     }
 
     private string imageUrl = default!;
@@ -40,12 +41,21 @@ public class Formula
         set => imageUrl = Guard.Against.NullOrWhiteSpace(value, nameof(ImageUrl));
     }
 
-    public Formula(){ }
-    public Formula(string name, string description, double price, string imageUrl) 
+    private Formula(){ }
+    public Formula(string name, string description, Money price, string imageUrl) 
     {
         Name = name;
         Description = description;
         Price = price;
         ImageUrl = imageUrl;
+    }
+
+    public void AddIncludedSupplement(Supplement supplement)
+    {
+        Guard.Against.Null(supplement, nameof(supplement));
+        if (includedSupplemets.Contains(supplement))
+            throw new ApplicationException($"{nameof(Formula)} '{name}' already contains the supplement:{supplement.Name}");
+
+        includedSupplemets.Add(supplement);
     }
 }

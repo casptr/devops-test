@@ -1,4 +1,10 @@
-using Microsoft.AspNetCore.ResponseCompression;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Foodtruck.Persistence;
+using Foodtruck.Shared.Formulas;
+using Foodtruck.Shared.Supplements;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +12,26 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+// Add services to the container.
+builder.Services.AddFoodtruckServices();
+
+// Fluentvalidation
+builder.Services.AddValidatorsFromAssemblyContaining<FormulaDto.Mutate.Validator>();
+builder.Services.AddValidatorsFromAssemblyContaining<SupplementDto.Mutate.Validator>();
+builder.Services.AddFluentValidationAutoValidation();
+
+// Swagger | OAS 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    // Since we subclass our dto's we need a more unique id.
+    options.CustomSchemaIds(type => type.DeclaringType is null ? $"{type.Name}" : $"{type.DeclaringType?.Name}.{type.Name}");
+    options.EnableAnnotations();
+}).AddFluentValidationRulesToSwagger();
+
+// Database
+builder.Services.AddDbContext<BogusDbContext>();
 
 var app = builder.Build();
 
@@ -32,5 +58,12 @@ app.UseRouting();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
+
+using (var scope = app.Services.CreateScope())
+{ // Require a DbContext from the service provider and seed the database.
+    var dbContext = scope.ServiceProvider.GetRequiredService<BogusDbContext>();
+    FakeSeeder seeder = new(dbContext);
+    seeder.Seed();
+}
 
 app.Run();
