@@ -1,43 +1,54 @@
-<MudAppBar Elevation="3">
-	<MudContainer MaxWidth="MaxWidth.Large">
-		<MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
-			<MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexStart">
-				<MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" Class="mr-1 d-md-none" OnClick="@OpenMobileNav" />
-				@* Change width to variable with when the css file can be attached to this component specifically *@
-				<MudImage Src="images/logo.svg" ObjectFit="ObjectFit.Contain" Width="50"></MudImage>
-				<MudText Typo="Typo.h5" Class="ml-lg-3 mt-1">Blanche</MudText>
-			</MudStack>
-			<div class="d-none d-md-flex">
-				<MudStack Row="true" Spacing="13" AlignItems="AlignItems.Center">
-					@* TODO: Can we use MudNavLink here? *@
-					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/">Home</MudLink>
-					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/aanbod">Aanbod</MudLink>
-					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/formules">Formules</MudLink>
-					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/over-ons">Over ons</MudLink>
-				</MudStack>
-			</div>
-			<MudButton Variant="Variant.Filled" Color="Color.Primary" Style="min-width: max-content;">Offerte aanvragen</MudButton>
+@inject NavigationManager MyNavigationManager
 
-			<MudDrawer @bind-Open="@IsMobileNavOpen" Elevation="1" Width="100%" Height="100%" Anchor="Anchor.Left" Variant="@DrawerVariant.Temporary">
-				<MudDrawerHeader>
-					<MudText Typo="Typo.h6" Class="my-auto">Menu</MudText>
-					<MudIconButton Icon="@Icons.Material.Filled.Close" Style="font-size: 2rem;" Class="ml-auto" OnClick="@CloseMobileNav" />
-				</MudDrawerHeader>
-				<MudNavMenu>
-					<MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
-					<MudNavLink Href="/aanbod">Aanbod</MudNavLink>
-					<MudNavLink Href="/formules">Formules</MudNavLink>
-					<MudNavLink Href="/over-ons">Over ons</MudNavLink>
-				</MudNavMenu>
-			</MudDrawer>
-		</MudStack>
-	</MudContainer>
+<MudAppBar Elevation="0" Class="navbar">
+    <MudContainer MaxWidth="MaxWidth.Large">
+        <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+            <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexStart">
+                <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" Class="mr-1 d-md-none" OnClick="@OpenMobileNav" />
+                @* Change width to variable with when the css file can be attached to this component specifically *@
+                <MudImage Src="images/logo.svg" ObjectFit="ObjectFit.Contain" Width="50"></MudImage>
+                <MudText Typo="Typo.h4" Class="ml-lg-3 mt-1">Blanche</MudText>
+            </MudStack>
+            <div class="d-none d-md-flex">
+                <MudStack Row="true" Spacing="13" AlignItems="AlignItems.Center">
+                    @* TODO: Can we use MudNavLink here? *@
+                    @foreach (KeyValuePair<string, string> link in links)
+                    {
+                        <MudButton Variant="@GetVariant(link.Value)" DisableElevation="true" Class="px-3" Color="Color.Default" Href="@link.Value">
+                            <MudText Typo="Typo.body1">@link.Key</MudText>
+                        </MudButton>
+                    }
+                </MudStack>
+            </div>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="min-width: max-content;">Offerte aanvragen</MudButton>
+        </MudStack>
+    </MudContainer>
 </MudAppBar>
 
+<MudDrawer @bind-Open="@IsMobileNavOpen" Elevation="1" Width="100%" Height="100%" Anchor="Anchor.Left" Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h5" Class="my-auto">Menu</MudText>
+        <MudIconButton Icon="@Icons.Material.Filled.Close" Style="font-size: 2rem;" Class="ml-auto" OnClick="@CloseMobileNav" />
+    </MudDrawerHeader>
+    <MudNavMenu>
+        <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
+        <MudNavLink Href="/aanbod">Aanbod</MudNavLink>
+        <MudNavLink Href="/formules">Formules</MudNavLink>
+        <MudNavLink Href="/over-ons">Over ons</MudNavLink>
+    </MudNavMenu>
+</MudDrawer>
+
 @code {
-	public bool IsMobileNavOpen { get; set; }
+    protected IDictionary<string, string> links = new Dictionary<string, string>(){
+        {"Home", "/"},
+        {"Aanbod", "/aanbod"},
+        {"Formules", "/formules"},
+        {"Over ons", "/over-ons"} };
 
-	protected void CloseMobileNav() => IsMobileNavOpen = false;
-	protected void OpenMobileNav() => IsMobileNavOpen = true;
+    protected override void OnInitialized() => MyNavigationManager.LocationChanged += (s, e) => StateHasChanged();
+    public Variant GetVariant(string currentUri) => MyNavigationManager.Uri.EndsWith(currentUri) ? Variant.Filled : Variant.Text;
 
+    public bool IsMobileNavOpen { get; set; }
+    protected void CloseMobileNav() => IsMobileNavOpen = false;
+    protected void OpenMobileNav() => IsMobileNavOpen = true;
 }
