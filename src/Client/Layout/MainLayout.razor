@@ -7,9 +7,7 @@
 <MudLayout>
 	<Navmenu />
 	<MudMainContent>
-		<MudContainer MaxWidth="MaxWidth.Large" Class="pt-5">
-			@Body
-		</MudContainer>
+		@Body
 	</MudMainContent>
 </MudLayout>
 @code {
@@ -34,7 +32,15 @@
 				Dark = "#242324",
 				AppbarBackground = "#fffdf5",
 				AppbarText = "#242324",
+				White = "#ffffff",
 			},
+			Typography = new Typography()
+			{
+				Button = new Button()
+				{
+					TextTransform = "none",
+				}
+			}
 
 		};
 }
