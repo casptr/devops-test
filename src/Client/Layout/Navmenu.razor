@@ -1,4 +1,4 @@
-﻿<MudAppBar Elevation="3">
+<MudAppBar Elevation="3">
 	<MudContainer MaxWidth="MaxWidth.Large">
 		<MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
 			<MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexStart">
@@ -7,13 +7,13 @@
 				<MudImage Src="images/logo.svg" ObjectFit="ObjectFit.Contain" Width="50"></MudImage>
 				<MudText Typo="Typo.h5" Class="ml-lg-3 mt-1">Blanche</MudText>
 			</MudStack>
-			<div Class="d-none d-md-flex">
+			<div class="d-none d-md-flex">
 				<MudStack Row="true" Spacing="13" AlignItems="AlignItems.Center">
 					@* TODO: Can we use MudNavLink here? *@
-					<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/">Home</MudLink>
-					<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/supplementen">Aanbod</MudLink>
-					<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/formules">Formules</MudLink>
-					<MudLink Typo="Typo.body1" Color="Color.Dark" Underline="Underline.None" Href="/over-ons">Over ons</MudLink>
+					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/">Home</MudLink>
+					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/aanbod">Aanbod</MudLink>
+					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/formules">Formules</MudLink>
+					<MudLink Typo="Typo.body1" Color="Color.Default" Underline="Underline.None" Href="/over-ons">Over ons</MudLink>
 				</MudStack>
 			</div>
 			<MudButton Variant="Variant.Filled" Color="Color.Primary" Style="text-transform:unset; min-width: max-content;">Offerte aanvragen</MudButton>
