@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Domain.Common;
 
-namespace Domain.QuotationsAndFormulas
+namespace Domain.Supplements
 {
 	public class SupplementItem : ValueObject
 	{

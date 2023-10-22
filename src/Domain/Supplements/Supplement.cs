@@ -1,12 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.QuotationsAndFormulas
+namespace Domain.Supplements
 {
 	public class Supplement : Entity
 	{
@@ -62,7 +57,7 @@ namespace Domain.QuotationsAndFormulas
 		public void AddImageUrl(string imageUrl)
 		{
 			Guard.Against.NullOrEmpty(imageUrl, nameof(imageUrl));
-			if(imageUrls.Contains(imageUrl))
+			if (imageUrls.Contains(imageUrl))
 			{
 				throw new ApplicationException($"{nameof(Supplement)} '{name}' already contains the imageUrl:{imageUrl}");
 			}

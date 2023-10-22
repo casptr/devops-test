@@ -1,10 +1,10 @@
 ﻿using Ardalis.GuardClauses;
 using Domain.Common;
-using Domain.QuotationsAndFormulas;
+using Domain.Supplements;
 
 namespace Domain.Formulas
 {
-    public class FormulaSupplementLine : Entity
+	public class FormulaSupplementLine : Entity
 	{
 		public Formula Formula { get; } = default!;
 		public Supplement Supplement { get; } = default!;
