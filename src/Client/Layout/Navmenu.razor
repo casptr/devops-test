@@ -9,7 +9,7 @@
                 @* Change width to variable with when the css file can be attached to this component specifically *@
                 <MudStack Row="true" AlignItems="AlignItems.Center" Class="company-info">
                     <MudImage Src="images/logo.svg" ObjectFit="ObjectFit.Contain" Width="50"></MudImage>
-                    <MudText Typo="Typo.h4" Class="ml-lg-3 mt-1">Blanche</MudText>
+                    <MudText Typo="Typo.h4" Class="ml-lg-3 mt-1">blanche</MudText>
                 </MudStack>
             </MudStack>
             <div class="d-none d-md-flex">
@@ -18,17 +18,17 @@
                     @foreach (KeyValuePair<string, string> link in links)
                     {
                         <MudButton Variant="@GetVariant(link.Value)" DisableElevation="true" Class="px-3"
-                            Color="Color.Default" Href="@link.Value">
+                            Color="Color.Default" Href="@link.Value" Style="min-width: max-content;">
                             <MudText Typo="Typo.body1">@link.Key</MudText>
                             </MudButton>
                     }
                 </MudStack>
             </div>
-            <div class="offerte-aanvragen-button">
+            <MudStack Row="true" Justify="Justify.FlexEnd" Class="offerte-aanvragen-button">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="min-width: max-content;">
                     Offerte aanvragen
                 </MudButton>
-            </div>
+            </MudStack>
         </MudStack>
     </MudContainer>
 </MudAppBar>
