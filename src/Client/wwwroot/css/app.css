@@ -1,5 +1,4 @@
-﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
-@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One');
+﻿@import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One');
 
 :root {
     --width-company-info: 250px;
@@ -67,6 +66,9 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+/*start custom css*/
 
 .mud-main-content {
     min-height: 100vh;
