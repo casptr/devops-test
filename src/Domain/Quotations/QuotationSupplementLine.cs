@@ -1,6 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Domain.Common;
-using Domain.QuotationsAndFormulas;
+using Domain.Supplements;
 
 namespace Domain.Quotations
 {
