@@ -1,6 +1,10 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Julius+Sans+One');
 
+:root {
+    --width-company-info: 250px;
+}
+
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -80,4 +84,12 @@ a, .btn-link {
     height: 100%;
     opacity: 0.7;
     background: var(--mud-palette-appbar-background);
+}
+
+.company-info {
+    width: var(--width-company-info)
+}
+
+.offerte-aanvragen-button {
+    width: var(--width-company-info);
 }
