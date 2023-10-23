@@ -1,17 +1,15 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Foodtruck.Persistence;
+using Foodtruck.Server.Authentication;
+using Foodtruck.Server.Middleware;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
 
 // Add services to the container.
 builder.Services.AddFoodtruckServices();
@@ -33,6 +31,13 @@ builder.Services.AddSwaggerGen(options =>
 // Database
 builder.Services.AddDbContext<BogusDbContext>();
 
+// (Fake) Authentication
+builder.Services.AddAuthentication("Fake Authentication")
+                .AddScheme<AuthenticationSchemeOptions, FakeAuthenticationHandler>("Fake Authentication", null);
+
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,8 +56,11 @@ app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseRouting();
+
+//app.UseAuthentication();
+//app.UseAuthorization();
 
 
 app.MapRazorPages();

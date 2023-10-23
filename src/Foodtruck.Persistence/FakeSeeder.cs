@@ -26,7 +26,7 @@ public class FakeSeeder
     }
     private void SeedSupplements()
     {
-        var supplements = new SupplementFaker().AsTransient().UseSeed(102).Generate(6);
+        var supplements = new SupplementFaker().AsTransient().UseSeed(101).Generate(6);
         dbContext.Supplements.AddRange(supplements);
         dbContext.SaveChanges();
     }
@@ -37,7 +37,7 @@ public class FakeSeeder
         var formulas = new FormulaFaker().AsTransient().UseSeed(109).Generate(3);
         formulas.ForEach(f => {
            
-            var supplements = new SupplementFaker().AsTransient().UseSeed(102).Generate(6).Take(quantity+=2);
+            var supplements = new SupplementFaker().AsTransient().UseSeed(101).Generate(6).Take(quantity+=2);
             foreach (var item in supplements)
             {
                 f.AddIncludedSupplement(item);
