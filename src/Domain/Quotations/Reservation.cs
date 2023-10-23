@@ -13,7 +13,7 @@ namespace Domain.Quotations
 		public DateTime End { get => end; set => end = Guard.Against.OutOfRange(value, nameof(End), DateTime.Now.AddDays(1), DateTime.Now.AddYears(5)); } // TODO
 
 		private string description = default!;
-		public string Description { get => description; set => description = Guard.Against.NullOrEmpty(value, nameof(Description)); }
+		public string Description { get => description; set => description = Guard.Against.NullOrWhiteSpace(value, nameof(Description)); }
 
 		private Status status = default!;
 		public Status Status { get => status; set => status = Guard.Against.Null(value, nameof(Status)); }

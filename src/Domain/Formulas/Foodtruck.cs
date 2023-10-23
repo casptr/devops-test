@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Ardalis.GuardClauses;
+using Domain.Common;
 
 namespace Domain.Formulas
 {
@@ -8,19 +9,21 @@ namespace Domain.Formulas
         // 2 dagen huren: 450€ excl 21% btw
         // 3 dagen huren: 520€ excl 21%
         // Elke extra dag: +50€ excl 21% btw
+        private readonly List<PricePerDayLine> pricePerDays = new();
+        public IReadOnlyCollection<PricePerDayLine> PricePerDays => pricePerDays.AsReadOnly();
 
-        private readonly List<PricePerDay> pricePerDays = new();
-        public IReadOnlyCollection<PricePerDay> PricePerDays => pricePerDays.AsReadOnly();
-        public Money ExtraPricePerDay { get; set; } // 50€ excl 21%btw
+        private Money extraPricePerDay = default!;
+        public Money ExtraPricePerDay { get => extraPricePerDay; set => extraPricePerDay = Guard.Against.Null(value, nameof(ExtraPricePerDay)); } // ex. 50€ excl 21%btw
 
+        // TODO move this code?
         public Money CalculatePrice(int numberOfDays)
         {
-            PricePerDay? pricePerDay = PricePerDays.SingleOrDefault(day => day.DayNumber == numberOfDays);
-            if (pricePerDay != null)
+            PricePerDayLine? pricePerDay = PricePerDays.SingleOrDefault(day => day.DayNumber == numberOfDays);
+            if (pricePerDay is not null)
                 return pricePerDay.Price;
 
 
-            PricePerDay lastPricePerDay = PricePerDays.OrderByDescending(day => day.DayNumber).First();
+            PricePerDayLine lastPricePerDay = PricePerDays.OrderByDescending(day => day.DayNumber).First();
             int dayDifference = numberOfDays - lastPricePerDay.DayNumber;
             return new Money(lastPricePerDay.Price.Value + (dayDifference * ExtraPricePerDay.Value));
         }
@@ -29,9 +32,20 @@ namespace Domain.Formulas
     // DayNumber Price
     // 1          350
     // 2          450
-    public class PricePerDay
+    public class PricePerDayLine : Entity
     {
-        public int DayNumber { get; set; }
-        public Money Price { get; set; }
+        private int dayNumber = default!;
+        public int DayNumber { get => dayNumber; set => dayNumber = Guard.Against.NegativeOrZero(value, nameof(DayNumber)); }
+
+        private Money price = default!;
+        public Money Price { get => price; set => price = Guard.Against.Null(value, nameof(Price)); }
+
+        public PricePerDayLine(int dayNumber, Money price)
+        {
+            DayNumber = dayNumber;
+            Price = price;
+        }
+
+
     }
 }

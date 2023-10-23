@@ -13,10 +13,10 @@ namespace Domain.Quotations
         public int NumberOfGuests { get => numberOfGuests; set => numberOfGuests = Guard.Against.OutOfRange(value, nameof(NumberOfGuests), 0, 2000); }
 
         private string extraInfo = default!;
-        public string ExtraInfo { get => extraInfo; set => extraInfo = Guard.Against.NullOrEmpty(value, nameof(ExtraInfo)); }
+        public string ExtraInfo { get => extraInfo; set => extraInfo = Guard.Against.NullOrWhiteSpace(value, nameof(ExtraInfo)); }
 
         private string description = default!;
-        public string Description { get => description; set => description = Guard.Against.NullOrEmpty(value, nameof(Description)); }
+        public string Description { get => description; set => description = Guard.Against.NullOrWhiteSpace(value, nameof(Description)); }
 
         private Money price = default!;
         public Money Price { get => price; set => price = Guard.Against.Null(value, nameof(price)); }
@@ -33,6 +33,9 @@ namespace Domain.Quotations
         private Address eventAddress = default!;
         public Address EventAddress { get => eventAddress; set => eventAddress = Guard.Against.Null(value, nameof(EventAddress)); }
 
+        private Address billingAddress = default!;
+        public Address BillingAddress { get => billingAddress; set => billingAddress = Guard.Against.Null(value, nameof(BillingAddress)); }
+
         private Customer customer = default!;
         public Customer Customer { get => customer; set => customer = Guard.Against.Null(value, nameof(Customer)); }
 
@@ -44,7 +47,7 @@ namespace Domain.Quotations
         /// </summary>
         private Quotation() { }
 
-        public Quotation(int numberOfGuests, string extraInfo, string description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> supplementItem, Address eventAddress, Customer customer)
+        public Quotation(int numberOfGuests, string extraInfo, string description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> supplementItem, Address eventAddress, Address billingAddress, Customer customer)
         {
             NumberOfGuests = numberOfGuests;
             ExtraInfo = extraInfo;
@@ -52,6 +55,7 @@ namespace Domain.Quotations
             Reservation = reservation;
             Formula = formula;
             EventAddress = eventAddress;
+            BillingAddress = billingAddress;
             Customer = customer;
 
             List<Supplement> supplementsIncludedInFormula = formula.IncludedSupplements

@@ -29,32 +29,23 @@ namespace Domain.Customers
 		public string? CompanyName { get; set; }
 		public string? CompanyNumber { get; set; }
 
-
-
 		public bool WantsMarketingMails { get; set; }
 
-
-		private Address address = default!;
-		public Address Address
-		{
-			get => address;
-			set => address = Guard.Against.Null(value, nameof(Address));
-		}
 
 		/// <summary>
 		/// Database Constructor
 		/// </summary>
 		private Customer() { }
 
-		public Customer(string firstname, string lastname, EmailAddress email, string phone, Address address, string? companyName, string? companyNumber)
+		public Customer(string firstname, string lastname, EmailAddress email, string phone, string? companyName, string? companyNumber, bool wantsMarketingMails)
 		{
 			Firstname = firstname;
 			Lastname = lastname;
 			Email = email;
 			Phone = phone;
-			Address = address;
 			CompanyName = companyName;
 			CompanyNumber = companyNumber;
+			WantsMarketingMails = wantsMarketingMails;
 		}
 	}
 }

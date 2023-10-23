@@ -7,7 +7,7 @@ namespace Domain.Formulas
     public class FormulaSupplementChoice : Entity
     {
         private string name = default!;
-        public string Name { get => name; set => name = Guard.Against.NullOrEmpty(value, nameof(Name)); }
+        public string Name { get => name; set => name = Guard.Against.NullOrWhiteSpace(value, nameof(Name)); }
 
         public bool IsQuantityNumberOfGuests { get; set; }
 
@@ -25,10 +25,11 @@ namespace Domain.Formulas
         /// </summary>
         private FormulaSupplementChoice() { }
 
-        public FormulaSupplementChoice(string name, bool isQuantityNumberOfGuests, Supplement defaultChoice)
+        public FormulaSupplementChoice(string name, bool isQuantityNumberOfGuests, int minQuantity, Supplement defaultChoice)
         {
             Name = name;
             IsQuantityNumberOfGuests = isQuantityNumberOfGuests;
+            MinQuantity = minQuantity;
             DefaultChoice = defaultChoice;
         }
 
