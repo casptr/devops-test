@@ -4,80 +4,88 @@
 <PageTitle>Home</PageTitle>
 
 <div class="hero-section">
-	<MudImage Src="images/8.jpg" Alt="bar" Height="800" Style="width: 100%" ObjectFit="ObjectFit.Cover"
-		ObjectPosition="ObjectPosition.Center"  />
-	<MudStack Style="position: absolute; top: 400px; width: 100%" Row="true" AlignItems="AlignItems.Center"
-		Justify="Justify.Center">
-		<MudStack>
-			<MudText Typo="Typo.h1"
-				Style="@($"font-family: 'Playfair Display SC', serif; font-size: 6rem; color: {Theme.Palette.White}; text-shadow: rgba(0,0,0,0.2) 0px 3px 3px ")">
-				Blanche</MudText>
-			<MudButton Variant="Variant.Filled" Color="Color.Primary">Offerte aanvragen</MudButton>
-		</MudStack>
-	</MudStack>
+    <div style="position:relative;">
+        <MudImage Src="images/8.jpg" Alt="bar" Height="800" Style="width: 100%" ObjectFit="ObjectFit.Cover"
+                  ObjectPosition="ObjectPosition.Center" />
+        <div style="position: absolute; width: 100%; height: 800px; background: rgba(0,0,0,0.3); top:0; "></div>
+
+        <MudStack Style="position: absolute;top: 0; bottom: 0;margin: auto 0; width: 100%" Row="true" AlignItems="AlignItems.Center" Justify="Justify.Center">
+            <MudStack Spacing="5">
+                <MudText Typo="Typo.h1" Style="@($"font-family: 'Playfair Display SC', serif; font-size: 6rem; color: {Theme.Palette.White}; text-shadow: rgba(0,0,0,0.2) 0px 3px 3px;")" Align="Align.Center">
+                    Blanche
+                </MudText>
+                <MudText Typo="Typo.caption" Style="@($"font-size: 1.5rem; color: {Theme.Palette.White};")" Align="Align.Center">
+                    Een Foodtruck Met Bier - De Perfecte Mix van Smaak en Vermaak!
+                </MudText>
+
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="width: 303px;" Class="mx-auto mt-3">Offerte aanvragen</MudButton>
+            </MudStack>
+        </MudStack>
+    </div>
 </div>
 
-<MudContainer MaxWidth="MaxWidth.Large">
-	<MudCarousel Style="height: 350px;" ShowArrows="false" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true" AutoCycleTime="TimeSpan.FromSeconds(10)" TData="object" Class="rounded-lg mt-16">
-		<ReviewCarouselItem Review="De beslissing om foodtruck Blanche te huren voor ons evenement was werkelijk een schot in de roos. De kwaliteit van de gerechten overtrof onze verwachtingen volledig. De smaken waren subliem, en het feit dat we de foodtruck zonder personeel konden huren, gaf ons de vrijheid om ons eigen ding te doen." ReviewerFullname="Jan De Wever" ReviewerImageSrc="https://i.pravatar.cc/300" />
-		<ReviewCarouselItem Review="Yo, Blanche at our event, no need to pretend, Their food game's fire, flavors that transcend,No staff, all freedom, we could just transcend,Top food truck choice, on that, we can depend!" ReviewerFullname="Bert Vanderstraete" ReviewerImageSrc="https://i.pravatar.cc/300" />
-		<ReviewCarouselItem Review="Gevestigd in een omgebouwde paardentrailer, straalt deze plek de kracht en gratie van paarden uit.
+<MudContainer MaxWidth="MaxWidth.Large" Style="">
+    <MudCarousel Style="height: 350px;" ShowArrows="false" ShowBullets="true" EnableSwipeGesture="true" AutoCycle="true" AutoCycleTime="TimeSpan.FromSeconds(10)" TData="object" Class="rounded-lg mt-16">
+        <ReviewCarouselItem Review="De beslissing om foodtruck Blanche te huren voor ons evenement was werkelijk een schot in de roos. De kwaliteit van de gerechten overtrof onze verwachtingen volledig. De smaken waren subliem, en het feit dat we de foodtruck zonder personeel konden huren, gaf ons de vrijheid om ons eigen ding te doen." ReviewerFullname="Jan De Wever" ReviewerImageSrc="https://i.pravatar.cc/300" />
+        <ReviewCarouselItem Review="Yo, Blanche at our event, no need to pretend, Their food game's fire, flavors that transcend,No staff, all freedom, we could just transcend,Top food truck choice, on that, we can depend!" ReviewerFullname="Bert Vanderstraete" ReviewerImageSrc="https://i.pravatar.cc/300" />
+        <ReviewCarouselItem Review="Gevestigd in een omgebouwde paardentrailer, straalt deze plek de kracht en gratie van paarden uit.
                                     Met een biertap die bediend wordt als een ervaren jockey, geniet je hier van verfrissend bier dat net zo soepel stroomt als een renpaard. Het eten is als een culinaire race, verfijnd en heerlijk.
                                     Of je nu een paardenliefhebber bent of gewoon van lekker eten houdt, Blanche is de plek om te zijn. Een smaaksensatie die je niet wilt missen. 🐎🍻" ReviewerFullname="Jeff Wellekens " ReviewerImageSrc="https://i.pravatar.cc/300" />
-	</MudCarousel>
-	<MudStack Class="mt-16">
-			<MudText Typo="Typo.h1" Align="Align.Center" Style="font-weight: bold;">technische informatie</MudText>
-			<MudText Typo="Typo.h4" Align="Align.Center">alle informatie over de foodtruck.</MudText>
-			<MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mx-auto">Download technische info
-			</MudButton>
-		</MudStack>
-		<MudExpansionPanels MultiExpansion="true" Elevation="3">
-			<MudExpansionPanel Class="mt-6">
-				<TitleContent>
-					<div class="d-flex">
-						<MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
-						<MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
-					</div>
-				</TitleContent>
-				<ChildContent>
-					Informatie over de inbegrepen keukenapparatuur
-				</ChildContent>
-			</MudExpansionPanel>
-			<MudExpansionPanel Class="mt-6">
-				<TitleContent>
-					<div class="d-flex">
-						<MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
-						<MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
-					</div>
-				</TitleContent>
-				<ChildContent>
-					Informatie over de inbegrepen keukenapparatuur
-				</ChildContent>
-			</MudExpansionPanel>
-			<MudExpansionPanel Class="mt-6">
-				<TitleContent>
-					<div class="d-flex">
-						<MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
-						<MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
-					</div>
-				</TitleContent>
-				<ChildContent>
-					Informatie over de inbegrepen keukenapparatuur
-				</ChildContent>
-			</MudExpansionPanel>
-			<MudExpansionPanel Class="mt-6">
-				<TitleContent>
-					<div class="d-flex">
-						<MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
-						<MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
-					</div>
-				</TitleContent>
-				<ChildContent>
-					Informatie over de inbegrepen keukenapparatuur
-				</ChildContent>
-			</MudExpansionPanel>
-		</MudExpansionPanels>
+    </MudCarousel>
+    <MudStack Class="mt-16">
+        <MudText Typo="Typo.h1" Align="Align.Center" Style="font-weight: bold;">technische informatie</MudText>
+        <MudText Typo="Typo.h4" Align="Align.Center">alle informatie over de foodtruck.</MudText>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mx-auto">
+            Download technische info
+        </MudButton>
+    </MudStack>
+    <MudExpansionPanels MultiExpansion="true" Elevation="3">
+        <MudExpansionPanel Class="mt-6">
+            <TitleContent>
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
+                    <MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                Informatie over de inbegrepen keukenapparatuur
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel Class="mt-6">
+            <TitleContent>
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
+                    <MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                Informatie over de inbegrepen keukenapparatuur
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel Class="mt-6">
+            <TitleContent>
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
+                    <MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                Informatie over de inbegrepen keukenapparatuur
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel Class="mt-6">
+            <TitleContent>
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" class="mr-3"></MudIcon>
+                    <MudText>Keukenapparatuur <strong>inbegrepen</strong></MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                Informatie over de inbegrepen keukenapparatuur
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
 </MudContainer>
 @code {
-	private MudTheme Theme = new MudTheme();
+    private MudTheme Theme = new MudTheme();
 }
