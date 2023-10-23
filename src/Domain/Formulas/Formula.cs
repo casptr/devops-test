@@ -23,7 +23,6 @@ namespace Domain.Formulas
 		private readonly List<FormulaSupplementLine> includedSupplements = new();
 		public IReadOnlyCollection<FormulaSupplementLine> IncludedSupplements => includedSupplements.AsReadOnly();
 
-
 		/// <summary>
 		/// Database Constructor
 		/// </summary>

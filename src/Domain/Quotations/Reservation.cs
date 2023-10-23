@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Domain.Common;
 
-namespace Domain
+namespace Domain.Quotations
 {
 
 	public class Reservation : Entity
