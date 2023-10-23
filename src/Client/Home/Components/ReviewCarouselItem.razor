@@ -1,0 +1,27 @@
+﻿<MudCarouselItem Transition="Transition.Slide" Color="Color.Secondary">
+    <div class="d-flex" style="height:100%">
+        <MudGrid Spacing="3" Justify="Justify.Center" Style="margin: 0px;">
+            <MudItem xs="3" Style="height: 350px; padding:0px">
+                <MudImage Src="@ReviewerImageSrc" Alt="Swedish Farm House" Elevation="25" ObjectFit="ObjectFit.Cover" Style="width: 100%; height: 100%" />
+            </MudItem>
+            <MudItem xs="9" Class="my-auto">
+                <MudStack AlignItems="AlignItems.Start" Justify="Justify.Center" Class="pr-xs-9 pl-xs-5">
+                    <MudStack Row="true" Justify="Justify.Center">
+                        <MudIcon Icon="@Icons.Material.Rounded.FormatQuote" Title="StartQuote" Style="transform: rotate(180deg);" Size="Size.Large" />
+                        <MudText Class="my-4">@Review</MudText>
+                        <MudIcon Icon="@Icons.Material.Rounded.FormatQuote" Title="EndQuote" Class="mt-auto" Size="Size.Large" />
+                    </MudStack>
+                    <MudText Style="font-weight:bold" Class="ml-12">@ReviewerFullname</MudText>
+
+                </MudStack>
+            </MudItem>
+
+        </MudGrid>
+    </div>
+</MudCarouselItem>
+
+@code {
+    [EditorRequired][Parameter] public string ReviewerImageSrc { get; set; } = default!;
+    [EditorRequired][Parameter] public string ReviewerFullname { get; set; } = default!;
+    [EditorRequired][Parameter] public string Review { get; set; } = default!;
+}
