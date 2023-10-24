@@ -27,6 +27,8 @@ public class Foodtruck : Entity
         int dayDifference = numberOfDays - lastPricePerDay.DayNumber;
         return new Money(lastPricePerDay.Price.Value + (dayDifference * ExtraPricePerDay.Value));
     }
+    public Foodtruck() { }
+    /*private Foodtruck() { }*/
 }
 
 // DayNumber Price
@@ -39,6 +41,8 @@ public class PricePerDayLine : Entity
 
     private Money price = default!;
     public Money Price { get => price; set => price = Guard.Against.Null(value, nameof(Price)); }
+
+    private PricePerDayLine() { }
 
     public PricePerDayLine(int dayNumber, Money price)
     {

@@ -20,6 +20,7 @@ public class BogusDbContext : DbContext
 
 	#region Supplements
 	public DbSet<Supplement> Supplements => Set<Supplement>();
+    public DbSet<Category> Category => Set<Category>();
     #endregion
 
     #region Customers
@@ -30,6 +31,7 @@ public class BogusDbContext : DbContext
     public DbSet<Quotation> Quotations => Set<Quotation>();
     public DbSet<QuotationSupplementLine> QuotationSupplementLines => Set<QuotationSupplementLine>();
     public DbSet<Reservation> Reservations => Set<Reservation>();
+    public DbSet<QuotationVersion> QuotationVersions => Set<QuotationVersion>();
 	#endregion
 
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

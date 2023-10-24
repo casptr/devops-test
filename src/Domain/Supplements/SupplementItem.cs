@@ -5,8 +5,8 @@ namespace Domain.Supplements
 {
 	public class SupplementItem : ValueObject
 	{
-		public Supplement Supplement { get; }
-		public int Quantity { get; }
+		public Supplement Supplement { get; } = default!;
+		public int Quantity { get; } = default;
 
 		public SupplementItem(Supplement supplement, int quantity)
 		{

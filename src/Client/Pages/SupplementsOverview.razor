@@ -16,7 +16,7 @@ else
                         <MudCard Outlined="true" Class="ma-3 rounded-lg" Style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
                         <MudCardContent>
                            <MudPaper Style="text-align: center" Elevation="0">
-                                <MudImage src="@s.ImageUrls.First()" Width="220" Height="165" />
+                                <MudImage src="@s.ImageUrls.First().ToString()" Width="220" Height="165" />
                             </MudPaper>
                                     <MudPaper Class="d-flex justify-space-between" Elevation="0">
                                 <MudText Typo="Typo.h6" Style="font-weight: bold;">€ @s.Price</MudText>

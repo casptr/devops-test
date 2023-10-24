@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Foodtruck.Persistence.Configurations.Quotations;
+namespace Foodtruck.Persistence.Configurations.QuotationsVersion;
 
-internal class QuotationConfiguration : IEntityTypeConfiguration<Quotation>
+internal class QuotationVersionConfiguration : IEntityTypeConfiguration<QuotationVersion>
 {
-	public void Configure(EntityTypeBuilder<Quotation> builder)
+	public void Configure(EntityTypeBuilder<QuotationVersion> builder)
 	{
 		builder.OwnsOne(x => x.Price).Property(x => x.Value);
 		builder.OwnsOne(x => x.VatTotal).Property(x => x.Value);

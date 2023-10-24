@@ -1,10 +1,10 @@
-﻿using Bogus;
-using Domain.Quotations;
+﻿using Domain.Quotations;
+using Fakers.Common;
 using Fakers.Supplements;
 
 namespace Fakers.Quotations;
 
-public class QuotationSupplementLineFaker : Faker<QuotationSupplementLine>
+public class QuotationSupplementLineFaker : EntityFaker<QuotationSupplementLine>
 {
 	public QuotationSupplementLineFaker(string locale = "nl") : base(locale)
 	{

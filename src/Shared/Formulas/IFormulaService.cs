@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Foodtruck.Shared.Supplements;
+﻿using Foodtruck.Shared.Supplements;
 
 namespace Foodtruck.Shared.Formulas;
 

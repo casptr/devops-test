@@ -19,11 +19,11 @@ public class Supplement : Entity
 		set => description = Guard.Against.NullOrWhiteSpace(value, nameof(Description));
 	}
 
-	private string category = default!;
-	public string Category
+	private Category category = default!;
+	public Category Category
 	{
 		get => category;
-		set => category = Guard.Against.NullOrWhiteSpace(value, nameof(Category));
+		set => category = Guard.Against.Null(value, nameof(Category));
 	}
 
 	private Money price = default!;
@@ -33,8 +33,8 @@ public class Supplement : Entity
 		set => price = Guard.Against.Null(value, nameof(Price));
 	}
 
-	private readonly List<string> imageUrls = new();
-	public IReadOnlyCollection<string> ImageUrls => imageUrls.AsReadOnly();
+	private readonly List<Uri> imageUrls = new();
+	public IReadOnlyCollection<Uri> ImageUrls => imageUrls.AsReadOnly();
 
 	private int amountAvailable = default!;
 	public int AmountAvailable
@@ -45,7 +45,7 @@ public class Supplement : Entity
 
 	private Supplement() { }
 
-	public Supplement(string name, string description, string category, Money price, int amountAvailable)
+	public Supplement(string name, string description, Category category, Money price, int amountAvailable)
 	{
 		Name = name;
 		Description = description;
@@ -54,9 +54,9 @@ public class Supplement : Entity
 		AmountAvailable = amountAvailable;
 	}
 
-	public void AddImageUrl(string imageUrl)
+	public void AddImageUrl(Uri imageUrl)
 	{
-		Guard.Against.NullOrEmpty(imageUrl, nameof(imageUrl));
+		Guard.Against.Null(imageUrl, nameof(imageUrl));
 		if (imageUrls.Contains(imageUrl))
 		{
 			throw new ApplicationException($"{nameof(Supplement)} '{name}' already contains the imageUrl:{imageUrl}");

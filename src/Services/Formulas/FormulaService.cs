@@ -25,7 +25,7 @@ public class FormulaService : IFormulaService
         Faker imageFaker = new();
 
         Money price = new(model.Price);
-        Formula formula = new(model.Title, model.Description, price, imageFaker.Image.PicsumUrl());
+        Formula formula = new(model.Title, model.Description, price, new Uri(imageFaker.Image.PicsumUrl()));
 
         dbContext.Formulas.Add(formula);
         await dbContext.SaveChangesAsync();
@@ -72,6 +72,7 @@ public class FormulaService : IFormulaService
             Price = x.Price.Value,
             Description = x.Description,
             IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),
+            Choices = x.Choices.Select(x => x.DefaultChoice.Name),
             ImageUrl = x.ImageUrl,
             CreatedAt = x.CreatedAt,
             UpdatedAt = x.UpdatedAt
@@ -97,7 +98,9 @@ public class FormulaService : IFormulaService
                Title = x.Title,
                Price = x.Price.Value,
                Description = x.Description,
-               IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),
+               /*IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),*/ //KAPOT TODO: fix
+               IncludedSupplements = new List<string>() { "Poef", "Kaas", "Zeep" },
+               Choices = x.Choices.Select(x => x.DefaultChoice.Name),
                ImageUrl = x.ImageUrl,
                CreatedAt = x.CreatedAt,
                UpdatedAt = x.UpdatedAt

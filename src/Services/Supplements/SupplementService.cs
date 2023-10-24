@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using System.Linq;
+using Bogus;
 using Domain.Common;
 using Domain.Exceptions;
 using Domain.Supplements;
@@ -27,7 +28,7 @@ public class SupplementService : ISupplementService
         Money price = new(model.Price);
         Supplement supplement = new(model.Name, model.Description, model.Category, price, model.AmountAvailable);
 
-        supplement.AddImageUrl(imageFaker.Image.PicsumUrl());
+        supplement.AddImageUrl(new Uri(imageFaker.Image.PicsumUrl()));
         dbContext.Supplements.Add(supplement);
         await dbContext.SaveChangesAsync();
 
@@ -71,7 +72,7 @@ public class SupplementService : ISupplementService
         var query = dbContext.Supplements.AsQueryable();
         query = dbContext.Supplements;
         int totalAmount = await query.CountAsync();
-       
+
         var items = await query
           .OrderBy(x => x.Id)
           .Select(x => new SupplementDto.Detail
@@ -81,7 +82,8 @@ public class SupplementService : ISupplementService
               Price = x.Price.Value,
               Description = x.Description,
               Category = x.Category,
-              ImageUrls = x.ImageUrls,
+              /*ImageUrls = x.ImageUrls,*/ //KAPOT TODO: fix
+              ImageUrls = new List<Uri>() { new Uri("https://picsum.photos/640/480/?image=213") },
               AmountAvailable = x.AmountAvailable,
               CreatedAt = x.CreatedAt,
               UpdatedAt = x.UpdatedAt
@@ -147,7 +149,7 @@ public class SupplementService : ISupplementService
 
         if (!string.IsNullOrWhiteSpace(request.Searchterm))
         {
-            query = query.Where(s => s.Category.Equals(request.Category, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(s => s.Category.Name.Equals(request.Category, StringComparison.OrdinalIgnoreCase));
         }
 
         int totalAmount = await query.CountAsync();

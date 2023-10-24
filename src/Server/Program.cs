@@ -1,3 +1,4 @@
+using System;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Foodtruck.Persistence;
@@ -7,6 +8,7 @@ using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);

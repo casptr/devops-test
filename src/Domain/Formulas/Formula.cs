@@ -14,8 +14,8 @@ public class Formula : Entity
 	private Money price = default!;
 	public Money Price { get => price; set => price = Guard.Against.Null(value, nameof(Price)); }
 
-	private string imageUrl = default!;
-	public string ImageUrl { get => imageUrl; set => imageUrl = Guard.Against.NullOrWhiteSpace(value, nameof(ImageUrl)); }
+	private Uri imageUrl = default!;
+	public Uri ImageUrl { get => imageUrl; set => imageUrl = Guard.Against.Null(value, nameof(ImageUrl)); }
 
 	private readonly List<FormulaSupplementChoice> choices = new();
 	public IReadOnlyCollection<FormulaSupplementChoice> Choices => choices.AsReadOnly();
@@ -28,7 +28,7 @@ public class Formula : Entity
 	/// </summary>
 	private Formula() { }
 
-	public Formula(string title, string description, Money price, string imageUrl)
+	public Formula(string title, string description, Money price, Uri imageUrl)
 	{
 		Title = title;
 		Description = description;
@@ -44,4 +44,13 @@ public class Formula : Entity
 
 		includedSupplements.Add(supplementLine);
 	}
+
+    public void AddSupplemenChoice(FormulaSupplementChoice supplementChoice)
+    {
+        Guard.Against.Null(supplementChoice, nameof(supplementChoice));
+        if (choices.Contains(supplementChoice))
+            throw new ApplicationException($"{nameof(Formula)} '{title}' already contains the supplementChoice:{supplementChoice.Name}");
+
+        choices.Add(supplementChoice);
+    }
 }
