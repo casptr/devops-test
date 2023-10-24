@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Foodtruck.Shared.Supplements;
 
@@ -23,7 +18,7 @@ public abstract class SupplementDto
         public string Category { get; set; }
         public int AmountAvailable { get; set; }
         public decimal Price { get; set; }
-        public string? ImageUrl { get; set; }
+        public IEnumerable<string>? ImageUrls { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }
@@ -36,7 +31,7 @@ public abstract class SupplementDto
         public string Category { get; set; }
         public int AmountAvailable { get; set; }
         public decimal Price { get; set; }
-        public string? ImageUrl { get; set; }
+        public IEnumerable<string>? ImageUrls { get; set; }
 
         public class Validator : AbstractValidator<Mutate>
         {

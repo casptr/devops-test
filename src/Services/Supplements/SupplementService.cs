@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Foodtruck.Shared.Supplements;
-using Domain;
-using Foodtruck.Persistence;
-using Microsoft.EntityFrameworkCore;
-using Domain.Exceptions;
-using Bogus;
+﻿using Bogus;
 using Domain.Common;
-using Foodtruck.Shared.Formulas;
+using Domain.Exceptions;
+using Domain.Supplements;
+using Foodtruck.Persistence;
+using Foodtruck.Shared.Supplements;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services.Supplements;
 public class SupplementService : ISupplementService
@@ -31,8 +25,9 @@ public class SupplementService : ISupplementService
         Faker imageFaker = new();
 
         Money price = new(model.Price);
-        Supplement supplement = new(model.Name, model.Description, model.Category, price, imageFaker.Image.PicsumUrl(), model.AmountAvailable);
+        Supplement supplement = new(model.Name, model.Description, model.Category, price, model.AmountAvailable);
 
+        supplement.AddImageUrl(imageFaker.Image.PicsumUrl());
         dbContext.Supplements.Add(supplement);
         await dbContext.SaveChangesAsync();
 
@@ -63,10 +58,12 @@ public class SupplementService : ISupplementService
         supplement.Description = model.Description!;
         supplement.Category = model.Category!;
         supplement.Price = price;
-        supplement.ImageUrl = model.ImageUrl!;
         supplement.AmountAvailable = model.AmountAvailable;
 
-        await dbContext.SaveChangesAsync();
+		//TODO: edit images
+		//supplement.ImageUrls = model.ImageUrls;
+
+		await dbContext.SaveChangesAsync();
     }
 
     public async Task<SupplementResult.Index> GetAllAsync()
@@ -84,7 +81,7 @@ public class SupplementService : ISupplementService
               Price = x.Price.Value,
               Description = x.Description,
               Category = x.Category,
-              ImageUrl = x.ImageUrl,
+              ImageUrls = x.ImageUrls,
               AmountAvailable = x.AmountAvailable,
               CreatedAt = x.CreatedAt,
               UpdatedAt = x.UpdatedAt
@@ -107,7 +104,7 @@ public class SupplementService : ISupplementService
             Price = x.Price.Value,
             Description = x.Description,
             Category = x.Category,
-            ImageUrl = x.ImageUrl,
+            ImageUrls = x.ImageUrls,
             AmountAvailable = x.AmountAvailable,
             CreatedAt = x.CreatedAt,
             UpdatedAt = x.UpdatedAt

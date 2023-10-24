@@ -1,6 +1,6 @@
-using Domain;
+using Domain.Formulas;
 
-namespace Quotation
+namespace QuotationTest
 {
     public class QuotationModel
     {

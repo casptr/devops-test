@@ -1,8 +1,8 @@
-﻿using Domain;
+﻿using Domain.Supplements;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BogusStore.Persistence.Configurations.Customers;
+namespace Foodtruck.Persistence.Configurations.Supplements;
 
 internal class SupplementConfiguration : IEntityTypeConfiguration<Supplement>
 {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
+﻿using Bogus;
 using Domain.Common;
 using Domain.Exceptions;
+using Domain.Formulas;
 using Foodtruck.Persistence;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
@@ -23,13 +19,13 @@ public class FormulaService : IFormulaService
 
     public async Task<int> CreateAsync(FormulaDto.Mutate model)
     {
-        if (await dbContext.Formulas.AnyAsync(x => x.Name == model.Name))
-            throw new EntityAlreadyExistsException(nameof(Formula), nameof(Formula.Name), model.Name);
+        if (await dbContext.Formulas.AnyAsync(x => x.Title == model.Title))
+            throw new EntityAlreadyExistsException(nameof(Formula), nameof(Formula.Title), model.Title);
 
         Faker imageFaker = new();
 
         Money price = new(model.Price);
-        Formula formula = new(model.Name, model.Description, price, imageFaker.Image.PicsumUrl());
+        Formula formula = new(model.Title, model.Description, price, imageFaker.Image.PicsumUrl());
 
         dbContext.Formulas.Add(formula);
         await dbContext.SaveChangesAsync();
@@ -57,7 +53,7 @@ public class FormulaService : IFormulaService
             throw new EntityNotFoundException(nameof(Formula), formulaId);
 
         Money price = new(model.Price);
-        formula.Name = model.Name!;
+        formula.Title = model.Title!;
         formula.Description = model.Description!;
         formula.Price = price;
         formula.ImageUrl = model.ImageUrl!;
@@ -72,10 +68,10 @@ public class FormulaService : IFormulaService
         FormulaDto.Detail? formula = await dbContext.Formulas.Select(x => new FormulaDto.Detail
         {
             Id = x.Id,
-            Name = x.Name,
+            Title = x.Title,
             Price = x.Price.Value,
             Description = x.Description,
-            IncludedSupplements = x.IncludedSupplements.Select(x => x.Name),
+            IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),
             ImageUrl = x.ImageUrl,
             CreatedAt = x.CreatedAt,
             UpdatedAt = x.UpdatedAt
@@ -98,10 +94,10 @@ public class FormulaService : IFormulaService
            .Select(x => new FormulaDto.Detail
            {
                Id = x.Id,
-               Name = x.Name,
+               Title = x.Title,
                Price = x.Price.Value,
                Description = x.Description,
-               IncludedSupplements = x.IncludedSupplements.Select(x => x.Name),
+               IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),
                ImageUrl = x.ImageUrl,
                CreatedAt = x.CreatedAt,
                UpdatedAt = x.UpdatedAt
