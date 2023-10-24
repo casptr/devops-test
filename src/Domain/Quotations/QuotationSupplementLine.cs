@@ -8,7 +8,7 @@ namespace Domain.Quotations
 	{
 		public string Name { get; } = default!;
 		public string Description { get; } = default!;
-		public string Category { get; } = default!;
+		public Category Category { get; } = default!;
 		public Money Price { get; } = default!;
 		public int Quantity { get; set; }
 		public bool IncludedInFormula { get; } = default!;

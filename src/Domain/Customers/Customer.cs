@@ -23,14 +23,13 @@ namespace Domain.Customers
 		}
 
 		private string phone = default!;
-		public string Phone { get => phone; set => Guard.Against.Null(value, nameof(Phone)); }
+		public string Phone { get => phone; set => phone = Guard.Against.Null(value, nameof(Phone)); }
 
 
 		public string? CompanyName { get; set; }
 		public string? CompanyNumber { get; set; }
 
 		public bool WantsMarketingMails { get; set; }
-
 
 		/// <summary>
 		/// Database Constructor
