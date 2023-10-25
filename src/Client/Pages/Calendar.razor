@@ -1,0 +1,61 @@
+﻿@page "/aanvraag/datum-kiezen"
+@using Foodtruck.Shared.Reservations;
+@inject IReservationService ReservationService
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-8">
+    <MudStack Spacing="8" AlignItems="AlignItems.Center">
+        <MudText Typo="Typo.h4" Align="Align.Center">Selecteer een datum</MudText>
+        <MudDateRangePicker Rounded="true" PickerVariant="PickerVariant.Static" @bind-DateRange="_dateRange" MinDate="DateTime.Now.Date" IsDateDisabledFunc="IsDateAlreadyBooked" Elevation="5" />
+        <MudStack Spacing="4" Justify="Justify.Center" Row="true">
+            <MudButton Variant="Variant.Outlined" DisableElevation="true" OnClick="Cancel">Annuleren</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="ConfirmDate">Datum selecteren</MudButton>
+        </MudStack>
+    </MudStack>
+</MudContainer>
+
+@code {
+    private DateRange _dateRange = new DateRange(DateTime.Now.Date, DateTime.Now.Date);
+
+
+
+    private IEnumerable<ReservationDto.Index>? reservations;
+
+
+    // public Func<DateTime, bool> IsDateAlreadyBooked
+    // {
+    //     get
+    //     {
+    //         return dateTime => reservations.All(reservation => dateTime < reservation.Start && dateTime > reservation.End);
+    //     }
+    // }
+    public Func<DateTime, bool> IsDateAlreadyBooked
+    {
+        get
+        {
+            return dateTime => reservations.Any(reservation => dateTime >= reservation.Start && dateTime <= reservation.End);
+        }
+    }
+
+
+    private void ConfirmDate()
+    {
+        Console.WriteLine($"{_dateRange.Start.Value.ToShortDateString()} to {_dateRange.End.Value.ToShortDateString()}");
+    }
+
+    private void Cancel()
+    {
+
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        reservations = await ReservationService.GetAllAsync();
+
+        foreach (var r in reservations)
+        {
+            Console.WriteLine($"{r.Id} - {r.Start} - {r.End}");
+        }
+        StateHasChanged();
+    }
+}
