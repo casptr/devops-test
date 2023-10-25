@@ -74,9 +74,15 @@ namespace Domain.Quotations
     //}
     public class Quotation : Entity
     {
+
         public Customer Customer { get; } = default!;
         private readonly List<QuotationVersion> versions = new();
         public IReadOnlyCollection<QuotationVersion> Versions => versions.AsReadOnly();
+
+        public Quotation(Customer customer)
+        {
+            Customer = Guard.Against.Null(customer, nameof(Customer));
+        }
 
         public void AddVersion(QuotationVersion version)
         {
@@ -121,7 +127,7 @@ namespace Domain.Quotations
             EventAddress = Guard.Against.Null(eventAddress, nameof(EventAddress));
             BillingAddress = Guard.Against.Null(billingAddress, nameof(BillingAddress));
 
-            Price = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Quantity)));
+            Price = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Quantity))); // TODO add foodtruck price here?
             VatTotal = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Supplement.Category.Vat) / 100M));
 
             List<Supplement> supplementsIncludedInFormula = formula.IncludedSupplements

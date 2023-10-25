@@ -1,11 +1,12 @@
 ﻿using Ardalis.GuardClauses;
 using Domain.Common;
-using System.Linq;
 
 namespace Domain.Formulas
 {
     public class Formula : Entity
     {
+        public Foodtruck Foodtruck { get; } = default!;
+
         private string title = default!;
         public string Title { get => title; set => title = Guard.Against.NullOrWhiteSpace(value, nameof(Title)); }
 
@@ -29,8 +30,9 @@ namespace Domain.Formulas
         /// </summary>
         private Formula() { }
 
-        public Formula(string title, string description, Money price, Uri imageUrl)
+        public Formula(Foodtruck foodtruck, string title, string description, Money price, Uri imageUrl)
         {
+            Foodtruck = Guard.Against.Null(foodtruck, nameof(Foodtruck));
             Title = title;
             Description = description;
             Price = price;

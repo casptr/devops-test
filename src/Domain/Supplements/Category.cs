@@ -3,7 +3,7 @@ using Domain.Common;
 
 namespace Domain.Supplements
 {
-    public class Category
+    public class Category : Entity
     {
         private string name = default!;
         public string Name
