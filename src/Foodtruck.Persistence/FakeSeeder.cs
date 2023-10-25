@@ -121,7 +121,7 @@ public class FakeSeeder
 
     private void SeedFormulas()
     {
-        var formulas = new FormulaFaker().AsTransient().UseSeed(109).Generate(1);
+        var formulas = new FormulaFaker().AsTransient().UseSeed(109).Generate(3);
 
         dbContext.Formulas.AddRange(formulas);
         dbContext.SaveChanges();

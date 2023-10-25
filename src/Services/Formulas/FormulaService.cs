@@ -91,9 +91,6 @@ public class FormulaService : IFormulaService
         var query = dbContext.Formulas.AsQueryable();
         query = dbContext.Formulas;
         int totalAmount = await query.CountAsync();
-        Formula? formula = await dbContext.Formulas.SingleOrDefaultAsync(x => x.Id == 1);
-        Console.WriteLine(formula.Choices.Count);
-        Console.WriteLine(formula.IncludedSupplements.Count);
         var items = await query
            .OrderBy(x => x.Id)
            .Select(x => new FormulaDto.Detail
@@ -125,14 +122,12 @@ public class FormulaService : IFormulaService
         if (formula is null)
             throw new EntityNotFoundException(nameof(Formula), formulaId);
         FormulaSupplementLineFaker faker = new();
-           
-            faker.RuleFor(x=>x.Id,f=>sid++);
+
+        faker.RuleFor(x => x.Id, f => sid++);
         formula.AddIncludedSupplementLine(faker.Generate(1).First());
         dbContext.Entry(formula).State = EntityState.Modified;
-        int update = await dbContext.SaveChangesAsync();
-        Console.WriteLine(update);
+        await dbContext.SaveChangesAsync();
     }
-
     public async Task AddFormulaSupplementChoice(int formulaId)
     {
         Formula? formula = await dbContext.Formulas.SingleOrDefaultAsync(x => x.Id == formulaId);
@@ -143,8 +138,7 @@ public class FormulaService : IFormulaService
         faker.RuleFor(x => x.Id, f => sid++);
         formula.AddSupplemenChoice(faker.Generate(1).First());
         dbContext.Entry(formula).State = EntityState.Modified;
-        int update = await dbContext.SaveChangesAsync();
-        Console.WriteLine(update);
+        await dbContext.SaveChangesAsync();
     }
 
     // TODO: Admin add supplement to formula

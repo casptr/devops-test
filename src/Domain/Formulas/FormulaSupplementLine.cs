@@ -17,7 +17,7 @@ public class FormulaSupplementLine : Entity
 
 	public FormulaSupplementLine(Formula formula, SupplementItem item)
 	{
-		Guard.Against.Null(item, nameof(SupplementItem));
+		//Guard.Against.Null(item, nameof(SupplementItem));
         Formula = Guard.Against.Null(formula, nameof(Formula));
 		Supplement = Guard.Against.Null(item.Supplement, nameof(Supplement));
 		Quantity = item.Quantity;
