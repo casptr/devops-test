@@ -1,12 +1,10 @@
 @page "/formule-uitbreiden"
-@using Packages
-@using System.Net.Http
 @inject HttpClient HttpClient
 
 <h1>Formule uitbreiden</h1>
 <p></p>
 
-@if (data == null || data.SupplementsList == null || data.SupplementsList.SupplementList == null)
+<!--@if (data == null || data.SupplementsList == null || data.SupplementsList.SupplementList == null)
 {
     <p>Loading data...</p>
 }
@@ -39,10 +37,10 @@ else
             </div>
         </div>
     }
-}
+}-->
 
 @code {
-    private PackageDataGenerator? data;
+    /*private PackageDataGenerator? data;
     private List<PackageSupplement>? SelectedSupplements;
 
     protected override async Task OnInitializedAsync()
@@ -71,5 +69,5 @@ else
             SelectedSupplements[index] = selectedSupplement;
         }
         }
-    }
+    }*/
 }
