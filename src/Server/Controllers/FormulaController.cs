@@ -1,4 +1,5 @@
-﻿using Foodtruck.Shared.Formulas;
+﻿using Foodtruck.Client.Supplements;
+using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,22 @@ public class FormulaController : Controller
     {
         await formulaService.DeleteAsync(formulaId);
         return NoContent();
+    }
+
+    [SwaggerOperation("Add supplementline to existing formula.")]
+    [HttpPost("{formulaId}/addsuppline")]
+    public async Task<IActionResult> AddSupplementLine(int formulaId)
+    {
+        await formulaService.AddFormulaSupplementLine(formulaId);
+        return CreatedAtAction(nameof(Create),  formulaId);
+    }
+
+    [SwaggerOperation("Add supplement choice to existing formula.")]
+    [HttpPost("{formulaId}/addsuppchoice")]
+    public async Task<IActionResult> AddSupplementChoice(int formulaId)
+    {
+        await formulaService.AddFormulaSupplementChoice(formulaId);
+        return CreatedAtAction(nameof(Create), formulaId);
     }
 
 }

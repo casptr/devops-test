@@ -15,6 +15,15 @@ public partial class SupplementsOverview
     {
         var response = await SupplementService.GetAllAsync();
         supplements = response.Supplements;
+
+        foreach(var supp in supplements)
+        {
+            await SupplementService.AddImage(supp.Id);
+        }
+       
+
+        response = await SupplementService.GetAllAsync();
+        supplements = response.Supplements;
     }
 
 }

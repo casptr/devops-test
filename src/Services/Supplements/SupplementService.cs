@@ -69,10 +69,10 @@ public class SupplementService : ISupplementService
 
     public async Task<SupplementResult.Index> GetAllAsync()
     {
+       
         var query = dbContext.Supplements.AsQueryable();
         query = dbContext.Supplements;
         int totalAmount = await query.CountAsync();
-
         var items = await query
           .OrderBy(x => x.Id)
           .Select(x => new SupplementDto.Detail
@@ -82,8 +82,7 @@ public class SupplementService : ISupplementService
               Price = x.Price.Value,
               Description = x.Description,
               Category = x.Category,
-              /*ImageUrls = x.ImageUrls,*/ //KAPOT TODO: fix
-              ImageUrls = new List<Uri>() { new Uri("https://picsum.photos/640/480/?image=213") },
+              ImageUrls = x.ImageUrls.ToList(), 
               AmountAvailable = x.AmountAvailable,
               CreatedAt = x.CreatedAt,
               UpdatedAt = x.UpdatedAt
@@ -93,6 +92,7 @@ public class SupplementService : ISupplementService
             Supplements = items,
             TotalAmount = totalAmount
         };
+        
         return result;
     }
 
@@ -170,5 +170,17 @@ public class SupplementService : ISupplementService
             TotalAmount = totalAmount
         };
         return result;
+    }
+    //image test
+    public async Task AddImage(int supplementId)
+    {
+        Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
+        if (supplement is null)
+            throw new EntityNotFoundException(nameof(Supplement), supplementId);
+        Faker faker = new();
+        var image = new Uri(faker.Image.PicsumUrl());
+        supplement.AddImageUrl(image);
+        dbContext.Entry(supplement).State = EntityState.Modified;
+        int update = await dbContext.SaveChangesAsync();
     }
 }

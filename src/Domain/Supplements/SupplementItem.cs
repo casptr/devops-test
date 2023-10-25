@@ -7,7 +7,7 @@ namespace Domain.Supplements
 	{
 		public Supplement Supplement { get; } = default!;
 		public int Quantity { get; } = default;
-
+		
 		public SupplementItem(Supplement supplement, int quantity)
 		{
 			Supplement = Guard.Against.Null(supplement, nameof(Supplement));

@@ -47,4 +47,9 @@ public class SupplementService : ISupplementService
         var response = await client.GetFromJsonAsync<SupplementResult.Index>($"{endpoint}/all");
         return response!;
     }
+
+    public async Task AddImage(int supplementId)
+    {
+        await client.PostAsJsonAsync($"{endpoint}/{supplementId}/addimage",supplementId);
+    }
 }

@@ -1,7 +1,10 @@
-﻿using Fakers.Customers;
+﻿using Bogus;
+using EntityFrameworkCore.Triggered.Extensions;
+using Fakers.Customers;
 using Fakers.Formulas;
 using Fakers.Quotations;
 using Fakers.Supplements;
+using Microsoft.EntityFrameworkCore;
 
 namespace Foodtruck.Persistence;
 
@@ -18,11 +21,11 @@ public class FakeSeeder
     {
 		SeedCustomers();
         SeedReservation();
-
+        SeedCategories();
+       
         SeedPricePerDayLines();
         SeedFoodtruck();
-		SeedSupplements();
-		SeedCategories();
+        SeedSupplements();
         SeedFormulas();
 		SeedFormulaSupplementChoices();
 		SeedFormulaSupplementLines();
@@ -30,6 +33,7 @@ public class FakeSeeder
 		SeedQuotation();
 	}
 
+   
 
     private void SeedQuotation()
 	{
@@ -102,8 +106,6 @@ public class FakeSeeder
     private void SeedSupplements()
     {
 		var supplements = new SupplementFaker().AsTransient().UseSeed(101).Generate(6);
-
-		
 		dbContext.Supplements.AddRange(supplements);
         dbContext.SaveChanges();
 
@@ -111,7 +113,7 @@ public class FakeSeeder
 
 	private void SeedCategories()
 	{
-        var category = new CategoryFaker().AsTransient().UseSeed(101).Generate(3);
+        var category = new CategoryFaker().AsTransient().UseSeed(100).Generate(3);
 
         dbContext.Category.AddRange(category);
         dbContext.SaveChanges();
@@ -119,7 +121,7 @@ public class FakeSeeder
 
     private void SeedFormulas()
     {
-        var formulas = new FormulaFaker().AsTransient().UseSeed(109).Generate(3);
+        var formulas = new FormulaFaker().AsTransient().UseSeed(109).Generate(1);
 
         dbContext.Formulas.AddRange(formulas);
         dbContext.SaveChanges();

@@ -60,4 +60,12 @@ public class SupplementController : ControllerBase
         return NoContent();
     }
 
+    [SwaggerOperation("Add image to existing supplement.")]
+    [HttpPost("{supplementId}/addimage")]  
+    public async Task<IActionResult> AddImage(int supplementId)
+    {
+        await supplementService.AddImage(supplementId);
+        return CreatedAtAction(nameof(Create), supplementId);
+    }
+
 }

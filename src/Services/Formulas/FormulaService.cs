@@ -2,16 +2,18 @@
 using Domain.Common;
 using Domain.Exceptions;
 using Domain.Formulas;
+using Fakers.Formulas;
 using Foodtruck.Persistence;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Services.Formulas;
 public class FormulaService : IFormulaService
 {
     private readonly BogusDbContext dbContext;
-
+    private static int sid = 1000;
     public FormulaService(BogusDbContext dbContext)
     {
         this.dbContext = dbContext;
@@ -89,7 +91,9 @@ public class FormulaService : IFormulaService
         var query = dbContext.Formulas.AsQueryable();
         query = dbContext.Formulas;
         int totalAmount = await query.CountAsync();
-
+        Formula? formula = await dbContext.Formulas.SingleOrDefaultAsync(x => x.Id == 1);
+        Console.WriteLine(formula.Choices.Count);
+        Console.WriteLine(formula.IncludedSupplements.Count);
         var items = await query
            .OrderBy(x => x.Id)
            .Select(x => new FormulaDto.Detail
@@ -100,7 +104,8 @@ public class FormulaService : IFormulaService
                Description = x.Description,
                /*IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),*/ //KAPOT TODO: fix
                IncludedSupplements = new List<string>() { "Poef", "Kaas", "Zeep" },
-               Choices = x.Choices.Select(x => x.DefaultChoice.Name),
+               //Choices = x.Choices.Select(x => x.DefaultChoice.Name),
+               Choices = new List<string>() { "Poef", "Kaas", "Zeep" },
                ImageUrl = x.ImageUrl,
                CreatedAt = x.CreatedAt,
                UpdatedAt = x.UpdatedAt
@@ -112,6 +117,34 @@ public class FormulaService : IFormulaService
             TotalAmount = totalAmount
         };
         return result;
+    }
+
+    public async Task AddFormulaSupplementLine(int formulaId)
+    {
+        Formula? formula = await dbContext.Formulas.SingleOrDefaultAsync(x => x.Id == formulaId);
+        if (formula is null)
+            throw new EntityNotFoundException(nameof(Formula), formulaId);
+        FormulaSupplementLineFaker faker = new();
+           
+            faker.RuleFor(x=>x.Id,f=>sid++);
+        formula.AddIncludedSupplementLine(faker.Generate(1).First());
+        dbContext.Entry(formula).State = EntityState.Modified;
+        int update = await dbContext.SaveChangesAsync();
+        Console.WriteLine(update);
+    }
+
+    public async Task AddFormulaSupplementChoice(int formulaId)
+    {
+        Formula? formula = await dbContext.Formulas.SingleOrDefaultAsync(x => x.Id == formulaId);
+        if (formula is null)
+            throw new EntityNotFoundException(nameof(Formula), formulaId);
+        FormulaSupplementChoiceFaker faker = new();
+
+        faker.RuleFor(x => x.Id, f => sid++);
+        formula.AddSupplemenChoice(faker.Generate(1).First());
+        dbContext.Entry(formula).State = EntityState.Modified;
+        int update = await dbContext.SaveChangesAsync();
+        Console.WriteLine(update);
     }
 
     // TODO: Admin add supplement to formula
