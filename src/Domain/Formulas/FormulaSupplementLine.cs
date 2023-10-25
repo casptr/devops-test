@@ -1,25 +1,25 @@
-﻿using Ardalis.GuardClauses;
+using Ardalis.GuardClauses;
 using Domain.Common;
 using Domain.Supplements;
 
-namespace Domain.Formulas
+namespace Domain.Formulas;
+
+public class FormulaSupplementLine : Entity
 {
-	public class FormulaSupplementLine : Entity
+	public Formula Formula { get; } = default!;
+	public Supplement Supplement { get; } = default!;
+	public int Quantity { get; } = default!;
+
+	/// <summary>
+	/// Database Constructor
+	/// </summary>
+	private FormulaSupplementLine() { }
+
+	public FormulaSupplementLine(Formula formula, SupplementItem item)
 	{
-		public Formula Formula { get; } = default!;
-		public Supplement Supplement { get; } = default!;
-		public int Quantity { get; } = default!;
-
-		/// <summary>
-		/// Database Constructor
-		/// </summary>
-		private FormulaSupplementLine() { }
-
-		public FormulaSupplementLine(Formula formula, SupplementItem item)
-		{
-			Formula = Guard.Against.Null(formula, nameof(Formula));
-			Supplement = Guard.Against.Null(item.Supplement, nameof(Supplement));
-			Quantity = item.Quantity;
-		}
+		//Guard.Against.Null(item, nameof(SupplementItem));
+        Formula = Guard.Against.Null(formula, nameof(Formula));
+		Supplement = Guard.Against.Null(item.Supplement, nameof(Supplement));
+		Quantity = item.Quantity;
 	}
 }

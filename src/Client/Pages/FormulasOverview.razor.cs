@@ -1,7 +1,6 @@
-﻿using Foodtruck.Shared.Formulas;
+using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Components;
-using System.Linq;
 
 namespace Foodtruck.Client.Pages;
 
@@ -13,6 +12,7 @@ public partial class FormulasOverview
     private IEnumerable<SupplementDto.Detail>? supplements;
     private IEnumerable<FormulaDto.Detail>? formulas;
     private ISet<string>? names;
+
     protected override async Task OnParametersSetAsync()
     {
         var response1 = await SupplementService.GetAllAsync();
@@ -20,5 +20,6 @@ public partial class FormulasOverview
 
         var response = await FormulaService.GetAllAsync();
         formulas = response.Formulas;
+       
     }
 }

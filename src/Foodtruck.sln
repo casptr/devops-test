@@ -10,11 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foodtruck.Shared", "Shared\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{FB03B6AF-78CA-4F7E-AD6E-E4E9F9DD2748}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{44C30895-AD41-44E9-A7ED-910578AA8A05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{44C30895-AD41-44E9-A7ED-910578AA8A05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foodtruck.Persistence", "Foodtruck.Persistence\Foodtruck.Persistence.csproj", "{80E3DB2F-EC05-44B4-82D4-98D8458C2F1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Foodtruck.Persistence", "Foodtruck.Persistence\Foodtruck.Persistence.csproj", "{80E3DB2F-EC05-44B4-82D4-98D8458C2F1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakers", "Fakers\Fakers.csproj", "{1280A792-6B18-4B8D-852F-79F2F83E79AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakers", "Fakers\Fakers.csproj", "{1280A792-6B18-4B8D-852F-79F2F83E79AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

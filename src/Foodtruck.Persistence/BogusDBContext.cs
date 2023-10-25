@@ -1,24 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Domain;
 using BogusStore.Persistence.Triggers;
-using System.Reflection.Metadata;
-using BogusStore.Persistence.Configurations.Customers;
+using Domain.Supplements;
+using Domain.Formulas;
+using Domain.Customers;
+using Domain.Quotations;
+using Newtonsoft.Json;
 
 namespace Foodtruck.Persistence;
 
 public class BogusDbContext : DbContext
 {
-    public DbSet<Supplement> Supplements => Set<Supplement>();
-    public DbSet<Formula> Formulas => Set<Formula>();
+	#region Formulas
+	public DbSet<Formula> Formulas => Set<Formula>();
+	public DbSet<FormulaSupplementLine> FormulaSupplementLines => Set<FormulaSupplementLine>();
+	public DbSet<FormulaSupplementChoice> FormulaSupplementChoices => Set<FormulaSupplementChoice>();
+	public DbSet<Domain.Formulas.Foodtruck> Foodtruck => Set<Domain.Formulas.Foodtruck>();
+    public DbSet<PricePerDayLine> PricePerDayLines => Set<PricePerDayLine>();
+	#endregion
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	#region Supplements
+	public DbSet<Supplement> Supplements => Set<Supplement>();
+    public DbSet<Category> Category => Set<Category>();
+    #endregion
+
+    #region Customers
+    public DbSet<Customer> Customers => Set<Customer>();
+    #endregion
+
+    #region Quotations
+    public DbSet<Quotation> Quotations => Set<Quotation>();
+    public DbSet<QuotationSupplementLine> QuotationSupplementLines => Set<QuotationSupplementLine>();
+    public DbSet<Reservation> Reservations => Set<Reservation>();
+    public DbSet<QuotationVersion> QuotationVersions => Set<QuotationVersion>();
+	#endregion
+
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         optionsBuilder.EnableDetailedErrors();
@@ -33,6 +50,20 @@ public class BogusDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        modelBuilder.Entity<Supplement>().Property(p => p.ImageUrls)
+        .HasConversion(
+        v => JsonConvert.SerializeObject(v),
+        v => JsonConvert.DeserializeObject<List<Uri>>(v));
+
+        modelBuilder.Entity<Formula>().Property(p => p.Choices)
+       .HasConversion(
+       v => JsonConvert.SerializeObject(v),
+       v => JsonConvert.DeserializeObject<List<FormulaSupplementChoice>>(v));
+
+        modelBuilder.Entity<Formula>().Property(p => p.IncludedSupplements)
+      .HasConversion(
+      v => JsonConvert.SerializeObject(v),
+      v => JsonConvert.DeserializeObject<List<FormulaSupplementLine>>(v));
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

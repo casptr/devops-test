@@ -41,5 +41,14 @@ public class FormulaService : IFormulaService
         var response = await client.GetFromJsonAsync<FormulaResult.Index>($"{endpoint}/all");
         return response!;
     }
-    
+
+    public async Task AddFormulaSupplementLine(int formulaId)
+    {
+        await client.PostAsJsonAsync($"{endpoint}/{formulaId}/addsuppline",formulaId);
+    }
+
+    public async Task AddFormulaSupplementChoice(int formulaId)
+    {
+        await client.PostAsJsonAsync($"{endpoint}/{formulaId}/addsuppchoice", formulaId);
+    }
 }

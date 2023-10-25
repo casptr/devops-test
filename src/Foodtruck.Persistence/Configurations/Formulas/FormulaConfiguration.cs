@@ -1,10 +1,8 @@
-﻿using System.Reflection.Emit;
-using System.Reflection.Metadata;
-using Domain;
+﻿using Domain.Formulas;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace BogusStore.Persistence.Configurations.Customers;
+namespace Foodtruck.Persistence.Configurations.Formulas;
 
 internal class FormulaConfiguration : IEntityTypeConfiguration<Formula>
 {

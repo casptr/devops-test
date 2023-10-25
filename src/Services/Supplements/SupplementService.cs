@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Foodtruck.Shared.Supplements;
-using Domain;
-using Foodtruck.Persistence;
-using Microsoft.EntityFrameworkCore;
-using Domain.Exceptions;
+﻿using System.Linq;
 using Bogus;
 using Domain.Common;
-using Foodtruck.Shared.Formulas;
+using Domain.Exceptions;
+using Domain.Supplements;
+using Foodtruck.Persistence;
+using Foodtruck.Shared.Supplements;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services.Supplements;
 public class SupplementService : ISupplementService
@@ -31,8 +26,9 @@ public class SupplementService : ISupplementService
         Faker imageFaker = new();
 
         Money price = new(model.Price);
-        Supplement supplement = new(model.Name, model.Description, model.Category, price, imageFaker.Image.PicsumUrl(), model.AmountAvailable);
+        Supplement supplement = new(model.Name, model.Description, model.Category, price, model.AmountAvailable);
 
+        supplement.AddImageUrl(new Uri(imageFaker.Image.PicsumUrl()));
         dbContext.Supplements.Add(supplement);
         await dbContext.SaveChangesAsync();
 
@@ -63,18 +59,20 @@ public class SupplementService : ISupplementService
         supplement.Description = model.Description!;
         supplement.Category = model.Category!;
         supplement.Price = price;
-        supplement.ImageUrl = model.ImageUrl!;
         supplement.AmountAvailable = model.AmountAvailable;
 
-        await dbContext.SaveChangesAsync();
+		//TODO: edit images
+		//supplement.ImageUrls = model.ImageUrls;
+
+		await dbContext.SaveChangesAsync();
     }
 
     public async Task<SupplementResult.Index> GetAllAsync()
     {
+       
         var query = dbContext.Supplements.AsQueryable();
         query = dbContext.Supplements;
         int totalAmount = await query.CountAsync();
-       
         var items = await query
           .OrderBy(x => x.Id)
           .Select(x => new SupplementDto.Detail
@@ -84,7 +82,7 @@ public class SupplementService : ISupplementService
               Price = x.Price.Value,
               Description = x.Description,
               Category = x.Category,
-              ImageUrl = x.ImageUrl,
+              ImageUrls = x.ImageUrls.ToList(), 
               AmountAvailable = x.AmountAvailable,
               CreatedAt = x.CreatedAt,
               UpdatedAt = x.UpdatedAt
@@ -94,6 +92,7 @@ public class SupplementService : ISupplementService
             Supplements = items,
             TotalAmount = totalAmount
         };
+        
         return result;
     }
 
@@ -107,7 +106,7 @@ public class SupplementService : ISupplementService
             Price = x.Price.Value,
             Description = x.Description,
             Category = x.Category,
-            ImageUrl = x.ImageUrl,
+            ImageUrls = x.ImageUrls,
             AmountAvailable = x.AmountAvailable,
             CreatedAt = x.CreatedAt,
             UpdatedAt = x.UpdatedAt
@@ -150,7 +149,7 @@ public class SupplementService : ISupplementService
 
         if (!string.IsNullOrWhiteSpace(request.Searchterm))
         {
-            query = query.Where(s => s.Category.Equals(request.Category, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(s => s.Category.Name.Equals(request.Category, StringComparison.OrdinalIgnoreCase));
         }
 
         int totalAmount = await query.CountAsync();
@@ -171,5 +170,17 @@ public class SupplementService : ISupplementService
             TotalAmount = totalAmount
         };
         return result;
+    }
+    //image test
+    public async Task AddImage(int supplementId)
+    {
+        Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
+        if (supplement is null)
+            throw new EntityNotFoundException(nameof(Supplement), supplementId);
+        Faker faker = new();
+        var image = new Uri(faker.Image.PicsumUrl());
+        supplement.AddImageUrl(image);
+        dbContext.Entry(supplement).State = EntityState.Modified;
+        int update = await dbContext.SaveChangesAsync();
     }
 }

@@ -14,4 +14,5 @@ public interface ISupplementService
     Task EditAsync(int supplementId, SupplementDto.Mutate model);
     Task DeleteAsync(int supplementId);
     Task<SupplementResult.Index> GetAllAsync();
+    Task AddImage(int supplementId);
 }

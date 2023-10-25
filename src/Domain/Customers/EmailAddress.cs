@@ -1,45 +1,44 @@
-﻿using Domain.Common;
+using Domain.Common;
 using System.Net.Mail;
 
-namespace Domain.Customers
+namespace Domain.Customers;
+
+public class EmailAddress : ValueObject
 {
-    public class EmailAddress : ValueObject
+    public string Value { get; } = default!;
+
+    /// <summary>
+    /// Database Constructor
+    /// </summary>
+    private EmailAddress() { }
+
+    public EmailAddress(string value)
     {
-        public string Value { get; } = default!;
+        if (!IsValid(value))
+            throw new ApplicationException($"Invalid {nameof(EmailAddress)}: {value}");
 
-        /// <summary>
-        /// Database Constructor
-        /// </summary>
-        private EmailAddress() { }
+        Value = value.Trim();
+    }
 
-        public EmailAddress(string value)
+    private static bool IsValid(string emailaddress)
+    {
+        try
         {
-            if (!IsValid(value))
-                throw new ApplicationException($"Invalid {nameof(EmailAddress)}: {value}");
+            MailAddress m = new(emailaddress);
 
-            Value = value.Trim();
+            return true;
         }
-
-        private static bool IsValid(string emailaddress)
+        catch (FormatException)
         {
-            try
-            {
-                MailAddress m = new(emailaddress);
-
-                return true;
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
-        }
-
-        protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return Value.ToLowerInvariant();
+            return false;
         }
     }
 
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return Value.ToLowerInvariant();
+    }
+}
 
 
 
