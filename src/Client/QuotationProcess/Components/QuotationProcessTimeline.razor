@@ -1,0 +1,42 @@
+﻿<MudTimeline TimelineOrientation="TimelineOrientation.Horizontal" TimelinePosition="TimelinePosition.Top" Class="mb-10">
+    @for (var i = 0; i < steps.Length; i++)
+    {
+        int stepIndex = i;
+        <MudTimelineItem Color="@GetColor(stepIndex)" Variant="@GetVariant(stepIndex)">
+            <ItemDot>
+                @if (stepIndex < (int)currentStep)
+                {
+                    <MudIcon Icon="@Icons.Material.Filled.Check" />
+                }
+                else if (stepIndex == (int)currentStep)
+                {
+                    <MudIcon Icon="@Icons.Material.Outlined.Circle" />
+                }
+            </ItemDot>
+            <ItemContent>
+                <MudText Align="Align.Center" Style="margin-top: -30px;">@steps[stepIndex].StepTitle</MudText>
+            </ItemContent>
+        </MudTimelineItem>
+    }
+</MudTimeline>
+
+@code {
+    [EditorRequired][Parameter] public QuotationProcessStep currentStep { get; set; }
+
+    public QuotationProcessTimelineStep[] steps = {
+        new QuotationProcessTimelineStep(QuotationProcessStep.CHOOSE_DATE, "Datum Selecteren"),
+        new QuotationProcessTimelineStep(QuotationProcessStep.SELECT_FORMULA, "Formule Selecteren"),
+        new QuotationProcessTimelineStep(QuotationProcessStep.ADD_SUPPLEMENTS, "Formule Uitbreiden"),
+        new QuotationProcessTimelineStep(QuotationProcessStep.ENTER_DETAILS, "Gegevens Invullen")
+    };
+
+    public Variant GetVariant(int stepIndex)
+    {
+        return stepIndex < (int)currentStep ? Variant.Filled : Variant.Outlined; // Filled if completed
+    }
+
+    public Color GetColor(int stepIndex)
+    {
+        return stepIndex <= (int)currentStep ? Color.Primary : Color.Default; // Primary color if completed or current step
+    }
+}

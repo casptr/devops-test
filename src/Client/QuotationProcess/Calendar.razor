@@ -1,35 +1,10 @@
 ﻿@page "/aanvraag/datum-kiezen"
+@using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Shared.Reservations;
 @inject IReservationService ReservationService
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
-    <MudTimeline TimelineOrientation="TimelineOrientation.Horizontal" TimelinePosition="TimelinePosition.Top" Class="mb-10">
-        <MudTimelineItem Color="Color.Primary" Variant="Variant.Filled">
-            <ItemDot>
-                <MudIcon Icon="@Icons.Material.Filled.Check" />
-            </ItemDot>
-            <ItemContent>
-                <MudText Align="Align.Center" Style="margin-top: -30px;">Stap voltooid</MudText>
-            </ItemContent>
-        </MudTimelineItem>
-        <MudTimelineItem Color="Color.Primary">
-            <ItemDot>
-                <MudIcon Icon="@Icons.Material.Outlined.Circle" />
-            </ItemDot>
-            <ItemContent>
-                <MudText Align="Align.Center" Style="margin-top: -30px;">Datum selecteren</MudText>
-            </ItemContent>
-        </MudTimelineItem>
-        <MudTimelineItem>
-            <MudText Align="Align.Center" Style="margin-top: -30px;">Formule selecteren</MudText>
-        </MudTimelineItem>
-        <MudTimelineItem>
-            <MudText Align="Align.Center" Style="margin-top: -30px;">Extra's selecteren</MudText>
-        </MudTimelineItem>
-        <MudTimelineItem>
-            <MudText Align="Align.Center" Style="margin-top: -30px;">Gegevens invullen</MudText>
-        </MudTimelineItem>
-    </MudTimeline>
+    <QuotationProcessTimeline currentStep="QuotationProcessStep.CHOOSE_DATE" />
 
     <MudStack Spacing="10">
         <MudText Typo="Typo.h4" Align="Align.Center">Selecteer een datum</MudText>
