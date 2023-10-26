@@ -11,7 +11,6 @@ public abstract class QuotationDto{
     public class RequestForQuotation
     {
         public QuotationVersion QuotationVersion {get; set;} = default!;
-
     }
 
     public class Mutate
