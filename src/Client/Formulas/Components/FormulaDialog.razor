@@ -1,0 +1,39 @@
+﻿@using Foodtruck.Shared.Supplements
+@using Foodtruck.Shared.Formulas
+
+<MudDialog DefaultFocus="DefaultFocus.LastChild">
+    <DialogContent>
+        <MudForm>
+            <MudSelect T="string" Label="Basis Supplementen" @bind-Value="CurrentSelectedSupplement">
+                @foreach (var supplement in Formula.IncludedSupplements)
+                {
+                    <MudSelectItem Value="@(supplement)" />
+                }
+            </MudSelect>
+            @if (CurrentSelectedSupplement is not null)
+            {
+                <MudCard Outlined="true" Class="mt-3">
+                    <MudCardContent>
+                        <MudSelect T="string" Label="Geselecteerd supplement wijzigen" FullWidth="true">
+                            <MudSelectItem Value="@("Jupiler")" />
+                            <MudSelectItem Value="@("Maes")" />
+                            <MudSelectItem Value="@("Crystal")" />
+                        </MudSelect>
+                        <MudNumericField Label="Aantal" T="int" Style="width: 30%;" Value="1" Min="1" />
+                    </MudCardContent>
+                </MudCard>
+            }
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter, EditorRequired] public FormulaDto.Detail? Formula { get; set; }
+    private string? CurrentSelectedSupplement;
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+}

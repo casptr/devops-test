@@ -21,6 +21,11 @@ public abstract class FormulaDto
         public DateTime UpdatedAt { get; set; }
         public IEnumerable<string>? IncludedSupplements { get; set; }
         public IEnumerable<string>? Choices { get; set; }
+
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 
     // Worden alle values meegestuurd of enkel degene die geweizigd zijn
