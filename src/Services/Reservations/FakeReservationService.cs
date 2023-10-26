@@ -1,10 +1,5 @@
 ﻿using Bogus;
 using Foodtruck.Shared.Reservations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Reservations
 {
@@ -25,7 +20,6 @@ namespace Services.Reservations
             .RuleFor(x => x.End, (f, current) => current.Start.AddDays(random.Next(0, 5))).FinishWith((f, current) => prev = current);
 
             reservations = reservationFaker.Generate(25);
-
         }
 
 
