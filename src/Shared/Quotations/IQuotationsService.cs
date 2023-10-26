@@ -4,5 +4,5 @@ namespace Foodtruck.Shared.Quotations;
 
 public interface IQuotationService
 {
-    Task<int> CreateAsync(QuotationDto.Mutate model);
+    Task<int> CreateAsync(QuotationDto.Create model);
 }
