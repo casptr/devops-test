@@ -95,3 +95,9 @@ a, .btn-link {
 .offerte-aanvragen-button {
     width: var(--width-company-info);
 }
+
+.datum-aanvraag-picker .mud-picker-calendar-content {
+    display: flex ;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
