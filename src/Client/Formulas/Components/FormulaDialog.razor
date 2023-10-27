@@ -22,14 +22,14 @@
 					<MudText>@(choice.Name)</MudText>
 					</MudItem>
 					<MudItem xs="3" Class="d-flex align-center justify-start">
-					@if (CurrentChoice.IsQuantityNumberOfGuests)
-				{
+						@if (CurrentChoice.IsQuantityNumberOfGuests)
+					{
 						<MudCheckBox Color="Color.Primary" Style="width: 150px;" Checked="choice == CurrentChoice.DefaultChoice" />
-				}
-				else
-				{
+					}
+					else
+					{
 						<MudNumericField Variant="Variant.Outlined" Value="choice == CurrentChoice.DefaultChoice ? CurrentChoice.MinQuantity : 0" Min="0" />
-				}
+					}
 				</MudItem>
 			</MudGrid>
 			<MudDivider />
@@ -37,6 +37,10 @@
 	</DialogContent>
 	<DialogActions>
 		<MudButton OnClick="Cancel">Annuleren</MudButton>
+		@if (CurrentIndex != 0)
+		{
+			<MudButton OnClick="Previous">Vorige</MudButton>
+		}
 		<MudButton Color="Color.Primary" OnClick="Submit">Doorgaan</MudButton>
 	</DialogActions>
 
@@ -47,7 +51,7 @@
 	[Parameter, EditorRequired] public FormulaDto.Detail? Formula { get; set; }
 	private FormulaSupplementChoiceDto.Detail? CurrentSelectedSupplement;
 	private FormulaSupplementChoiceDto.Detail? CurrentChoice { get; set; }
-
+	private int CurrentIndex;
 	protected override void OnParametersSet()
 	{
 		CurrentChoice = Formula!.Choices.ElementAt(0);
@@ -55,15 +59,25 @@
 
 	void Submit()
 	{
-		int currentIndex = Formula!.Choices.ToList().IndexOf(CurrentChoice);
-		currentIndex++;
+		CurrentIndex = Formula!.Choices.ToList().IndexOf(CurrentChoice);
+		CurrentIndex++;
 
-		if (currentIndex == Formula?.Choices.Count())
+		if (CurrentIndex == Formula?.Choices.Count())
 		{
 			MudDialog.Close(DialogResult.Ok(true));
 			return;
 		}
-		CurrentChoice = Formula?.Choices.ElementAt(currentIndex);
+		CurrentChoice = Formula?.Choices.ElementAt(CurrentIndex);
 	}
-	void Cancel() => MudDialog.Cancel();
+	void Cancel()
+	{
+		MudDialog.Cancel();
+	}
+	void Previous()
+	{
+		CurrentIndex--;
+		CurrentChoice = Formula!.Choices.ElementAt(CurrentIndex);
+
+	}
+
 }
