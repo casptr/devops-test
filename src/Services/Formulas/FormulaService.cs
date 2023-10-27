@@ -64,7 +64,6 @@ public class FormulaService : IFormulaService
         await dbContext.SaveChangesAsync();
     }
 
-
     public async Task<FormulaDto.Detail> GetDetailAsync(int formulaId)
     {
         FormulaDto.Detail? formula = await dbContext.Formulas.Select(x => new FormulaDto.Detail
@@ -73,8 +72,55 @@ public class FormulaService : IFormulaService
             Title = x.Title,
             Price = x.Price.Value,
             Description = x.Description,
-            IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),
-            Choices = x.Choices.Select(x => x.DefaultChoice.Name),
+            IncludedSupplements = x.IncludedSupplements.Select(x => new FormulaSupplementLineDto.Detail
+            {
+                Quantity = x.Quantity,
+                Id = x.Id,
+                Supplement = new SupplementDto.Detail
+                {
+                    Id = x.Supplement.Id,
+                    Name = x.Supplement.Name,
+                    Category = new CategoryDto.Index { Name = x.Supplement.Category.Name },
+                    AmountAvailable = x.Supplement.AmountAvailable,
+                    Description = x.Supplement.Description,
+                    Price = x.Supplement.Price.Value,
+                    CreatedAt = x.Supplement.CreatedAt,
+                    UpdatedAt = x.Supplement.UpdatedAt,
+                    ImageUrls = x.Supplement.ImageUrls
+                }
+            }), 
+
+            Choices = x.Choices.Select(x => new FormulaSupplementChoiceDto.Detail
+            {
+                Id = x.Id,
+                DefaultChoice = new SupplementDto.Detail
+                {
+                    Id = x.DefaultChoice.Id,
+                    Name = x.DefaultChoice.Name,
+                    Category = new CategoryDto.Index { Name = x.DefaultChoice.Category.Name },
+                    AmountAvailable = x.DefaultChoice.AmountAvailable,
+                    Description = x.DefaultChoice.Description,
+                    Price = x.DefaultChoice.Price.Value,
+                    CreatedAt = x.DefaultChoice.CreatedAt,
+                    UpdatedAt = x.DefaultChoice.UpdatedAt,
+                    ImageUrls = x.DefaultChoice.ImageUrls
+                },
+                IsQuantityNumberOfGuests = x.IsQuantityNumberOfGuests,
+                MinQuantity = x.MinQuantity,
+                Name = x.Name,
+                SupplementsToChoose = x.SupplementsToChoose.Select(x => new SupplementDto.Detail
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Category = new CategoryDto.Index { Name = x.Category.Name },
+                    AmountAvailable = x.AmountAvailable,
+                    Description = x.Description,
+                    Price = x.Price.Value,
+                    CreatedAt = x.CreatedAt,
+                    UpdatedAt = x.UpdatedAt,
+                    ImageUrls = x.ImageUrls
+                })
+            }),
             ImageUrl = x.ImageUrl,
             CreatedAt = x.CreatedAt,
             UpdatedAt = x.UpdatedAt
@@ -99,10 +145,56 @@ public class FormulaService : IFormulaService
                Title = x.Title,
                Price = x.Price.Value,
                Description = x.Description,
-               /*IncludedSupplements = x.IncludedSupplements.Select(x => x.Supplement.Name),*/ //KAPOT TODO: fix
-               IncludedSupplements = new List<string>() { "Poef", "Kaas", "Zeep" },
-               //Choices = x.Choices.Select(x => x.DefaultChoice.Name),
-               Choices = new List<string>() { "Poef", "Kaas", "Zeep" },
+               IncludedSupplements = x.IncludedSupplements.Select(x => new FormulaSupplementLineDto.Detail
+               {
+                   Quantity = x.Quantity,
+                   Id = x.Id,
+                   Supplement = new SupplementDto.Detail
+                   {
+                       Id = x.Supplement.Id,
+                       Name = x.Supplement.Name,
+                       Category =  new CategoryDto.Index { Name = x.Supplement.Category.Name },
+                       AmountAvailable = x.Supplement.AmountAvailable,
+                       Description = x.Supplement.Description,
+                       Price = x.Supplement.Price.Value,
+                       CreatedAt = x.Supplement.CreatedAt,
+                       UpdatedAt = x.Supplement.UpdatedAt,
+                       ImageUrls = x.Supplement.ImageUrls
+                   }
+               }), 
+
+               Choices = x.Choices.Select(x => new FormulaSupplementChoiceDto.Detail
+               {
+                   Id = x.Id,
+                   DefaultChoice = new SupplementDto.Detail
+                   {
+                       Id = x.DefaultChoice.Id,
+                       Name = x.DefaultChoice.Name,
+                       Category = new CategoryDto.Index { Name = x.DefaultChoice.Category.Name },
+                       AmountAvailable = x.DefaultChoice.AmountAvailable,
+                       Description = x.DefaultChoice.Description,
+                       Price = x.DefaultChoice.Price.Value,
+                       CreatedAt = x.DefaultChoice.CreatedAt,
+                       UpdatedAt = x.DefaultChoice.UpdatedAt,
+                       ImageUrls = x.DefaultChoice.ImageUrls
+                   },
+                   IsQuantityNumberOfGuests = x.IsQuantityNumberOfGuests,
+                   MinQuantity = x.MinQuantity,
+                   Name = x.Name,
+                   SupplementsToChoose = x.SupplementsToChoose.Select(x => new SupplementDto.Detail
+                   {
+                       Id = x.Id,
+                       Name = x.Name,
+                       Category = new CategoryDto.Index { Name = x.Category.Name },
+                       AmountAvailable = x.AmountAvailable,
+                       Description = x.Description,
+                       Price = x.Price.Value,
+                       CreatedAt = x.CreatedAt,
+                       UpdatedAt = x.UpdatedAt,
+                       ImageUrls = x.ImageUrls
+                   })
+               }),
+
                ImageUrl = x.ImageUrl,
                CreatedAt = x.CreatedAt,
                UpdatedAt = x.UpdatedAt

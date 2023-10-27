@@ -19,13 +19,9 @@ public abstract class FormulaDto
         public Uri? ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public IEnumerable<string>? IncludedSupplements { get; set; }
-        public IEnumerable<string>? Choices { get; set; }
+        public IEnumerable<FormulaSupplementLineDto.Detail>? IncludedSupplements { get; set; }
+        public IEnumerable<FormulaSupplementChoiceDto.Detail>? Choices { get; set; }
 
-        public override string ToString()
-        {
-            return Title;
-        }
     }
 
     // Worden alle values meegestuurd of enkel degene die geweizigd zijn

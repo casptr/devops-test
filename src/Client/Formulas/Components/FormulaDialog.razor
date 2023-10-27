@@ -2,38 +2,68 @@
 @using Foodtruck.Shared.Formulas
 
 <MudDialog DefaultFocus="DefaultFocus.LastChild">
-    <DialogContent>
-        <MudForm>
-            <MudSelect T="string" Label="Basis Supplementen" @bind-Value="CurrentSelectedSupplement">
-                @foreach (var supplement in Formula.IncludedSupplements)
-                {
-                    <MudSelectItem Value="@(supplement)" />
-                }
-            </MudSelect>
-            @if (CurrentSelectedSupplement is not null)
-            {
-                <MudCard Outlined="true" Class="mt-3">
-                    <MudCardContent>
-                        <MudSelect T="string" Label="Geselecteerd supplement wijzigen" FullWidth="true">
-                            <MudSelectItem Value="@("Jupiler")" />
-                            <MudSelectItem Value="@("Maes")" />
-                            <MudSelectItem Value="@("Crystal")" />
-                        </MudSelect>
-                        <MudNumericField Label="Aantal" T="int" Style="width: 30%;" Value="1" Min="1" />
-                    </MudCardContent>
-                </MudCard>
-            }
-        </MudForm>
-    </DialogContent>
-    <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
-    </DialogActions>
+	<DialogContent>
+		@if (CurrentChoice.IsQuantityNumberOfGuests)
+		{
+			<MudText Class="mb-6">Gelieve een of meerdere keuzes te maken.</MudText>
+		}
+		else
+		{
+			<MudText Class="mb-6">Gelieve @(CurrentChoice!.MinQuantity) stuks te kiezen.</MudText>
+		}
+		@foreach (var choice in CurrentChoice.SupplementsToChoose)
+		{
+			<MudGrid Class="my-3">
+				<MudItem xs="4" Class="d-flex align-center justify-start">
+					<MudImage Src="@(choice.ImageUrls.ElementAt(0).ToString())" Width="100" />
+				</MudItem>
+
+				<MudItem xs="5" Class="d-flex align-center justify-start">
+					<MudText>@(choice.Name)</MudText>
+					</MudItem>
+					<MudItem xs="3" Class="d-flex align-center justify-start">
+					@if (CurrentChoice.IsQuantityNumberOfGuests)
+				{
+						<MudCheckBox Color="Color.Primary" Style="width: 150px;" Checked="choice == CurrentChoice.DefaultChoice" />
+				}
+				else
+				{
+						<MudNumericField Variant="Variant.Outlined" Value="choice == CurrentChoice.DefaultChoice ? CurrentChoice.MinQuantity : 0" Min="0" />
+				}
+				</MudItem>
+			</MudGrid>
+			<MudDivider />
+		}
+	</DialogContent>
+	<DialogActions>
+		<MudButton OnClick="Cancel">Annuleren</MudButton>
+		<MudButton Color="Color.Primary" OnClick="Submit">Doorgaan</MudButton>
+	</DialogActions>
+
+
 </MudDialog>
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    [Parameter, EditorRequired] public FormulaDto.Detail? Formula { get; set; }
-    private string? CurrentSelectedSupplement;
-    void Submit() => MudDialog.Close(DialogResult.Ok(true));
-    void Cancel() => MudDialog.Cancel();
+	[CascadingParameter] MudDialogInstance MudDialog { get; set; }
+	[Parameter, EditorRequired] public FormulaDto.Detail? Formula { get; set; }
+	private FormulaSupplementChoiceDto.Detail? CurrentSelectedSupplement;
+	private FormulaSupplementChoiceDto.Detail? CurrentChoice { get; set; }
+
+	protected override void OnParametersSet()
+	{
+		CurrentChoice = Formula!.Choices.ElementAt(0);
+	}
+
+	void Submit()
+	{
+		int currentIndex = Formula!.Choices.ToList().IndexOf(CurrentChoice);
+		currentIndex++;
+
+		if (currentIndex == Formula?.Choices.Count())
+		{
+			MudDialog.Close(DialogResult.Ok(true));
+			return;
+		}
+		CurrentChoice = Formula?.Choices.ElementAt(currentIndex);
+	}
+	void Cancel() => MudDialog.Cancel();
 }
