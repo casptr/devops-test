@@ -26,8 +26,12 @@ namespace Foodtruck.Client.Formulas.Components
             names.ForEach(n => Console.WriteLine(n));
         }
 
+        private FormulaDto.Detail? CurrentSelectedFormula { get; set; }
+
         private void OpenDialog(FormulaDto.Detail formula)
         {
+            CurrentSelectedFormula = formula; // temp
+
             var parameters = new DialogParameters<FormulaDialog>
             {
                 {
