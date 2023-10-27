@@ -11,6 +11,7 @@ using Foodtruck.Client.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Services.Reservations;
 using Foodtruck.Shared.Reservations;
+using Services.Formulas;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -27,7 +28,8 @@ builder.Services.AddHttpClient("Project.ServerAPI", client => client.BaseAddress
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Project.ServerAPI"));
 
-builder.Services.AddScoped<IFormulaService, FormulaService>();
+//builder.Services.AddScoped<IFormulaService, FormulaService>();
+builder.Services.AddScoped<IFormulaService, FakeFormulaService>();
 builder.Services.AddScoped<ISupplementService, SupplementService>();
 builder.Services.AddScoped<IReservationService, FakeReservationService>();
 
