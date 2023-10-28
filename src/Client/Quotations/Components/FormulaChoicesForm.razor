@@ -1,0 +1,66 @@
+@namespace Foodtruck.Client.Quotations
+@if (formulas is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    @if (formulas != null)
+    {
+        <MudList Clickable="true">
+        <MudListSubheader >Formule keuze</MudListSubheader>
+        <MudStack Row="true">
+        @foreach (var formula in formulas)
+        {
+            @if(formula != null){
+                <MudListItem Text="@formula.Title" OnClick="()=>HandleSelectFormula(formula.Id)"/>
+            }
+        }
+        </MudStack>
+        </MudList>
+        <MudDivider/>
+        <MudText Align="Align.Center">Aantal gasten</MudText>
+        <MudStack Row="true" Class="flex justify-center align-center">
+            <MudIconButton OnClick="()=>DecrementNumberOfGuests()" Icon="@Icons.Material.Filled.Remove" aria-label="gast minder" />
+            <MudText >@numberOfGuests.ToString()</MudText>
+            <MudIconButton OnClick="()=>IncrementNumberOfGuests()" Icon="@Icons.Material.Filled.Add" aria-label="gast meer" />
+        </MudStack>
+        <MudDivider />
+        if(selectedFormula != null){
+            if(selectedFormula.IncludedSupplements!=null){
+                <MudList>
+                <MudListSubheader>Inbegerepen supplementen</MudListSubheader>
+                    @foreach(var includedSupplement in selectedFormula.IncludedSupplements){
+                        if(includedSupplement.Supplement != null){
+                            <MudListItem>@includedSupplement.Supplement.Name</MudListItem>
+                        }
+                    }
+                </MudList>
+            }
+            <MudDivider />
+<MudList>
+    <MudListSubheader>Keuzes inbegrepen supplementen</MudListSubheader>
+    @if (selectedFormula.Choices != null)
+    {
+        @foreach (var choices in selectedFormula.Choices)
+        {
+            if(choices != null){
+            <MudList Clickable="true">
+                <MudListItem Text="@(choiceNames.ContainsKey(choices.Id) ? choiceNames[choices.Id] : choices?.DefaultChoice?.Name)">
+                    <NestedList>
+                        @if(choices?.SupplementsToChoose != null){
+                            @foreach (var choice in choices.SupplementsToChoose)
+                            {
+                                <MudListItem OnClick="()=>HandleSelectSupplementChoice(choices.Id, choice.Id)">@choice.Name</MudListItem>
+                            }   
+                        }
+                    </NestedList>
+                </MudListItem>
+            </MudList>
+            }
+        }
+    }
+</MudList>
+        }
+    }
+}

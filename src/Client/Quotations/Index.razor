@@ -1,7 +1,20 @@
 @page "/offerte-aanvragen"
+@using Quotations
 
 <PageTitle>Offerte aanvragen</PageTitle>
 
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudStack Row="true">
+    <MudPaper Width="50%" Class="pa-6">
+    <FormulaChoicesForm />
+    </MudPaper>
+    <MudPaper Width="50%" Class="pa-6">
+    <CustomerDetailsForm />
+    </MudPaper>
+    </MudStack>
+</MudContainer>
+
+@* <MudPaper Width="50%">
     <MudForm>
         <MudText Typo="Typo.h6">Klantgegevens</MudText>
         <MudTextField Label="Voornaam" @bind-Value="firstname" />
@@ -28,6 +41,7 @@
         
         <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="SubmitForm">Submit</MudButton>
     </MudForm>
+    </MudPaper>
 
 @if (customer != null && quotationVersion != null)
 {
@@ -79,4 +93,4 @@
 
     </div>
 }
-
+ *@
