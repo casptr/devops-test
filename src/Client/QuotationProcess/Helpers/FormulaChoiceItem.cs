@@ -9,7 +9,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         public int Quantity { get; set; }
         public bool IsChosen { get; set; }
 
-        public FormulaChoiceItem(SupplementDto.Detail supplement, int defaultQuantity, bool isChosen = true)
+        public FormulaChoiceItem(SupplementDto.Detail supplement, int defaultQuantity, bool isChosen)
         {
             Supplement = supplement;
             Quantity = defaultQuantity;

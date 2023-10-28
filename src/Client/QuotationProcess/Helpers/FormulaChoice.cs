@@ -14,8 +14,12 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         {
             IsQuantityNumberOfGuests = choice.IsQuantityNumberOfGuests;
             MinQuantity = choice.MinQuantity;
-
-            options.AddRange(choice.SupplementsToChoose.Select(supplementToChoose => new FormulaChoiceItem(supplementToChoose, choice.DefaultChoice == supplementToChoose && !choice.IsQuantityNumberOfGuests ? choice.MinQuantity : 0, choice.DefaultChoice == supplementToChoose && !choice.IsQuantityNumberOfGuests)));
+            options.AddRange(choice.SupplementsToChoose.Select(supplementToChoose =>
+            {
+                int initialQuantity = choice.DefaultChoice == supplementToChoose && !choice.IsQuantityNumberOfGuests ? choice.MinQuantity : 0;
+                bool isChosen = choice.DefaultChoice == supplementToChoose && choice.IsQuantityNumberOfGuests;
+                return new FormulaChoiceItem(supplementToChoose, initialQuantity, isChosen);
+            }));
         }
     }
 }
