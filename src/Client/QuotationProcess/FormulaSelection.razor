@@ -1,0 +1,9 @@
+﻿@page "/formule/selecteren"
+@using Foodtruck.Client.QuotationProcess.Components
+@using Foodtruck.Client.QuotationProcess.Helpers;
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
+    <QuotationProcessTimeline currentStep="QuotationProcessStep.SELECT_FORMULA" />
+
+    <Formulas />
+</MudContainer>

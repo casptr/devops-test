@@ -22,5 +22,9 @@
     <ProjectReference Include="..\Shared\Foodtruck.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Formulas\Components\" />
+  </ItemGroup>
+
 
 </Project>
