@@ -1,12 +1,16 @@
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static Foodtruck.Client.Quotations.Index;
 
 
 namespace Foodtruck.Client.Quotations;
 
 public partial class FormulaChoicesForm
 {
+    [Parameter]
+    public FormulaChoicesModel Model { get; set; }
     [Inject] public IFormulaService FormulaService { get; set; } = default!;
     [Inject] public ISupplementService SupplementService { get; set; } = default!;
 
@@ -20,7 +24,7 @@ public partial class FormulaChoicesForm
 
     protected override async Task OnParametersSetAsync()
     {
-        numberOfGuests = 1;
+        // numberOfGuests = Model.NumberOfGuests;
         var response = await FormulaService.GetAllAsync();
         formulas = response.Formulas;
 
@@ -53,7 +57,7 @@ private void HandleSelectFormula(int formulaId)
                 selectedFormula = newSelectedFormula;
                 selectedFormulaChoices = new List<FormulaSupplementChoiceDto.Detail>();
                 foreach(var supplementToChoose in selectedFormulaChoices){
-                    var appendedChosenSupplements = chosenSupplements?.Append(supplementToChoose.DefaultChoice);
+                    var appendedChosenSupplements = Model.ChosenSupplements?.Append(supplementToChoose.DefaultChoice);
                 }
                 
                 if (selectedFormula.Choices != null)
@@ -62,6 +66,7 @@ private void HandleSelectFormula(int formulaId)
                     {
                         var appendedChoices = selectedFormulaChoices.Append(choice);
                     }
+                    Model.IncludedSupplements = (List<FormulaSupplementChoiceDto.Detail>)selectedFormula.Choices;
                 }
             }
         }
@@ -86,17 +91,15 @@ private void HandleSelectSupplementChoice(int choicesId, int supplementChoiceId)
         }
     }
 }
-
-
-
-
     private void IncrementNumberOfGuests(){
-        numberOfGuests += 1;
+        Console.WriteLine("Incrementing");
+        Model.NumberOfGuests += 1;
+        Console.WriteLine(Model.NumberOfGuests);
     }
 
     private void DecrementNumberOfGuests(){
-        if(numberOfGuests > 1){
-            numberOfGuests -= 1;
+        if(Model.NumberOfGuests > 1){
+            Model.NumberOfGuests -= 1;
         }
     }
 }

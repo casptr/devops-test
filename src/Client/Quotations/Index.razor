@@ -4,93 +4,22 @@
 <PageTitle>Offerte aanvragen</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Medium">
+    <MudForm>
     <MudStack Row="true">
     <MudPaper Width="50%" Class="pa-6">
-    <FormulaChoicesForm />
+    <FormulaChoicesForm Model="@formulaChoicesModel"/>
     </MudPaper>
     <MudPaper Width="50%" Class="pa-6">
-    <CustomerDetailsForm />
+    <CustomerDetailsForm Model="@customerDetailsModel"/>
     </MudPaper>
     </MudStack>
-</MudContainer>
-
-@* <MudPaper Width="50%">
-    <MudForm>
-        <MudText Typo="Typo.h6">Klantgegevens</MudText>
-        <MudTextField Label="Voornaam" @bind-Value="firstname" />
-        <MudTextField Label="Familienaam" @bind-Value="lastname" />
-        <MudTextField Label="Emailadres" @bind-Value="email" />
-        <MudTextField Label="Telefoonnummer" @bind-Value="phone" />
-        <MudTextField Label="Bedrijfsnaam" @bind-Value="companyName" />
-        <MudTextField Label="Ondernemingsnummer" @bind-Value="companyNumber" />
-        
-        <MudText Typo="Typo.h6">Evenementgegevens</MudText>
-        
-        <MudText Typo="Typo.h6">Facturatieadres</MudText>
-        <MudTextField Label="Straatnaam" @bind-Value="billingAddress_street" />
-        <MudTextField Label="Huisnummer" @bind-Value="billingAddress_houseNumber" />
-        <MudTextField Label="Postcode" @bind-Value="billingAddress_zip" />
-        <MudTextField Label="Stad" @bind-Value="billingAddress_city" />
-        
-        <MudText Typo="Typo.h6">Evenementadres</MudText>
-        <!-- Update these fields as needed -->
-        <MudTextField Label="Straatnaam" @bind-Value="eventAddress_street" />
-        <MudTextField Label="Huisnummer" @bind-Value="eventAddress_houseNumber" />
-        <MudTextField Label="Postcode" @bind-Value="eventAddress_zip" />
-        <MudTextField Label="Stad" @bind-Value="eventAddress_city" />
-        
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="SubmitForm">Submit</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="SubmitForm">Submit</MudButton>
     </MudForm>
-    </MudPaper>
+</MudContainer>
 
 @if (customer != null && quotationVersion != null)
 {
-    <div>
-        <h3>Customer Details</h3>
-        <div>
-            <strong>First Name:</strong> @customer.Firstname
-        </div>
-        <div>
-            <strong>Last Name:</strong> @customer.Lastname
-        </div>
-        <div>
-            <strong>Email:</strong> @customer.Email
-        </div>
-        <div>
-            <strong>Phone:</strong> @customer.Phone
-        </div>
-        <div>
-            <strong>Company Name:</strong> @customer.CompanyName
-        </div>
-        <div>
-            <strong>Company Number:</strong> @customer.CompanyNumber
-        </div>
-    </div>
-
-    <div>
-        <h3>Quotation Version Details</h3>
-        <div>
-            <strong>Number of Guests:</strong> @quotationVersion.NumberOfGuests
-        </div>
-        <div>
-            <strong>Extra Info:</strong> @quotationVersion.ExtraInfo
-        </div>
-        <div>
-            <strong>Description:</strong> @quotationVersion.Description
-        </div>
-        <div>
-            <strong>Price:</strong> @quotationVersion.Price
-        </div>
-        <div>
-            <strong>VAT Total:</strong> @quotationVersion.VatTotal
-        </div>
-        <div>
-            <strong>Reservation Start Date:</strong> @quotationVersion.Reservation
-        </div>
-        <div>
-            <strong>Reservation End Date:</strong> @quotationVersion.Reservation
-        </div>
-
-    </div>
+ <div>Hello</div>
 }
- *@
+
+
