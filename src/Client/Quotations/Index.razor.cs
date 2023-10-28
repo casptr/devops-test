@@ -7,7 +7,8 @@ using Address = Domain.Customers.Address;
 using Domain.Common;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
-
+using Foodtruck.Client.QuotationProcess.Helpers;
+using Microsoft.AspNetCore.Components;
 
 namespace Foodtruck.Client.Quotations
 {
@@ -21,6 +22,8 @@ namespace Foodtruck.Client.Quotations
         private DateTime nextWeekPlus2 = DateTime.Now.AddDays(9);
         public FrontendCustomer customer;
         public FrontendQuotationVersion quotationVersion;
+
+        [Inject] public QuotationProcessState QuotationProcessState { get; set; }
 
         public class CustomerDetailsModel
         {
@@ -73,77 +76,83 @@ namespace Foodtruck.Client.Quotations
 
         private void SubmitForm()
         {
+            QuotationProcessState.RequestQuotation();
+            QuotationProcessState.PrintQuotation();
+
             if (formulaChoicesModel != null && formulaChoicesModel.ChosenSupplements != null)
             {
-            customer = new FrontendCustomer(
-                customerDetailsModel.Firstname,
-                customerDetailsModel.Lastname,
-                new EmailAddress(customerDetailsModel.Email),
-                customerDetailsModel.Phone,
-                customerDetailsModel.CompanyName,
-                customerDetailsModel.CompanyNumber,
-                false
-            );
+                customer = new FrontendCustomer(
+                    customerDetailsModel.Firstname,
+                    customerDetailsModel.Lastname,
+                    new EmailAddress(customerDetailsModel.Email),
+                    customerDetailsModel.Phone,
+                    customerDetailsModel.CompanyName,
+                    customerDetailsModel.CompanyNumber,
+                    false
+                );
 
-            List<SupplementItem> supplementChoices = new List<SupplementItem>();
-            foreach (var supplement in formulaChoicesModel.ChosenSupplements)
-            {
-                supplementChoices.Add(new SupplementItem(new Supplement(supplement.Name, supplement.Description, new Category(supplement.Category.Name, 21), new Money(supplement.Price), supplement.AmountAvailable), 1));
+                List<SupplementItem> supplementChoices = new List<SupplementItem>();
+                foreach (var supplement in formulaChoicesModel.ChosenSupplements)
+                {
+                    supplementChoices.Add(new SupplementItem(new Supplement(supplement.Name, supplement.Description, new Category(supplement.Category.Name, 21), new Money(supplement.Price), supplement.AmountAvailable), 1));
+                }
+
+                Console.WriteLine("Supplement Choices:");
+                foreach (var chosenSupplement in supplementChoices)
+                {
+                    Console.WriteLine($"Name: {chosenSupplement.Supplement.Name}");
+                    Console.WriteLine($"Description: {chosenSupplement.Supplement.Description}");
+                    Console.WriteLine($"Category: {chosenSupplement.Supplement.Category.Name}");
+                    Console.WriteLine($"Price: {chosenSupplement.Supplement.Price}");
+                    Console.WriteLine($"AmountAvailable: {chosenSupplement.Supplement.AmountAvailable}");
+                    Console.WriteLine($"Quantity: {chosenSupplement.Quantity}");
+                    Console.WriteLine();
+                }
+
+                quotationVersion = new FrontendQuotationVersion(
+                    formulaChoicesModel.NumberOfGuests, "extrainfo", "description",
+                    new Reservation(nextWeek, nextWeekPlus2, "reservationdescription", Status.VOORGESTELD),
+                    new Formula(title, description, price, imageUrl),
+                    supplementChoices,
+                    new Address(customerDetailsModel.BillingAddress_zip, customerDetailsModel.BillingAddress_city, customerDetailsModel.BillingAddress_street, customerDetailsModel.BillingAddress_houseNumber),
+                    new Address(customerDetailsModel.EventAddress_zip, customerDetailsModel.EventAddress_city, customerDetailsModel.EventAddress_street, customerDetailsModel.EventAddress_houseNumber)
+                );
+
+
+                Console.WriteLine("Customer Details:");
+                Console.WriteLine($"Firstname: {customer.Firstname}");
+                Console.WriteLine($"Lastname: {customer.Lastname}");
+                Console.WriteLine($"Email: {customer.Email}");
+                Console.WriteLine($"Phone: {customer.Phone}");
+                Console.WriteLine($"CompanyName: {customer.CompanyName}");
+                Console.WriteLine($"CompanyNumber: {customer.CompanyNumber}");
+                Console.WriteLine($"WantsMarketingMails: {customer.WantsMarketingMails}");
+
+                Console.WriteLine("\nQuotation Version Details:");
+                Console.WriteLine($"NumberOfGuests: {quotationVersion.NumberOfGuests}");
+                Console.WriteLine($"ExtraInfo: {quotationVersion.ExtraInfo}");
+                Console.WriteLine($"Description: {quotationVersion.Description}");
+                Console.WriteLine($"Price: {quotationVersion.Price}");
+                Console.WriteLine($"VatTotal: {quotationVersion.VatTotal}");
+                Console.WriteLine($"Reservation: {quotationVersion.Reservation}");
+                Console.WriteLine($"Formula: {quotationVersion.Formula}");
+                Console.WriteLine($"EventAddress: {quotationVersion.EventAddress.Street}");
+                Console.WriteLine($"BillingAddress: {quotationVersion.BillingAddress}");
+                Console.WriteLine("Supplement Lines:");
+                foreach (var supplementLine in quotationVersion.supplementLines)
+                {
+                    Console.WriteLine($"Item: {supplementLine.Name}");
+                    Console.WriteLine($"IsIncludedInFormula: {supplementLine.IncludedInFormula}");
+                }
             }
-
-            Console.WriteLine("Supplement Choices:");
-            foreach (var chosenSupplement in supplementChoices)
+            else
             {
-                Console.WriteLine($"Name: {chosenSupplement.Supplement.Name}");
-                Console.WriteLine($"Description: {chosenSupplement.Supplement.Description}");
-                Console.WriteLine($"Category: {chosenSupplement.Supplement.Category.Name}");
-                Console.WriteLine($"Price: {chosenSupplement.Supplement.Price}");
-                Console.WriteLine($"AmountAvailable: {chosenSupplement.Supplement.AmountAvailable}");
-                Console.WriteLine($"Quantity: {chosenSupplement.Quantity}");
-                Console.WriteLine();
+                Console.WriteLine("something wrong with formulachoicesmodel");
             }
+        }
 
-            quotationVersion = new FrontendQuotationVersion(
-                formulaChoicesModel.NumberOfGuests, "extrainfo", "description",
-                new Reservation(nextWeek, nextWeekPlus2, "reservationdescription", Status.VOORGESTELD),
-                new Formula(title, description, price, imageUrl),
-                supplementChoices,
-                new Address(customerDetailsModel.BillingAddress_zip, customerDetailsModel.BillingAddress_city, customerDetailsModel.BillingAddress_street, customerDetailsModel.BillingAddress_houseNumber),
-                new Address(customerDetailsModel.EventAddress_zip, customerDetailsModel.EventAddress_city, customerDetailsModel.EventAddress_street, customerDetailsModel.EventAddress_houseNumber)
-            );
-            Console.WriteLine("Customer Details:");
-            Console.WriteLine($"Firstname: {customer.Firstname}");
-            Console.WriteLine($"Lastname: {customer.Lastname}");
-            Console.WriteLine($"Email: {customer.Email}");
-            Console.WriteLine($"Phone: {customer.Phone}");
-            Console.WriteLine($"CompanyName: {customer.CompanyName}");
-            Console.WriteLine($"CompanyNumber: {customer.CompanyNumber}");
-            Console.WriteLine($"WantsMarketingMails: {customer.WantsMarketingMails}");
 
-            Console.WriteLine("\nQuotation Version Details:");
-            Console.WriteLine($"NumberOfGuests: {quotationVersion.NumberOfGuests}");
-            Console.WriteLine($"ExtraInfo: {quotationVersion.ExtraInfo}");
-            Console.WriteLine($"Description: {quotationVersion.Description}");
-            Console.WriteLine($"Price: {quotationVersion.Price}");
-            Console.WriteLine($"VatTotal: {quotationVersion.VatTotal}");
-            Console.WriteLine($"Reservation: {quotationVersion.Reservation}");
-            Console.WriteLine($"Formula: {quotationVersion.Formula}");
-            Console.WriteLine($"EventAddress: {quotationVersion.EventAddress.Street}");
-            Console.WriteLine($"BillingAddress: {quotationVersion.BillingAddress}");
-            Console.WriteLine("Supplement Lines:");
-            foreach (var supplementLine in quotationVersion.supplementLines)
-            {
-                Console.WriteLine($"Item: {supplementLine.Name}");
-                Console.WriteLine($"IsIncludedInFormula: {supplementLine.IncludedInFormula}");
-            }
     }
-    else {
-        Console.WriteLine("something wrong with formulachoicesmodel");
-    }
-}
-
-
-}
     public class FrontendQuotationVersion
     {
         public int NumberOfGuests { get; set; } = default!;
@@ -185,43 +194,43 @@ namespace Foodtruck.Client.Quotations
     }
 }
 
-    public class FrontendCustomer
+public class FrontendCustomer
+{
+    private string firstname = default!;
+    public string Firstname { get => firstname; set => firstname = Guard.Against.NullOrWhiteSpace(value, nameof(Firstname)); }
+
+    private string lastname = default!;
+    public string Lastname
     {
-        private string firstname = default!;
-        public string Firstname { get => firstname; set => firstname = Guard.Against.NullOrWhiteSpace(value, nameof(Firstname)); }
-
-        private string lastname = default!;
-        public string Lastname
-        {
-            get => lastname;
-            set => lastname = Guard.Against.NullOrWhiteSpace(value, nameof(Lastname));
-        }
-
-        private EmailAddress email = default!;
-        public EmailAddress Email
-        {
-            get => email;
-            set => email = Guard.Against.Null(value, nameof(Email));
-        }
-
-        private string phone = default!;
-        public string Phone { get => phone; set => phone = Guard.Against.Null(value, nameof(Phone)); }
-
-        public string? CompanyName { get; set; }
-        public string? CompanyNumber { get; set; }
-        public bool WantsMarketingMails { get; set; } = default!;
-
-        public FrontendCustomer() { }
-
-        public FrontendCustomer(string firstname, string lastname, EmailAddress email, string phone, string? companyName, string? companyNumber, bool wantsMarketingMails)
-        {
-            Firstname = firstname;
-            Lastname = lastname;
-            Email = email;
-            Phone = phone;
-            CompanyName = companyName;
-            CompanyNumber = companyNumber;
-            WantsMarketingMails = wantsMarketingMails;
-        }
+        get => lastname;
+        set => lastname = Guard.Against.NullOrWhiteSpace(value, nameof(Lastname));
     }
+
+    private EmailAddress email = default!;
+    public EmailAddress Email
+    {
+        get => email;
+        set => email = Guard.Against.Null(value, nameof(Email));
+    }
+
+    private string phone = default!;
+    public string Phone { get => phone; set => phone = Guard.Against.Null(value, nameof(Phone)); }
+
+    public string? CompanyName { get; set; }
+    public string? CompanyNumber { get; set; }
+    public bool WantsMarketingMails { get; set; } = default!;
+
+    public FrontendCustomer() { }
+
+    public FrontendCustomer(string firstname, string lastname, EmailAddress email, string phone, string? companyName, string? companyNumber, bool wantsMarketingMails)
+    {
+        Firstname = firstname;
+        Lastname = lastname;
+        Email = email;
+        Phone = phone;
+        CompanyName = companyName;
+        CompanyNumber = companyNumber;
+        WantsMarketingMails = wantsMarketingMails;
+    }
+}
 

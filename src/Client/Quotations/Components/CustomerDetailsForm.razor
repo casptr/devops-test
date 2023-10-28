@@ -1,48 +1,53 @@
 @namespace Foodtruck.Client.Quotations
-@if(Model != null){
-<MudText Typo="Typo.h6">Klantgegevens</MudText>
-<MudTextField Label="Voornaam" @bind-Value="Model.Firstname" Placeholder="Placeholder Value" />
-<MudTextField Label="Familienaam" @bind-Value="Model.Lastname" Placeholder="Placeholder Value" />
-<MudTextField Label="Emailadres" @bind-Value="Model.Email" Placeholder="email@example.com" />
-<MudTextField Label="Telefoonnummer" @bind-Value="Model.Phone" Placeholder="123-456-7890" />
-<MudTextField Label="Bedrijfsnaam" @bind-Value="Model.CompanyName" Placeholder="Company Name" />
-<MudTextField Label="Ondernemingsnummer" @bind-Value="Model.CompanyNumber" Placeholder="123456789" />
+@using Foodtruck.Client.QuotationProcess.Helpers;
+@inject QuotationProcessState QuotationProcessState
 
-<MudText Typo="Typo.h6">Evenementgegevens</MudText>
+@if (Model != null)
+{
+    <MudText Typo="Typo.h6">Klantgegevens</MudText>
+    <MudTextField Label="Voornaam" @bind-Value="QuotationProcessState.Customer.Firstname" Placeholder="Placeholder Value" />
+    <MudTextField Label="Familienaam" @bind-Value="QuotationProcessState.Customer.LastName" Placeholder="Placeholder Value" />
+    <MudTextField Label="Emailadres" @bind-Value="QuotationProcessState.Customer.Email" Placeholder="email@example.com" />
+    <MudTextField Label="Telefoonnummer" @bind-Value="QuotationProcessState.Customer.Phone" Placeholder="123-456-7890" />
+    <MudTextField Label="Bedrijfsnaam" @bind-Value="QuotationProcessState.Customer.CompanyName" Placeholder="Company Name" />
+    <MudTextField Label="Ondernemingsnummer" @bind-Value="QuotationProcessState.Customer.CompanyNumber" Placeholder="123456789" />
 
-<MudText Typo="Typo.h6">Facturatieadres</MudText>
-<MudTextField Label="Straatnaam" @bind-Value="Model.BillingAddress_street" Placeholder="Street Name" />
-<MudTextField Label="Huisnummer" @bind-Value="Model.BillingAddress_houseNumber" Placeholder="123" />
-<MudTextField Label="Postcode" @bind-Value="Model.BillingAddress_zip" Placeholder="12345" />
-<MudTextField Label="Stad" @bind-Value="Model.BillingAddress_city" Placeholder="City Name" />
+    <MudText Typo="Typo.h6">Evenementgegevens</MudText>
 
-<MudText Typo="Typo.h6">Evenementadres</MudText>
-<!-- Update these fields as needed -->
-<MudTextField Label="Straatnaam" @bind-Value="Model.EventAddress_street" Placeholder="Street Name" />
-<MudTextField Label="Huisnummer" @bind-Value="Model.EventAddress_houseNumber" Placeholder="123" />
-<MudTextField Label="Postcode" @bind-Value="Model.EventAddress_zip" Placeholder="12345" />
-<MudTextField Label="Stad" @bind-Value="Model.EventAddress_city" Placeholder="City Name" />
+    <MudText Typo="Typo.h6">Facturatieadres</MudText>
+    <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.BillingAddress.Street" Placeholder="Street Name" />
+    <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.BillingAddress.HouseNumber" Placeholder="123" />
+    <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.BillingAddress.Zip" Placeholder="12345" />
+    <MudTextField Label="Stad" @bind-Value="QuotationProcessState.BillingAddress.City" Placeholder="City Name" />
+
+    <MudText Typo="Typo.h6">Evenementadres</MudText>
+    <!-- Update these fields as needed -->
+    <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.EventAddress.Street" Placeholder="Street Name" />
+    <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.EventAddress.HouseNumber" Placeholder="123" />
+    <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.EventAddress.Zip" Placeholder="12345" />
+    <MudTextField Label="Stad" @bind-Value="QuotationProcessState.EventAddress.City" Placeholder="City Name" />
 }
-else {
-        <div>Loading...</div>
+else
+{
+    <div>Loading...</div>
 }
 
-        @* <MudText Typo="Typo.h6">Klantgegevens</MudText>
+@* <MudText Typo="Typo.h6">Klantgegevens</MudText>
         <MudTextField Label="Voornaam" @bind-Value="firstname" />
         <MudTextField Label="Familienaam" @bind-Value="lastname" />
         <MudTextField Label="Emailadres" @bind-Value="email" />
         <MudTextField Label="Telefoonnummer" @bind-Value="phone" />
         <MudTextField Label="Bedrijfsnaam" @bind-Value="companyName" />
         <MudTextField Label="Ondernemingsnummer" @bind-Value="companyNumber" />
-        
+
         <MudText Typo="Typo.h6">Evenementgegevens</MudText>
-        
+
         <MudText Typo="Typo.h6">Facturatieadres</MudText>
         <MudTextField Label="Straatnaam" @bind-Value="billingAddress_street" />
         <MudTextField Label="Huisnummer" @bind-Value="billingAddress_houseNumber" />
         <MudTextField Label="Postcode" @bind-Value="billingAddress_zip" />
         <MudTextField Label="Stad" @bind-Value="billingAddress_city" />
-        
+
         <MudText Typo="Typo.h6">Evenementadres</MudText>
         <!-- Update these fields as needed -->
         <MudTextField Label="Straatnaam" @bind-Value="eventAddress_street" />
@@ -50,4 +55,3 @@ else {
         <MudTextField Label="Postcode" @bind-Value="eventAddress_zip" />
         <MudTextField Label="Stad" @bind-Value="eventAddress_city" /> *@
 
-        
