@@ -1,17 +1,23 @@
-using global::Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
+using Foodtruck.Client.QuotationProcess.Components;
+using Foodtruck.Client.QuotationProcess.Helpers;
 
-namespace Foodtruck.Client.Formulas.Components
+namespace Foodtruck.Client.QuotationProcess
 {
-	public partial class Formulas
+    public partial class Formulas
     {
         [Inject]
-        public IFormulaService FormulaService { get; set; } = default !;
+        public IFormulaService FormulaService { get; set; } = default!;
 
         [Inject]
-        public ISupplementService SupplementService { get; set; } = default !;
+        public ISupplementService SupplementService { get; set; } = default!;
+
+        [Inject]
+        public QuotationProcessState QuotationProcessState { get; set; } = default!;
+
 
         private IEnumerable<FormulaDto.Detail>? formulas;
         private List<string>? names = new();
@@ -26,19 +32,27 @@ namespace Foodtruck.Client.Formulas.Components
             names.ForEach(n => Console.WriteLine(n));
         }
 
-        private FormulaDto.Detail? CurrentSelectedFormula { get; set; }
+        private void ChooseFormula(FormulaDto.Detail formula)
+        {
+            if (formula.Choices.Count() != 0)
+            {
+                OpenDialog(formula);
+            }
+            else
+            {
+                QuotationProcessState.ConfigureFormula(formula);
+            }
+        }
+
+
+
 
         private void OpenDialog(FormulaDto.Detail formula)
         {
-            CurrentSelectedFormula = formula; // temp
+            var parameters = new DialogParameters<FormulaDialog>();
+            parameters.Add(dialog => dialog.Formula, formula);
+            parameters.Add(dialog => dialog.OnSubmit, StateHasChanged);
 
-            var parameters = new DialogParameters<FormulaDialog>
-            {
-                {
-                    dialog => dialog.Formula,
-                    formula
-                }
-            };
             DialogService.Show<FormulaDialog>($"{formula.Title} aanpassen", parameters);
         }
     }

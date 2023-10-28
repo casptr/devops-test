@@ -70,7 +70,7 @@ public class FakeFormulaService : IFormulaService
         var suppRibbetjes = new SupplementDto.Detail()
         {
             Id = 5,
-            Name = "Ribetjes",
+            Name = "Ribbetjes",
             Description = "1 hele varkensrib gemarineerd in pikante saus",
             Price = 10.00M,
             Category = catDrinken,
@@ -131,7 +131,7 @@ public class FakeFormulaService : IFormulaService
         {
             Id = 2,
             Name = "Keuze barbequevlees",
-            DefaultChoice = suppHamburger,
+            DefaultChoice = suppRibbetjes,
             MinQuantity = 0,
             IsQuantityNumberOfGuests = true,
             SupplementsToChoose = new List<SupplementDto.Detail>

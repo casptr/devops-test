@@ -10,7 +10,7 @@ namespace Foodtruck.Shared.Quotations
         {
             public int NumberOfGuests { get; set; }
             public string? ExtraInfo { get; set; }
-            public int FormulaId { get; set; }
+            public int? FormulaId { get; set; }
             public ReservationDto.Create Reservation { get; set; } = new();
             public AddressDto EventAddress { get; set; } = new();
             public AddressDto BillingAddress { get; set; } = new();
