@@ -20,16 +20,20 @@ namespace Foodtruck.Client.QuotationProcess
 
 
         private IEnumerable<FormulaDto.Detail>? formulas;
-        private List<string>? names = new();
+        private List<string>? formulaSupplementNames = new();
         protected override async Task OnParametersSetAsync()
         {
             var response = await FormulaService.GetAllAsync();
             formulas = response.Formulas;
-            var includedSupplementNames = formulas.SelectMany(formule => formule.IncludedSupplements.Select(supplementLine => supplementLine.Supplement.Name)).ToHashSet();
-            var choiceNames = formulas.SelectMany(formule => formule.Choices.Select(choice => choice.Name)).ToHashSet();
-            names.AddRange(choiceNames);
-            names.AddRange(includedSupplementNames);
-            names.ForEach(n => Console.WriteLine(n));
+            var includedSupplementNames = formulas.SelectMany(formule => formule.IncludedSupplements.Select(supplementLine => supplementLine.Supplement.Name));
+            var choiceNames = formulas.SelectMany(formule => formule.Choices.Select(choice => choice.Name));
+            var allNames = includedSupplementNames.Concat(choiceNames);
+
+            formulaSupplementNames.AddRange(choiceNames.ToHashSet());
+            formulaSupplementNames.AddRange(includedSupplementNames.ToHashSet());
+
+            formulaSupplementNames = formulaSupplementNames.OrderByDescending(uniqueName => allNames.Count(name => name == uniqueName)).ToList();
+            formulaSupplementNames.ForEach(n => Console.WriteLine(n));
         }
 
         private void ChooseFormula(FormulaDto.Detail formula)
@@ -43,9 +47,6 @@ namespace Foodtruck.Client.QuotationProcess
                 QuotationProcessState.ConfigureFormula(formula);
             }
         }
-
-
-
 
         private void OpenDialog(FormulaDto.Detail formula)
         {

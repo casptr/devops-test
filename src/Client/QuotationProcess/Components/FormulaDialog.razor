@@ -30,9 +30,7 @@
                     }
                     else
                     {
-
                         <MudNumericField Variant="Variant.Outlined" @bind-Value="choice.Quantity" Min="0" />
-
                     }
                 </MudItem>
             </MudGrid>
@@ -53,7 +51,7 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
     [Parameter, EditorRequired] public FormulaDto.Detail? Formula { get; set; }
-    [Parameter, EditorRequired] public Action OnSubmit{ get; set; }
+    [Parameter, EditorRequired] public Action OnSubmit { get; set; }
 
     private readonly List<FormulaChoice> choices = new();
     public IReadOnlyList<FormulaChoice> Choices => choices.AsReadOnly();

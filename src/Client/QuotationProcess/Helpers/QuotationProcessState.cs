@@ -12,6 +12,9 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         private readonly List<FormulaChoice> formulaChoices = new();
         public IReadOnlyCollection<FormulaChoice> FormulaChoices => formulaChoices.AsReadOnly();
 
+        // Item is chosen if: quantity is dependent on number of guests => checkbox true, quantity dependent on input => quantity != 0
+        public IReadOnlyCollection<FormulaChoiceItem> ChosenFormulaChoiceItems => FormulaChoices.SelectMany(choice => choice.Options.Where(option => choice.IsQuantityNumberOfGuests ? option.IsChosen : option.Quantity != 0)).ToList();
+
         public FormulaDto.Detail? CurrentSelectedFormula { get; set; }
 
         public void ConfigureReservation(DateTime start, DateTime end)
@@ -38,26 +41,6 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             }
 
-        }
-
-        // What have i created
-        public List<FormulaChoiceItem> GetChosenFormulaChoiceItems()
-        {
-            List<FormulaChoiceItem> chosenFormulaChoiceItems = new();
-
-            foreach (FormulaChoice formulaChoice in formulaChoices)
-            {
-                if (formulaChoice.IsQuantityNumberOfGuests)
-                {
-
-                    chosenFormulaChoiceItems.AddRange(formulaChoice.Options.Where(option => option.IsChosen));
-                }
-                else
-                {
-                    chosenFormulaChoiceItems.AddRange(formulaChoice.Options.Where(option => option.Quantity != 0));
-                }
-            }
-            return chosenFormulaChoiceItems;
         }
 
         //public void ResetFormula()
@@ -101,11 +84,6 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
                 SupplementId = includedSupplementLine.Supplement.Id,
                 Quantity = includedSupplementLine.Quantity
             }));
-
-
-
-
-
         }
 
 
