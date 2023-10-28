@@ -43,14 +43,6 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         }
 
-        //public void ResetFormula()
-        //{
-        //    CurrentSelectedFormula = null;
-        //    formulaChoices.Clear();
-        //}
-
-
-
         // Finish quotation request
         // add all formula included supplement items 
         // add all choices
@@ -61,7 +53,6 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             {
                 if (formulaChoice.IsQuantityNumberOfGuests)
                 {
-
                     ConfiguringQuotationVersion.Items.AddRange(formulaChoice.Options.Where(option => option.IsChosen).Select(option => new SupplementItemDto.Create()
                     {
                         SupplementId = option.Supplement.Id,
