@@ -31,9 +31,9 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         {
             CurrentSelectedFormula = formula;
 
+            this.formulaChoices.Clear();
             if (formulaChoices is not null)
             {
-                this.formulaChoices.Clear();
                 this.formulaChoices.AddRange(formulaChoices);
 
             }
