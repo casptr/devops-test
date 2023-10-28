@@ -9,18 +9,20 @@ public partial class FormulasOverview
     [Inject] public IFormulaService FormulaService { get; set; } = default!;
     [Inject] public ISupplementService SupplementService { get; set; } = default!;
 
-    private IEnumerable<SupplementDto.Detail>? supplements;
     private IEnumerable<FormulaDto.Detail>? formulas;
-    private ISet<string>? names;
+    private List<string>? names=new();
 
     protected override async Task OnParametersSetAsync()
     {
-        var response1 = await SupplementService.GetAllAsync();
-        supplements = response1.Supplements;
-        names = supplements?.Select(s => s.Name).ToHashSet();
 
         var response = await FormulaService.GetAllAsync();
         formulas = response.Formulas;
-       
+
+        var includedSupplementNames = formulas.SelectMany(formule => formule.IncludedSupplements.Select(supplementLine => supplementLine.Supplement.Name)).ToHashSet();
+        var choiceNames = formulas.SelectMany(formule => formule.Choices.Select(choice => choice.Name)).ToHashSet();
+        names.AddRange(choiceNames);
+        names.AddRange(includedSupplementNames);
+        names.ForEach(n=>Console.WriteLine(n));
+
     }
 }

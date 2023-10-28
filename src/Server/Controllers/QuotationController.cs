@@ -26,7 +26,7 @@ public class QuotationController : Controller
     // }
     [SwaggerOperation("Create a new QuotationVersion")]
     [HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
-    public async Task<IActionResult> Create(QuotationDto.Mutate model)
+    public async Task<IActionResult> Create(QuotationDto.Create model)
     {
         var QuotationVersion = await quotationService.CreateAsync(model);
         return CreatedAtAction(nameof(Create), QuotationVersion) ;

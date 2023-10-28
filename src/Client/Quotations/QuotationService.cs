@@ -14,7 +14,7 @@ public class QuotationService : IQuotationService
     {
         this.client = client;
     }
-    public async Task<int> CreateAsync(QuotationDto.Mutate request)
+    public async Task<int> CreateAsync(QuotationDto.Create request)
     {
         var response = await client.PostAsJsonAsync(endpoint, request);
         return await response.Content.ReadFromJsonAsync<int>();
