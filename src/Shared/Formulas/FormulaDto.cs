@@ -21,6 +21,7 @@ public abstract class FormulaDto
         public DateTime UpdatedAt { get; set; }
         public IEnumerable<FormulaSupplementLineDto.Detail>? IncludedSupplements { get; set; }
         public IEnumerable<FormulaSupplementChoiceDto.Detail>? Choices { get; set; }
+
     }
 
     // Worden alle values meegestuurd of enkel degene die geweizigd zijn

@@ -1,14 +1,15 @@
 ﻿@page "/aanvraag/datum-kiezen"
-@using Foodtruck.Client.QuotationProcess.Components
+@using Foodtruck.Client.QuotationProcess.Helpers;
 @using Foodtruck.Shared.Reservations;
 @inject IReservationService ReservationService
+@inject QuotationProcessState QuotationProcessState
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
     <QuotationProcessTimeline currentStep="QuotationProcessStep.CHOOSE_DATE" />
 
     <MudStack Spacing="10">
         <MudText Typo="Typo.h4" Align="Align.Center">Selecteer een datum</MudText>
-        <MudDateRangePicker Rounded="true" PickerVariant="PickerVariant.Static" @bind-DateRange="selectedDateRange" MinDate="DateTime.Now.Date" IsDateDisabledFunc="IsDateAlreadyBooked" Elevation="5" DisableToolbar="true" Class="datum-aanvraag-picker"/>
+        <MudDateRangePicker Rounded="true" PickerVariant="PickerVariant.Static" @bind-DateRange="selectedDateRange" MinDate="DateTime.Now.Date" IsDateDisabledFunc="IsDateAlreadyBooked" Elevation="5" DisableToolbar="true" Class="datum-aanvraag-picker" />
         <MudText>Gelieve de datum te selecteren waarop je evenement begint en eindigt. De foodtruck wordt opgehaald de dag na de einddatum van je evenement.</MudText>
         <MudGrid Spacing="4">
             <MudItem xs="12" md="6">
@@ -40,7 +41,7 @@
 
         <MudStack Spacing="4" Justify="Justify.Center" Row="true">
             <MudButton Variant="Variant.Outlined" DisableElevation="true" OnClick="Cancel">Annuleren</MudButton>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="ConfirmDate">Doorgaan</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="ConfirmDateAndTime" Href="/formule/selecteren">Doorgaan</MudButton>
         </MudStack>
 
     </MudStack>
@@ -64,9 +65,12 @@
     }
 
 
-    private void ConfirmDate()
+    private void ConfirmDateAndTime()
     {
-        Console.WriteLine($"{selectedDateRange.Start.Value.ToShortDateString()} to {selectedDateRange.End.Value.ToShortDateString()}");
+        DateTime start = new DateTime(selectedDateRange.Start.Value.Year, selectedDateRange.Start.Value.Month, selectedDateRange.Start.Value.Day, timeStart.Value.Hours, timeStart.Value.Minutes, 0);
+        DateTime endDate = selectedDateRange.End.Value.AddDays(1); // reservation ends the following day
+        DateTime end = new DateTime(endDate.Year, endDate.Month, endDate.Day, timeEnd.Value.Hours, timeEnd.Value.Minutes, 0);
+        QuotationProcessState.ConfigureReservation(start, end);
     }
 
     private void Cancel()

@@ -1,4 +1,5 @@
-﻿<MudTimeline TimelineOrientation="TimelineOrientation.Horizontal" TimelinePosition="TimelinePosition.Top" Class="mb-10">
+﻿@using Foodtruck.Client.QuotationProcess.Helpers;
+<MudTimeline TimelineOrientation="TimelineOrientation.Horizontal" TimelinePosition="TimelinePosition.Top" Class="mb-10">
     @for (var i = 0; i < steps.Length; i++)
     {
         int stepIndex = i;
