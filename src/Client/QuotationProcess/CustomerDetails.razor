@@ -1,0 +1,43 @@
+@page "/aanvraag/gegevens-invullen"
+@using Foodtruck.Client.QuotationProcess.Components
+@using Foodtruck.Client.QuotationProcess.Helpers;
+@using Quotations
+@inject QuotationProcessState QuotationProcessState
+
+<PageTitle>Offerte aanvragen</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large">
+    <QuotationProcessTimeline currentStep="QuotationProcessStep.ENTER_DETAILS" />
+    <MudForm>
+        <MudPaper Width="50%" Class="pa-6">
+            <MudText Typo="Typo.h6">Klantgegevens</MudText>
+            <MudTextField Label="Voornaam" @bind-Value="QuotationProcessState.Customer.Firstname" Placeholder="Voornaam" />
+            <MudTextField Label="Naam" @bind-Value="QuotationProcessState.Customer.LastName" Placeholder="Naam" />
+            <MudTextField Label="Emailadres" @bind-Value="QuotationProcessState.Customer.Email" Placeholder="email@example.com" />
+            <MudTextField Label="Telefoonnummer" @bind-Value="QuotationProcessState.Customer.Phone" Placeholder="123-456-7890" />
+            <MudTextField Label="Bedrijfsnaam" @bind-Value="QuotationProcessState.Customer.CompanyName" Placeholder="Company Name" />
+            <MudTextField Label="Ondernemingsnummer" @bind-Value="QuotationProcessState.Customer.CompanyNumber" Placeholder="123456789" />
+
+            <MudText Typo="Typo.h6">Evenementgegevens</MudText>
+
+            <MudText Typo="Typo.h6">Facturatieadres</MudText>
+            <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.BillingAddress.Street" Placeholder="Street Name" />
+            <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.BillingAddress.HouseNumber" Placeholder="123" />
+            <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.BillingAddress.Zip" Placeholder="12345" />
+            <MudTextField Label="Stad" @bind-Value="QuotationProcessState.BillingAddress.City" Placeholder="City Name" />
+
+            <MudText Typo="Typo.h6">Evenementadres</MudText>
+            <!-- Update these fields as needed -->
+            <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.EventAddress.Street" Placeholder="Street Name" />
+            <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.EventAddress.HouseNumber" Placeholder="123" />
+            <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.EventAddress.Zip" Placeholder="12345" />
+            <MudTextField Label="Stad" @bind-Value="QuotationProcessState.EventAddress.City" Placeholder="City Name" />
+        </MudPaper>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="QuotationProcessState.RequestQuotation">Submit</MudButton>
+    </MudForm>
+</MudContainer>
+
+@code {
+
+}
+

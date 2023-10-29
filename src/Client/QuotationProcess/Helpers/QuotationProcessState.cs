@@ -80,6 +80,9 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
                 SupplementId = includedSupplementLine.Supplement.Id,
                 Quantity = includedSupplementLine.Quantity
             }));
+
+            // TEMP
+            PrintQuotation();
         }
 
         public void PrintQuotation()
