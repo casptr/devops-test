@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Formulas\Components\" />
+    <Folder Include="Quotations\Components\" />
   </ItemGroup>
 
 

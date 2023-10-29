@@ -1,4 +1,5 @@
 ﻿@page "/aanvraag/datum-kiezen"
+@using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers;
 @using Foodtruck.Shared.Reservations;
 @inject IReservationService ReservationService
@@ -41,7 +42,7 @@
 
         <MudStack Spacing="4" Justify="Justify.Center" Row="true">
             <MudButton Variant="Variant.Outlined" DisableElevation="true" OnClick="Cancel">Annuleren</MudButton>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="ConfirmDateAndTime" Href="/formule/selecteren">Doorgaan</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="ConfirmDateAndTime" Href="/aanvraag/formule-kiezen">Doorgaan</MudButton>
         </MudStack>
 
     </MudStack>

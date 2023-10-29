@@ -1,4 +1,6 @@
-﻿using Foodtruck.Shared.Formulas;
+﻿using Domain.Customers;
+using Foodtruck.Shared.Customers;
+using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Supplements;
 
@@ -8,6 +10,9 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
     {
         private QuotationDto.Create configuringQuotation = new();
         public QuotationVersionDto.Create ConfiguringQuotationVersion => configuringQuotation.QuotationVersion;
+        public CustomerDto.Create Customer => configuringQuotation.Customer;
+        public AddressDto EventAddress => configuringQuotation.QuotationVersion.EventAddress;
+        public AddressDto BillingAddress => configuringQuotation.QuotationVersion.BillingAddress;
 
         private readonly List<FormulaChoice> formulaChoices = new();
         public IReadOnlyCollection<FormulaChoice> FormulaChoices => formulaChoices.AsReadOnly();
@@ -75,6 +80,56 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
                 SupplementId = includedSupplementLine.Supplement.Id,
                 Quantity = includedSupplementLine.Quantity
             }));
+
+            // TEMP
+            PrintQuotation();
+        }
+
+        public void PrintQuotation()
+        {
+            Console.WriteLine("------------QUOTATION----------------");
+            Console.WriteLine($"Reservation from {ConfiguringQuotationVersion.Reservation.Start} to {ConfiguringQuotationVersion.Reservation.End}");
+            Console.WriteLine();
+
+            Console.WriteLine("Customer Details:");
+            Console.WriteLine($"Firstname: {Customer.Firstname}");
+            Console.WriteLine($"Lastname: {Customer.LastName}");
+            Console.WriteLine($"Email: {Customer.Email}");
+            Console.WriteLine($"Phone: {Customer.Phone}");
+            Console.WriteLine($"CompanyName: {Customer.CompanyName}");
+            Console.WriteLine($"CompanyNumber: {Customer.CompanyNumber}");
+            Console.WriteLine($"WantsMarketingMails: {Customer.WantsMarketingMails}");
+
+            Console.WriteLine();
+            Console.WriteLine("Event adress:");
+            Console.WriteLine($"Street: {EventAddress.Street}");
+            Console.WriteLine($"Housenumber: {EventAddress.HouseNumber}");
+            Console.WriteLine($"City: {EventAddress.City}");
+            Console.WriteLine($"Zip: {EventAddress.Zip}");
+
+            Console.WriteLine();
+            Console.WriteLine("Billing adress:");
+            Console.WriteLine($"Street: {BillingAddress.Street}");
+            Console.WriteLine($"Housenumber: {BillingAddress.HouseNumber}");
+            Console.WriteLine($"City: {BillingAddress.City}");
+            Console.WriteLine($"Zip: {BillingAddress.Zip}");
+
+            // Temp to have supplements name in writeline here
+            List<SupplementDto.Detail> allSupplements = new List<SupplementDto.Detail>();
+            allSupplements.AddRange(formulaChoices.SelectMany(choice => choice.Options.Select(option => option.Supplement)).ToHashSet());
+            allSupplements.AddRange(CurrentSelectedFormula.IncludedSupplements.Select(i => i.Supplement));
+
+            Console.WriteLine();
+            Console.WriteLine("Supplements included and chosen:");
+            foreach (var supplementItem in ConfiguringQuotationVersion.Items)
+            {
+                var supplement = allSupplements.Find(s => s.Id == supplementItem.SupplementId);
+                Console.WriteLine($"Supplement: {supplement.Name}, Quantity: {supplementItem.Quantity}");
+            }
+
+            Console.WriteLine("---------------------------------------");
+
+
         }
 
 
