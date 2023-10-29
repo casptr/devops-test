@@ -6,38 +6,86 @@
 
 <PageTitle>Offerte aanvragen</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Large">
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
     <QuotationProcessTimeline currentStep="QuotationProcessStep.ENTER_DETAILS" />
     <MudForm>
-        <MudPaper Width="50%" Class="pa-6">
-            <MudText Typo="Typo.h6">Klantgegevens</MudText>
-            <MudTextField Label="Voornaam" @bind-Value="QuotationProcessState.Customer.Firstname" Placeholder="Voornaam" />
-            <MudTextField Label="Naam" @bind-Value="QuotationProcessState.Customer.LastName" Placeholder="Naam" />
-            <MudTextField Label="Emailadres" @bind-Value="QuotationProcessState.Customer.Email" Placeholder="email@example.com" />
-            <MudTextField Label="Telefoonnummer" @bind-Value="QuotationProcessState.Customer.Phone" Placeholder="123-456-7890" />
-            <MudTextField Label="Bedrijfsnaam" @bind-Value="QuotationProcessState.Customer.CompanyName" Placeholder="Company Name" />
-            <MudTextField Label="Ondernemingsnummer" @bind-Value="QuotationProcessState.Customer.CompanyNumber" Placeholder="123456789" />
+        <MudGrid Class="mb-2">
+            <MudItem xs="12" lg="6">
+                <MudText Typo="Typo.h6" Class="mb-4">Klantgegevens</MudText>
+                <MudTextField Label="Voornaam" @bind-Value="QuotationProcessState.Customer.Firstname" Placeholder="Voornaam" />
+                <MudTextField Label="Naam" @bind-Value="QuotationProcessState.Customer.LastName" Placeholder="Naam" />
+                <MudTextField Label="Emailadres" @bind-Value="QuotationProcessState.Customer.Email" Placeholder="email@example.com" />
+                <MudTextField Label="Telefoonnummer" @bind-Value="QuotationProcessState.Customer.Phone" Placeholder="123-456-7890" />
+                <MudTextField Label="Bedrijfsnaam" @bind-Value="QuotationProcessState.Customer.CompanyName" Placeholder="Bedrijfsnaam" />
+                <MudTextField Label="Ondernemingsnummer" @bind-Value="QuotationProcessState.Customer.CompanyNumber" Placeholder="123456789" />
+            </MudItem>
+            <MudItem xs="12" lg="6">
+                <MudText Typo="Typo.h6" Class="mb-4">Evenementadres</MudText>
+                <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.EventAddress.Street" Placeholder="Straat" />
+                <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.EventAddress.HouseNumber" Placeholder="123" />
+                <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.EventAddress.Zip" Placeholder="12345" />
+                <MudTextField Label="Stad" @bind-Value="QuotationProcessState.EventAddress.City" Placeholder="Stad" />
+                <MudCheckBox @bind-Checked="IsBillingAddressDifferentThanEventAddress" Label ="Mijn evenementadres is verschillend van het factuuradres" Style="margin-left: -15px;"></MudCheckBox>
 
-            <MudText Typo="Typo.h6">Evenementgegevens</MudText>
+                @if (IsBillingAddressDifferentThanEventAddress)
+                {
+                    <MudText Typo="Typo.h6" Class="mb-4">Factuuradres</MudText>
+                    <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.BillingAddress.Street" Placeholder="Straat" />
+                    <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.BillingAddress.HouseNumber" Placeholder="123" />
+                    <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.BillingAddress.Zip" Placeholder="12345" />
+                    <MudTextField Label="Stad" @bind-Value="QuotationProcessState.BillingAddress.City" Placeholder="Stad" />
 
-            <MudText Typo="Typo.h6">Facturatieadres</MudText>
-            <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.BillingAddress.Street" Placeholder="Street Name" />
-            <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.BillingAddress.HouseNumber" Placeholder="123" />
-            <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.BillingAddress.Zip" Placeholder="12345" />
-            <MudTextField Label="Stad" @bind-Value="QuotationProcessState.BillingAddress.City" Placeholder="City Name" />
+                }
+            </MudItem>
+        </MudGrid>
 
-            <MudText Typo="Typo.h6">Evenementadres</MudText>
-            <!-- Update these fields as needed -->
-            <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.EventAddress.Street" Placeholder="Street Name" />
-            <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.EventAddress.HouseNumber" Placeholder="123" />
-            <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.EventAddress.Zip" Placeholder="12345" />
-            <MudTextField Label="Stad" @bind-Value="QuotationProcessState.EventAddress.City" Placeholder="City Name" />
-        </MudPaper>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="QuotationProcessState.RequestQuotation">Submit</MudButton>
+        <MudTextField @bind-Value="QuotationProcessState.ConfiguringQuotationVersion.ExtraInfo" Label="Extra informatie over je evenement" Variant="Variant.Outlined" Lines="5" Placeholder="Extra informatie" />
+        <MudCheckBox @bind-Checked="QuotationProcessState.Customer.WantsMarketingMails" Label="Ja, ik wil graag marketinginformatie en updates ontvangen." Style="margin-left: -15px;"></MudCheckBox>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Href="/aanvraag/formule-kiezen">Vorige stap</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" @onclick="Submit">Doorgaan</MudButton>
     </MudForm>
 </MudContainer>
 
 @code {
+    public bool IsBillingAddressDifferentThanEventAddress { get; set; }
 
+    // For testing purposes TODO delete this
+    protected override void OnInitialized()
+    {
+        QuotationProcessState.Customer.WantsMarketingMails = true;
+        QuotationProcessState.Customer.Firstname = "Bart";
+        QuotationProcessState.Customer.LastName = "Vandenbranden";
+        QuotationProcessState.Customer.CompanyName = "Vandenbranden Corp";
+        QuotationProcessState.Customer.CompanyNumber = "123.345.278";
+        QuotationProcessState.Customer.Email = "bvandenbranden@vbcorp.be";
+        QuotationProcessState.Customer.Phone = "0470454372";
+
+        QuotationProcessState.EventAddress.Street = "Sint-Denijslaan";
+        QuotationProcessState.EventAddress.HouseNumber = "230";
+        QuotationProcessState.EventAddress.City = "Gent";
+        QuotationProcessState.EventAddress.Zip = "9000";
+
+
+        QuotationProcessState.BillingAddress.Street = "Berkenlaan";
+        QuotationProcessState.BillingAddress.HouseNumber = "45";
+        QuotationProcessState.BillingAddress.City = "Melle";
+        QuotationProcessState.BillingAddress.Zip = "9090";
+
+        IsBillingAddressDifferentThanEventAddress = true;
+
+        QuotationProcessState.ConfiguringQuotationVersion.ExtraInfo = "Het gaat om een bedrijfsfeest. Je mag mij gerust bellen om de offerte te bespreken.";
+    }
+
+    public void Submit()
+    {
+        if (!IsBillingAddressDifferentThanEventAddress)
+        {
+            QuotationProcessState.BillingAddress.Street = QuotationProcessState.EventAddress.Street;
+            QuotationProcessState.BillingAddress.HouseNumber = QuotationProcessState.EventAddress.HouseNumber;
+            QuotationProcessState.BillingAddress.City = QuotationProcessState.EventAddress.City;
+            QuotationProcessState.BillingAddress.Zip = QuotationProcessState.EventAddress.Zip;
+        }
+        QuotationProcessState.RequestQuotation();
+    }
 }
 

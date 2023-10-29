@@ -13,7 +13,7 @@ namespace Foodtruck.Shared.Customers
             public string? Phone { get; set; }
             public string? CompanyName { get; set; }
             public string? CompanyNumber { get; set; }
-            public bool WantsMarketingMails { get; set; }
+            public bool WantsMarketingMails { get; set; } = true;
         }
     }
 }
