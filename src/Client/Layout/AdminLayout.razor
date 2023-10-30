@@ -1,0 +1,34 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider CloseOnEscapeKey="true" />
+<MudSnackbarProvider />
+
+<MudDrawerContainer Class="mud-height-full">
+    <MudDrawer @bind-Open="@open" Elevation="1" Variant="@DrawerVariant.Persistent" >
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h5">Blanche Admin</MudText>
+        </MudDrawerHeader>
+        <MudNavMenu>
+            <MudNavLink Match="NavLinkMatch.All" Href="/admin" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Inherit">Dashboard</MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Href="/admin/offertes" Icon="@Icons.Material.Filled.LocalLibrary" IconColor="Color.Inherit">Offertes</MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.People" IconColor="Color.Inherit">Formules</MudNavLink>
+            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddBox" IconColor="Color.Inherit">Supplementen</MudNavLink>
+        </MudNavMenu>
+        <MudSpacer />
+        <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit" Class="mb-2">Afmelden</MudNavLink>
+    </MudDrawer>
+    <MudContainer MaxWidth="MaxWidth.Large" Class="pt-2">
+        @Body
+    </MudContainer>
+</MudDrawerContainer>
+
+@code {
+    bool open = true;
+
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
+
+}
