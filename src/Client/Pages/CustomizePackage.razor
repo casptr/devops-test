@@ -1,0 +1,73 @@
+@page "/formule-uitbreiden"
+@inject HttpClient HttpClient
+
+<h1>Formule uitbreiden</h1>
+<p></p>
+
+<!--@if (data == null || data.SupplementsList == null || data.SupplementsList.SupplementList == null)
+{
+    <p>Loading data...</p>
+}
+else
+{
+    @for (var i = 0; i < data.SupplementsList.SupplementList.Count; i++)
+    {
+        var supplementList = data.SupplementsList.SupplementList[i];
+        var currentIndex = i;
+        <div>
+            <div>
+                <h2>@supplementList[0].Category</h2>
+                <select @onchange="e => OnSupplementSelected(e, currentIndex)">
+                    @foreach (var supplement in supplementList)
+                    {
+                        <option value="@supplement.Id">@supplement.Name</option>
+                    }
+                </select>
+            </div>
+            <div>
+                @if (SelectedSupplements != null && SelectedSupplements.Count > currentIndex && SelectedSupplements[currentIndex] != null)
+                {
+                    <h3>@SelectedSupplements[currentIndex].Name</h3>
+                    <p>ID: @SelectedSupplements[currentIndex].Id</p>
+                    <p>Beschrijving: @SelectedSupplements[currentIndex].Description</p>
+                    <p>Prijs: €@SelectedSupplements[currentIndex].Price</p>
+                    <p>imageurl: @SelectedSupplements[currentIndex].Imagery</p>
+                    <p>IsSupplement: @SelectedSupplements[currentIndex].IsSupplement</p>
+                }
+            </div>
+        </div>
+    }
+}-->
+
+@code {
+    /*private PackageDataGenerator? data;
+    private List<PackageSupplement>? SelectedSupplements;
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = new PackageDataGenerator(HttpClient);
+        await data.InitializeDataAsync();
+        SelectedSupplements=new();
+        if(data.SupplementsList.SupplementList != null){
+        for (var i = 0; i < data.SupplementsList.SupplementList.Count; i++)
+        {
+            SelectedSupplements.Add(data.SupplementsList.SupplementList[i].FirstOrDefault() ?? new PackageSupplement());
+        }
+        }
+        StateHasChanged();
+    }
+
+    private void OnSupplementSelected(ChangeEventArgs e, int index)
+    {
+        if(e.Value != null && data != null && data.SupplementsList.SupplementList != null){
+        string? selectedId = e.Value.ToString();
+        var selectedSupplement = data.SupplementsList.SupplementList[index]
+            .FirstOrDefault(supplement => supplement.Id == selectedId);
+
+        if (SelectedSupplements != null && selectedSupplement != null && index >= 0 && index < SelectedSupplements.Count)
+        {
+            SelectedSupplements[index] = selectedSupplement;
+        }
+        }
+    }*/
+}

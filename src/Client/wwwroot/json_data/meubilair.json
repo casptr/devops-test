@@ -1,0 +1,62 @@
+[
+  {
+    "Id": "30",
+    "Category": "meubilair",
+    "Name": "Vouwbare Tuintafel",
+    "Description": "Een handige vouwbare tuintafel met voldoende ruimte voor 4 personen, ideaal voor picknicks en kleine buitenbijeenkomsten.",
+    "Price": 49.99,
+    "Imagery": "vouwbare_tuintafel.png",
+    "AmountAvailable": 10,
+    "IsSupplement": true
+  },
+  {
+    "Id": "31",
+    "Category": "meubilair",
+    "Name": "Opklapbare Tuinstoelen (Set van 4)",
+    "Description": "Een set van 4 opklapbare tuinstoelen voor extra zitplaatsen, gemakkelijk op te bergen na gebruik.",
+    "Price": 39.99,
+    "Imagery": "opklapbare_tuinstoelen.png",
+    "AmountAvailable": 20,
+    "IsSupplement": true
+  },
+  {
+    "Id": "32",
+    "Category": "meubilair",
+    "Name": "Klapstoelen (Set van 6)",
+    "Description": "Een set van 6 handige klapstoelen voor extra zitplaatsen, lichtgewicht en gemakkelijk te transporteren.",
+    "Price": 54.99,
+    "Imagery": "klapstoelen.png",
+    "AmountAvailable": 12,
+    "IsSupplement": true
+  },
+  {
+    "Id": "33",
+    "Category": "meubilair",
+    "Name": "Picknicktafel",
+    "Description": "Een stevige picknicktafel met banken, perfect voor gezellige picknicks en maaltijden in de buitenlucht.",
+    "Price": 79.99,
+    "Imagery": "picknicktafel.png",
+    "AmountAvailable": 5,
+    "IsSupplement": true
+  },
+  {
+    "Id": "5",
+    "Category": "meubilair",
+    "Name": "Staantafel",
+    "Description": "Een elegante staantafel voor evenementen, ideaal voor gasten om te staan en te genieten.",
+    "Price": 59.99,
+    "Imagery": "staantafel.png",
+    "AmountAvailable": 8,
+    "IsSupplement": true
+  },
+  {
+    "Id": "34",
+    "Category": "meubilair",
+    "Name": "Stoelen voor Staantafel (Set van 4)",
+    "Description": "Een set van 4 comfortabele stoelen die perfect passen bij staantafels, zodat gasten comfortabel kunnen zitten tijdens evenementen.",
+    "Price": 29.99,
+    "Imagery": "stoelen_staantafel.png",
+    "AmountAvailable": 16,
+    "IsSupplement": true
+  }
+]

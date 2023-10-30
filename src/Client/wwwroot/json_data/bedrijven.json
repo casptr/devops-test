@@ -1,0 +1,30 @@
+[
+  {
+      "Id": "1",
+      "Name": "Bouwbedrijf De Vries BV",
+      "Vat": "BE0123456789",
+      "Address": {
+          "Street": "Hoofdstraat 123",
+          "City": "Gent",
+          "PostalCode": "9000"
+      },
+      "ContactInfo": {
+          "Email": "info@devries.be",
+          "Phone": "0489123456"
+      }
+  },
+  {
+      "Id": "2",
+      "Name": "Architectenbureau Jansen & Partners",
+      "Vat": "BE0987654321",
+      "Address": {
+          "Street": "Dorpsplein 456",
+          "City": "Antwerpen",
+          "PostalCode": "2000"
+      },
+      "ContactInfo": {
+          "Email": "contact@jansenenpartners.be",
+          "Phone": "0470987654"
+      }
+  }
+]

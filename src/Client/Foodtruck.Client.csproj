@@ -1,3 +1,4 @@
+
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
@@ -7,13 +8,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bogus" Version="34.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.23" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.22" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.22" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="MudBlazor" Version="6.11.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Domain/Domain.csproj" />
+    <ProjectReference Include="..\Services\Services.csproj" />
     <ProjectReference Include="..\Shared\Foodtruck.Shared.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Formulas\Components\" />
+    <Folder Include="Quotations\Components\" />
+  </ItemGroup>
+
 
 </Project>

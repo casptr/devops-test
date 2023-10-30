@@ -1,0 +1,93 @@
+﻿@page "/contact"
+@using System.ComponentModel.DataAnnotations;
+@inject NavigationManager NavManager
+
+<MudContainer MaxWidth="MaxWidth.Medium">
+    <MudText Typo="Typo.h5" Class="mt-4">Veelgestelde vragen</MudText>
+    <MudText Typo="Typo.subtitle1" Class="mb-4">Misschien vind u hier een antwoord op uw vraag.</MudText>
+    <MudExpansionPanels MultiExpansion="true">
+        <MudExpansionPanel>
+            <TitleContent><MudText Typo="Typo.body2"><strong>Zijn er wekelijkse of maandelijkse promoties?</strong></MudText></TitleContent>
+            <ChildContent>
+                Plaats hier een uitgeschreven antwoord op de veelgestelde vraag ...<br />
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel>
+            <TitleContent><MudText Typo="Typo.body2"><strong>Biedt u cateringdiensten aan voor evenementen?</strong></MudText></TitleContent>
+            <ChildContent>
+                Plaats hier een uitgeschreven antwoord op de veelgestelde vraag ...<br />
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel>
+            <TitleContent><MudText Typo="Typo.body2"><strong>Zijn er allergeneninformatie beschikbaar voor uw gerechten?</strong></MudText></TitleContent>
+            <ChildContent>
+                Plaats hier een uitgeschreven antwoord op de veelgestelde vraag ...<br />
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel>
+            <TitleContent><MudText Typo="Typo.body2"><strong>Zijn er speciale menu-opties voor kinderen?</strong></MudText></TitleContent>
+            <ChildContent>
+                Plaats hier een uitgeschreven antwoord op de veelgestelde vraag ...<br />
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+    <MudText Typo="Typo.h5" Class="mt-8">Antwoord niet gevonden?</MudText>
+    <MudText Typo="Typo.subtitle1" Class="mb-4">Contacteer ons met het onderstaande formulier.</MudText>
+    <MudCard Class="pa-4">
+        <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+            <!--<MudTextField T="string" Label="Email" Required="true" RequiredError="Email is required!" Validation="@(new EmailAddressAttribute() {ErrorMessage = "The email address is invalid"})" />-->
+            <MudTextField T="string" Label="Naam" @bind-Value="name" />
+            <MudTextField T="string" Label="Onderwerp" @bind-Value="subject" />
+            <MudTextField T="string" Label="Schrijf uw vraag hier" Variant="Variant.Text" Lines="5" @bind-Value="description" />
+            <MudCardActions>
+                <MudButton OnClick="Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Stuur vraag</MudButton>
+                <!--Href="@($"mailto:test@test.com?subject={subject}&body={description}")"-->
+            </MudCardActions>
+        </MudForm>
+    </MudCard>
+    <MudCard Class="pa-4 mt-4">
+        <MudText Typo="Typo.h6">Andere contact-methodes</MudText>
+        <div class="mt-4" style="display:flex">
+            <MudIcon Icon="@Icons.Material.Filled.Phone" Title="Favorite" />
+            <MudText Typo="Typo.body1">1234 56 78 90</MudText>
+        </div>
+    </MudCard>
+    
+</MudContainer>
+
+@code {
+    MudForm form;
+    bool success;
+    string[] errors = { };
+    string name;
+    string subject;
+    string description;
+    string mailDescription = "";
+
+    private void Submit()
+    {
+        mailDescription = description.Replace(System.Environment.NewLine, "%0D%0A");
+        if (!String.IsNullOrEmpty(name))
+        {
+            mailDescription += $"%0D%0A%0D%0A%0D%0A{name}";
+        }
+
+        NavManager.NavigateTo($"mailto:test@test.com?subject={subject}&body={mailDescription}");
+    }
+}

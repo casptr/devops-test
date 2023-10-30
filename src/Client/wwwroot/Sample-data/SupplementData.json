@@ -1,0 +1,130 @@
+[
+    {
+        "id": 1,
+        "name": "Wite wijnglazen",
+        "amountAvailable": 100,
+        "category": "Glazen",
+        "price": 12.50,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/90/3000/1992.jpg?hmac=v_xO0GFiGn3zpcKzWIsZ3WoSoxJuAEXukrYJUdo2S6g"
+    },
+    {
+        "id": 2,
+        "name": "Rode wijnglazen",
+        "amountAvailable": 250,
+        "category": "Glazen",
+        "price": 15,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/1060/5000/3333.jpg?hmac=2_ONozn0PNqPP1yaiBg8fb7h8CBW0cLIjH29-BHEcOU"
+    },
+    {
+        "id": 3,
+        "name": "Tafels",
+        "amountAvailable": 20,
+        "category": "Meubels",
+        "price": 35,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/48/5000/3333.jpg?hmac=y3_1VDNbhii0vM_FN6wxMlvK27vFefflbUSH06z98so"
+    },
+    {
+        "id": 4,
+        "name": "Stoelen",
+        "amountAvailable": 100,
+        "category": "Meubels",
+        "price": 15,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/625/2507/1674.jpg?hmac=ZuCWygmEqFbv5q0hlD-jimDTtYWRwgAebHLepuXaUUk"
+    },
+    {
+        "id": 5,
+        "name": "Verlichting",
+        "amountAvailable": 20,
+        "category": "Varia",
+        "price": 25,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/195/768/1024.jpg?hmac=rksrWrgeGQzOdzXlnzsTWy2L2zYq4gQei3TBMWCmXsI"
+    },
+    {
+        "id": 6,
+        "name": "BBQ",
+        "amountAvailable": 3,
+        "category": "Varia",
+        "price": 50,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/407/4272/2848.jpg?hmac=X9zJsSzzIRQmVA6T4YJvbl6gbQtzZdJU2CLl8F9SE4U"
+
+    },
+    {
+        "id": 7,
+        "name": "Kampvuur",
+        "amountAvailable": 15,
+        "category": "Varia",
+        "price": 40,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/113/4168/2464.jpg?hmac=p1FqJDS9KHL70UWqUjlYPhJKBdiNOI_CIH0Qo-74_fU"
+    },
+    {
+        "id": 8,
+        "name": "Wite wijnglazen",
+        "amountAvailable": 100,
+        "category": "Glazen",
+        "price": 12.50,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/90/3000/1992.jpg?hmac=v_xO0GFiGn3zpcKzWIsZ3WoSoxJuAEXukrYJUdo2S6g"
+    },
+    {
+        "id": 9,
+        "name": "Rode wijnglazen",
+        "amountAvailable": 250,
+        "category": "Glazen",
+        "price": 15,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/1060/5000/3333.jpg?hmac=2_ONozn0PNqPP1yaiBg8fb7h8CBW0cLIjH29-BHEcOU"
+    },
+    {
+        "id": 10,
+        "name": "Tafels",
+        "amountAvailable": 20,
+        "category": "Meubels",
+        "price": 35,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/48/5000/3333.jpg?hmac=y3_1VDNbhii0vM_FN6wxMlvK27vFefflbUSH06z98so"
+    },
+    {
+        "id": 11,
+        "name": "Stoelen",
+        "amountAvailable": 100,
+        "category": "Meubels",
+        "price": 15,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/625/2507/1674.jpg?hmac=ZuCWygmEqFbv5q0hlD-jimDTtYWRwgAebHLepuXaUUk"
+    },
+    {
+        "id": 12,
+        "name": "Verlichting",
+        "amountAvailable": 20,
+        "category": "Varia",
+        "price": 25,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/195/768/1024.jpg?hmac=rksrWrgeGQzOdzXlnzsTWy2L2zYq4gQei3TBMWCmXsI"
+    },
+    {
+        "id": 13,
+        "name": "BBQ",
+        "amountAvailable": 3,
+        "category": "Varia",
+        "price": 50,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/407/4272/2848.jpg?hmac=X9zJsSzzIRQmVA6T4YJvbl6gbQtzZdJU2CLl8F9SE4U"
+
+    },
+    {
+        "id": 14,
+        "name": "Kampvuur",
+        "amountAvailable": 15,
+        "category": "Varia",
+        "price": 40,
+        "description": "Wijnglazen om witte wijn te drinken",
+        "imageUrl": "https://fastly.picsum.photos/id/113/4168/2464.jpg?hmac=p1FqJDS9KHL70UWqUjlYPhJKBdiNOI_CIH0Qo-74_fU"
+    }
+]
