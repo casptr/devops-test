@@ -1,0 +1,42 @@
+[
+  {
+    "Id": "26",
+    "Category": "servies",
+    "Name": "Papieren borden (50 stuks)",
+    "Description": "Een set van 50 stevige papieren borden, perfect voor feesten en evenementen.",
+    "Price": 9.99,
+    "Imagery": "papieren_dinerborden.png",
+    "AmountAvailable": 100,
+    "IsSupplement": true
+  },
+  {
+    "Id": "27",
+    "Category": "servies",
+    "Name": "Keramische borden (Set van 4)",
+    "Description": "Een set van 4 hoogwaardige keramische borden, ideaal voor speciale gelegenheden.",
+    "Price": 24.99,
+    "Imagery": "keramische_dinerborden.png",
+    "AmountAvailable": 30,
+    "IsSupplement": true
+  },
+  {
+    "Id": "28",
+    "Category": "servies",
+    "Name": "Vorken en Messen Plastic (100 stuks)",
+    "Description": "Een pakket van 100 plastic vorken en messen, handig voor picknicks en barbecues.",
+    "Price": 5.99,
+    "Imagery": "plastic_vorken_messen.png",
+    "AmountAvailable": 150,
+    "IsSupplement": true
+  },
+  {
+    "Id": "29",
+    "Category": "servies",
+    "Name": "Vorken en Messen RVS (Set van 12)",
+    "Description": "Een set van 12 duurzame roestvrij stalen vorken en messen, geschikt voor formele diners en speciale gelegenheden.",
+    "Price": 29.99,
+    "Imagery": "metalenvorken_messen.png",
+    "AmountAvailable": 40,
+    "IsSupplement": true
+  }
+]

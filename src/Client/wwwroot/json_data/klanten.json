@@ -1,0 +1,72 @@
+[
+    {
+      "Id": "1",
+      "Firstname": "Joris",
+      "Lastname": "Vermeulen",
+      "Address": {
+        "Street": "Kerkstraat 123",
+        "City": "Gent",
+        "PostalCode": "9000"
+      },
+      "ContactInfo": {
+        "Email": "joris@example.com",
+        "Phone": "0470-123456"
+      }
+    },
+    {
+      "Id": "2",
+      "Firstname": "Sophie",
+      "Lastname": "De Smedt",
+      "Address": {
+        "Street": "Dorpstraat 456",
+        "City": "Antwerpen",
+        "PostalCode": "2000"
+      },
+      "ContactInfo": {
+        "Email": "sophie@example.com",
+        "Phone": "0471-234567"
+      }
+    },
+    {
+      "Id": "3",
+      "Firstname": "Lucas",
+      "Lastname": "Vandenberghe",
+      "Address": {
+        "Street": "Stationsstraat 789",
+        "City": "Brugge",
+        "PostalCode": "8000"
+      },
+      "ContactInfo": {
+        "Email": "lucas@example.com",
+        "Phone": "0472-345678"
+      }
+    },
+    {
+      "Id": "4",
+      "Firstname": "Emma",
+      "Lastname": "Maes",
+      "Address": {
+        "Street": "Markt 1011",
+        "City": "Kortrijk",
+        "PostalCode": "8500"
+      },
+      "ContactInfo": {
+        "Email": "emma@example.com",
+        "Phone": "0473-456789"
+      }
+    },
+    {
+      "Id": "5",
+      "Firstname": "Finn",
+      "Lastname": "Jacobs",
+      "Address": {
+        "Street": "Hoogstraat 1315",
+        "City": "Leuven",
+        "PostalCode": "3000"
+      },
+      "ContactInfo": {
+        "Email": "finn@example.com",
+        "Phone": "0474-567890"
+      }
+    }
+  ]

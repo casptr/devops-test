@@ -1,0 +1,27 @@
+.formulas, .supplements {
+    text-align: center;
+}
+
+.formulaName {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.compareFormulas {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.formulaNameSmall {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.FormulaTextSmall {
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
+}

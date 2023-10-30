@@ -1,0 +1,32 @@
+[
+  {
+    "Id": "14",
+    "Category": "keuken",
+    "Name": "Frituur",
+    "Description": "De frituur is een onmisbaar apparaat in elke keuken. Met deze frituur kun je heerlijke, knapperige frietjes en snacks bereiden. Dankzij de regelbare temperatuurinstelling kun je de perfecte garing bereiken voor al je favoriete gefrituurde gerechten.",
+    "Price": 20,
+    "Imagery": "frituur.png",
+    "AmountAvailable": 10,
+    "IsSupplement": true
+  },
+  {
+    "Id": "15",
+    "Category": "keuken",
+    "Name": "Barbecue",
+    "Description": "Een barbecue is ideaal om buiten te koken en te genieten van heerlijke gegrilde gerechten. Met deze barbecue kun je sappige steaks, smaakvolle hamburgers en geroosterde groenten bereiden. Het is de perfecte metgezel voor zomerse barbecues met vrienden en familie.",
+    "Price": 50,
+    "Imagery": "barbecue.png",
+    "AmountAvailable": 8,
+    "IsSupplement": true
+  },
+  {
+    "Id": "16",
+    "Category": "keuken",
+    "Name": "Panini Press",
+    "Description": "De panini press is een veelzijdig keukenapparaat waarmee je heerlijke panini's en gegrilde sandwiches kunt maken. Dankzij de antiaanbaklaag kun je smaakvolle en knapperige sandwiches bereiden zonder gedoe. De panini press is een must-have voor liefhebbers van snel en smakelijk eten.",
+    "Price": 20,
+    "Imagery": "panini.png",
+    "AmountAvailable": 15,
+    "IsSupplement": true
+  }
+]

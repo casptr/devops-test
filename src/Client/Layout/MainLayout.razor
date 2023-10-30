@@ -1,0 +1,56 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_currentTheme" />
+<MudDialogProvider CloseOnEscapeKey="true"/>
+<MudSnackbarProvider />
+
+<MudLayout>
+    <Navmenu />
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+    <Footer />
+</MudLayout>
+@code {
+    // Text: #242324 (rgb(36, 35, 36) - hsl(300, 1%, 14%))
+    // Background: #fff9ec (rgb(255, 249, 236) - hsl(41, 100%, 96%))
+    // Primary: #d8b05a (rgb(216, 176, 90) - hsl(41, 62%, 60%))
+    // Secondary: #405d7a (rgb(64, 93, 122) - hsl(210, 31%, 36%))
+    // Accent: #C2CCC5 (rgb(194, 204, 197) - hsl(138, 9%, 78%))
+    private readonly MudTheme _currentTheme = new()
+        {
+            Palette = new PaletteLight()
+            {
+                Primary = "#d8b05a",
+                Secondary = "#405d7a",
+                Info = "#C2CCC5",
+                Success = "#00FF00",
+                Warning = Colors.Orange.Accent1,
+                Error = Colors.Red.Accent1,
+                TextPrimary = "#242324",
+                TextSecondary = "#928A74",
+                Background = "#FAF9F6",
+                Dark = "#242324",
+                AppbarBackground = "#FAF9F6",
+                AppbarText = "#242324",
+                White = "#ffffff",
+            },
+            Typography = new Typography()
+            {
+                Button = new Button()
+                {
+                    TextTransform = "none",
+                },
+                H1 = new H1()
+                {
+                    FontFamily = new[] { "Julius Sans One", "Helvetica" },
+                    FontSize = "4rem",
+                },
+                H4 = new H4()
+                {
+                    FontFamily = new[] { "Julius Sans One", "Helvetica" },
+                    FontSize = "2rem",
+                }
+            }
+        };
+}
