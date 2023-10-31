@@ -13,6 +13,7 @@ using Services.Reservations;
 using Foodtruck.Shared.Reservations;
 using Services.Formulas;
 using Foodtruck.Client.QuotationProcess.Helpers;
+using Services.Supplements;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -31,7 +32,8 @@ builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().Cre
 
 //builder.Services.AddScoped<IFormulaService, FormulaService>();
 builder.Services.AddScoped<IFormulaService, FakeFormulaService>();
-builder.Services.AddScoped<ISupplementService, SupplementService>();
+//builder.Services.AddScoped<ISupplementService, SupplementService>();
+builder.Services.AddScoped<ISupplementService, FakeSupplementService>();
 builder.Services.AddScoped<IReservationService, FakeReservationService>();
 builder.Services.AddScoped<QuotationProcessState>();
 
