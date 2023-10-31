@@ -1,13 +1,20 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@inherits LayoutComponentBase
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject SignOutSessionStateManager SignOutManager
+@inject NavigationManager Navigation
 
 <MudThemeProvider />
 <MudDialogProvider CloseOnEscapeKey="true" />
 <MudSnackbarProvider />
 
 <MudDrawerContainer Class="mud-height-full">
-    <MudDrawer @bind-Open="@open" Elevation="1" Variant="@DrawerVariant.Persistent" >
+    <MudDrawer Open="true" Elevation="1" Variant="@DrawerVariant.Persistent" >
         <MudDrawerHeader>
+            <MudStack>
             <MudText Typo="Typo.h5">Blanche Admin</MudText>
+            <MudText Typo="Typo.body2">@userName</MudText>
+            </MudStack>
         </MudDrawerHeader>
         <MudNavMenu>
             <MudNavLink Match="NavLinkMatch.All" Href="/admin" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Inherit">Dashboard</MudNavLink>
@@ -16,19 +23,32 @@
             <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddBox" IconColor="Color.Inherit">Supplementen</MudNavLink>
         </MudNavMenu>
         <MudSpacer />
-        <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit" Class="mb-2">Afmelden</MudNavLink>
+        <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit" Class="mb-2" OnClick="BeginSignOut">Afmelden</MudNavLink>
     </MudDrawer>
     <MudContainer MaxWidth="MaxWidth.Large" Class="pt-2">
         @Body
     </MudContainer>
 </MudDrawerContainer>
 
-@code {
-    bool open = true;
 
-    void ToggleDrawer()
+@code {
+    private string userName;
+
+    protected override async Task OnInitializedAsync()
     {
-        open = !open;
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            userName = user.Identity.Name;
+        }
     }
 
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+    
 }

@@ -1,7 +1,21 @@
-﻿<CascadingAuthenticationState>
+﻿@inject NavigationManager NavigationManager
+
+<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.Center" Class="mt-6">
+                        <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+                        <MudText>Determining session state, please wait...</MudText>
+                    </MudStack>
+                </Authorizing>
+                <NotAuthorized>
+                    @{
+                        NavigationManager.NavigateTo($"authentication/login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
+                    }
+                </NotAuthorized>
+            </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
