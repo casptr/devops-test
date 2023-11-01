@@ -21,7 +21,15 @@ namespace Foodtruck.Shared.Customers
             {
                 public Validator()
                 {
-                    RuleFor(c => c.Firstname).NotEmpty().MaximumLength(20).MinimumLength(3);
+                    RuleFor(c => c.Firstname).NotEmpty().MaximumLength(40).MinimumLength(2);
+                    RuleFor(c => c.Lastname).NotEmpty().MaximumLength(40).MinimumLength(2);
+                    RuleFor(c => c.Email).NotEmpty().EmailAddress();
+                    RuleFor(c => c.Phone).NotEmpty().MaximumLength(15);
+                    When(x => !string.IsNullOrEmpty(x.CompanyName) || !string.IsNullOrEmpty(x.CompanyNumber), () =>
+                    {
+                        RuleFor(x => x.CompanyName).NotEmpty().MaximumLength(50);
+                        RuleFor(x => x.CompanyNumber).NotEmpty().MaximumLength(15);
+                    });
                 }
             }
         }
