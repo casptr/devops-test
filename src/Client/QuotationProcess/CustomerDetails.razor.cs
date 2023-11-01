@@ -1,4 +1,4 @@
-using global::Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Foodtruck.Client.QuotationProcess.Helpers;
 namespace Foodtruck.Client.QuotationProcess
