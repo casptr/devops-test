@@ -10,7 +10,6 @@ namespace Domain.Customers
 {
     public class MarketingSubscriber : Entity
     {
-
         public EmailAddress Email { get;  } = default!;
 
         public MarketingSubscriber(EmailAddress email)

@@ -22,6 +22,8 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         public FormulaDto.Detail? CurrentSelectedFormula { get; set; }
 
+        public CustomerDetailsFormModel CustomerDetailsFormModel { get; set; } = new();
+
         public void ConfigureReservation(DateTime start, DateTime end)
         {
             ConfiguringQuotationVersion.Reservation.Start = start;
@@ -46,6 +48,26 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             }
 
+        }
+
+        public void ConfigureQuotationCustomerDetails()
+        {
+            configuringQuotation.Customer = CustomerDetailsFormModel.Customer;
+            configuringQuotation.QuotationVersion.EventAddress = CustomerDetailsFormModel.EventAddress;
+            configuringQuotation.QuotationVersion.ExtraInfo = CustomerDetailsFormModel.ExtraInfo;
+
+            // we have to set the billing address if event address is the same as the billing address
+            if (CustomerDetailsFormModel.IsEventAddressDifferentThanBillingAddress)
+            {
+                configuringQuotation.QuotationVersion.BillingAddress = CustomerDetailsFormModel.BillingAddress;
+            }
+            else
+            {
+                configuringQuotation.QuotationVersion.BillingAddress.Street = CustomerDetailsFormModel.EventAddress.Street;
+                configuringQuotation.QuotationVersion.BillingAddress.HouseNumber = CustomerDetailsFormModel.EventAddress.HouseNumber;
+                configuringQuotation.QuotationVersion.BillingAddress.City = CustomerDetailsFormModel.EventAddress.City;
+                configuringQuotation.QuotationVersion.BillingAddress.Zip = CustomerDetailsFormModel.EventAddress.Zip;
+            }
         }
 
         // Finish quotation request
@@ -82,7 +104,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             Console.WriteLine("Customer Details:");
             Console.WriteLine($"Firstname: {Customer.Firstname}");
-            Console.WriteLine($"Lastname: {Customer.LastName}");
+            Console.WriteLine($"Lastname: {Customer.Lastname}");
             Console.WriteLine($"Email: {Customer.Email}");
             Console.WriteLine($"Phone: {Customer.Phone}");
             Console.WriteLine($"CompanyName: {Customer.CompanyName}");
