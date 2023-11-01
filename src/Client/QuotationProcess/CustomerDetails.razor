@@ -1,6 +1,9 @@
 @page "/aanvraag/gegevens-invullen"
+@using FluentValidation;
 @using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers;
+@using Foodtruck.Shared.Customers;
+@using Foodtruck.Shared;
 @using Quotations
 @inject QuotationProcessState QuotationProcessState
 
@@ -8,84 +11,121 @@
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
     <QuotationProcessTimeline currentStep="QuotationProcessStep.ENTER_DETAILS" />
-    <MudForm>
+    <MudForm Model="@model" @ref="@form" Validation="@(validator.ValidateValue)" ValidationDelay="0">
         <MudGrid Class="mb-2">
             <MudItem xs="12" lg="6">
                 <MudText Typo="Typo.h6" Class="mb-4">Klantgegevens</MudText>
-                <MudTextField Label="Voornaam" @bind-Value="QuotationProcessState.Customer.Firstname" Placeholder="Voornaam" />
-                <MudTextField Label="Naam" @bind-Value="QuotationProcessState.Customer.LastName" Placeholder="Naam" />
-                <MudTextField Label="Emailadres" @bind-Value="QuotationProcessState.Customer.Email" Placeholder="email@example.com" />
-                <MudTextField Label="Telefoonnummer" @bind-Value="QuotationProcessState.Customer.Phone" Placeholder="123-456-7890" />
-                <MudTextField Label="Bedrijfsnaam" @bind-Value="QuotationProcessState.Customer.CompanyName" Placeholder="Bedrijfsnaam" />
-                <MudTextField Label="Ondernemingsnummer" @bind-Value="QuotationProcessState.Customer.CompanyNumber" Placeholder="123456789" />
+                <MudTextField Label="Voornaam" @bind-Value="model.Customer.Firstname" For="@(() => model.Customer.Firstname)" Placeholder="Voornaam" />
+                <MudTextField Label="Naam" @bind-Value="model.Customer.Lastname" For="@(() => model.Customer.Lastname)" Placeholder="Naam" />
+                <MudTextField Label="Emailadres" @bind-Value="model.Customer.Email" For="@(() => model.Customer.Email)" Placeholder="email@example.com" />
+                <MudTextField Label="Telefoonnummer" @bind-Value="model.Customer.Phone" For="@(() => model.Customer.Phone)" Placeholder="123-456-7890" />
+                <MudTextField Label="Bedrijfsnaam" @bind-Value="model.Customer.CompanyName" For="@(() => model.Customer.CompanyName)" Placeholder="Bedrijfsnaam" />
+                <MudTextField Label="Ondernemingsnummer" @bind-Value="model.Customer.CompanyNumber" For="@(() => model.Customer.CompanyNumber)" Placeholder="123456789" />
             </MudItem>
             <MudItem xs="12" lg="6">
                 <MudText Typo="Typo.h6" Class="mb-4">Evenementadres</MudText>
-                <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.EventAddress.Street" Placeholder="Straat" />
-                <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.EventAddress.HouseNumber" Placeholder="123" />
-                <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.EventAddress.Zip" Placeholder="12345" />
-                <MudTextField Label="Stad" @bind-Value="QuotationProcessState.EventAddress.City" Placeholder="Stad" />
-                <MudCheckBox @bind-Checked="IsBillingAddressDifferentThanEventAddress" Label ="Mijn evenementadres is verschillend van het factuuradres" Style="margin-left: -15px;"></MudCheckBox>
+                <MudTextField Label="Straatnaam" @bind-Value="model.EventAddress.Street" For="@(() => model.EventAddress.Street)" Placeholder="Straat" />
+                <MudTextField Label="Huisnummer" @bind-Value="model.EventAddress.HouseNumber" For="@(() => model.EventAddress.HouseNumber)" Placeholder="123" />
+                <MudTextField Label="Postcode" @bind-Value="model.EventAddress.Zip" For="@(() => model.EventAddress.Zip)" Placeholder="12345" />
+                <MudTextField Label="Stad" @bind-Value="model.EventAddress.City" For="@(() => model.EventAddress.City)" Placeholder="Stad" />
+                <MudCheckBox Label="Mijn evenementadres is verschillend van het factuuradres" @bind-Checked="model.IsEventAddressDifferentThanBillingAddress" Style="margin-left: -15px;"></MudCheckBox>
 
-                @if (IsBillingAddressDifferentThanEventAddress)
+                @if (model.IsEventAddressDifferentThanBillingAddress)
                 {
                     <MudText Typo="Typo.h6" Class="mb-4">Factuuradres</MudText>
-                    <MudTextField Label="Straatnaam" @bind-Value="QuotationProcessState.BillingAddress.Street" Placeholder="Straat" />
-                    <MudTextField Label="Huisnummer" @bind-Value="QuotationProcessState.BillingAddress.HouseNumber" Placeholder="123" />
-                    <MudTextField Label="Postcode" @bind-Value="QuotationProcessState.BillingAddress.Zip" Placeholder="12345" />
-                    <MudTextField Label="Stad" @bind-Value="QuotationProcessState.BillingAddress.City" Placeholder="Stad" />
+                    <MudTextField Label="Straatnaam" @bind-Value="model.BillingAddress.Street" For="@(() => model.BillingAddress.Street)"  Placeholder="Straat" />
+                    <MudTextField Label="Huisnummer" @bind-Value="model.BillingAddress.HouseNumber" For="@(() => model.BillingAddress.HouseNumber)"  Placeholder="123" />
+                    <MudTextField Label="Postcode" @bind-Value="model.BillingAddress.Zip" For="@(() => model.BillingAddress.Zip)"  Placeholder="12345" />
+                    <MudTextField Label="Stad" @bind-Value="model.BillingAddress.City" For="@(() => model.BillingAddress.City)" Placeholder="Stad" />
 
                 }
             </MudItem>
         </MudGrid>
 
-        <MudTextField @bind-Value="QuotationProcessState.ConfiguringQuotationVersion.ExtraInfo" Label="Extra informatie over je evenement" Variant="Variant.Outlined" Lines="5" Placeholder="Extra informatie" />
-        <MudCheckBox @bind-Checked="QuotationProcessState.Customer.WantsMarketingMails" Label="Ja, ik wil graag marketinginformatie en updates ontvangen." Style="margin-left: -15px;"></MudCheckBox>
+        <MudTextField @bind-Value="model.ExtraInfo" For="@(() => model.ExtraInfo)" Label="Extra informatie over je evenement" Variant="Variant.Outlined" Lines="5" Placeholder="Extra informatie" />
+        <MudCheckBox @bind-Checked="model.Customer.WantsMarketingMails" For="@(() => model.Customer.WantsMarketingMails)" Label="Ja, ik wil graag marketinginformatie en updates ontvangen." Style="margin-left: -15px;"></MudCheckBox>
+        @if (!form.IsValid)
+        {
+            <MudText Color="Color.Error" Class="mb-3">Gelieve alle gegevens correct in te vullen om door te gaan</MudText>
+        }
+        
         <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Href="/aanvraag/formule-kiezen">Vorige stap</MudButton>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" @onclick="Submit">Doorgaan</MudButton>
     </MudForm>
 </MudContainer>
 
 @code {
-    public bool IsBillingAddressDifferentThanEventAddress { get; set; }
+    private CustomerDetailsFormModel model = new();
+    private MudForm form;
+    private CustomerDetailsFormModel.Validator validator = new();
 
     // For testing purposes TODO delete this
     protected override void OnInitialized()
     {
-        QuotationProcessState.Customer.WantsMarketingMails = true;
-        QuotationProcessState.Customer.Firstname = "Bart";
-        QuotationProcessState.Customer.LastName = "Vandenbranden";
-        QuotationProcessState.Customer.CompanyName = "Vandenbranden Corp";
-        QuotationProcessState.Customer.CompanyNumber = "123.345.278";
-        QuotationProcessState.Customer.Email = "bvandenbranden@vbcorp.be";
-        QuotationProcessState.Customer.Phone = "0470454372";
+        // model.Customer.WantsMarketingMails = true;
+        // model.Customer.Firstname = "Bart";
+        // model.Customer.LastName = "Vandenbranden";
+        // model.Customer.CompanyName = "Vandenbranden Corp";
+        // model.Customer.CompanyNumber = "123.345.278";
+        // model.Customer.Email = "bvandenbranden@vbcorp.be";
+        // model.Customer.Phone = "0470454372";
 
-        QuotationProcessState.EventAddress.Street = "Sint-Denijslaan";
-        QuotationProcessState.EventAddress.HouseNumber = "230";
-        QuotationProcessState.EventAddress.City = "Gent";
-        QuotationProcessState.EventAddress.Zip = "9000";
+        // model.EventAddress.Street = "Sint-Denijslaan";
+        // model.EventAddress.HouseNumber = "230";
+        // model.EventAddress.City = "Gent";
+        // model.EventAddress.Zip = "9000";
 
 
-        QuotationProcessState.BillingAddress.Street = "Berkenlaan";
-        QuotationProcessState.BillingAddress.HouseNumber = "45";
-        QuotationProcessState.BillingAddress.City = "Melle";
-        QuotationProcessState.BillingAddress.Zip = "9090";
+        // model.BillingAddress.Street = "Berkenlaan";
+        // model.BillingAddress.HouseNumber = "45";
+        // model.BillingAddress.City = "Melle";
+        // model.BillingAddress.Zip = "9090";
 
-        IsBillingAddressDifferentThanEventAddress = true;
+        // IsBillingAddressDifferentThanEventAddress = true;
 
-        QuotationProcessState.ConfiguringQuotationVersion.ExtraInfo = "Het gaat om een bedrijfsfeest. Je mag mij gerust bellen om de offerte te bespreken.";
+        // model.ConfiguringQuotationVersion.ExtraInfo = "Het gaat om een bedrijfsfeest. Je mag mij gerust bellen om de offerte te bespreken.";
     }
 
-    public void Submit()
+    public async Task Submit()
     {
-        if (!IsBillingAddressDifferentThanEventAddress)
+        await form.Validate();
+
+        if(!form.IsValid) return;
+
+
+        if (!model.IsEventAddressDifferentThanBillingAddress)
         {
-            QuotationProcessState.BillingAddress.Street = QuotationProcessState.EventAddress.Street;
-            QuotationProcessState.BillingAddress.HouseNumber = QuotationProcessState.EventAddress.HouseNumber;
-            QuotationProcessState.BillingAddress.City = QuotationProcessState.EventAddress.City;
-            QuotationProcessState.BillingAddress.Zip = QuotationProcessState.EventAddress.Zip;
+            model.BillingAddress.Street = model.EventAddress.Street;
+            model.BillingAddress.HouseNumber = model.EventAddress.HouseNumber;
+            model.BillingAddress.City = model.EventAddress.City;
+            model.BillingAddress.Zip = model.EventAddress.Zip;
         }
-        QuotationProcessState.RequestQuotation();
+
+        // QuotationProcessState.RequestQuotation();
+    }
+
+
+    public class CustomerDetailsFormModel
+    {
+        public CustomerDto.Create Customer { get; set; } = new();
+        public AddressDto EventAddress { get; set; } = new();
+        public AddressDto BillingAddress { get; set; } = new();
+        public bool IsEventAddressDifferentThanBillingAddress { get; set; }
+        public string ExtraInfo { get; set; }
+
+        public class Validator : FluentValidator<CustomerDetailsFormModel>
+        {
+            public Validator()
+            {
+                RuleFor(x => x.Customer).NotNull().SetValidator(new CustomerDto.Create.Validator());
+                RuleFor(x => x.EventAddress).NotNull().SetValidator(new AddressDto.Validator());
+                When(x => x.IsEventAddressDifferentThanBillingAddress, () =>
+                {
+                    RuleFor(x => x.BillingAddress).NotNull().SetValidator(new AddressDto.Validator());
+                });
+
+            }
+        }
     }
 }
 

@@ -82,7 +82,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             Console.WriteLine("Customer Details:");
             Console.WriteLine($"Firstname: {Customer.Firstname}");
-            Console.WriteLine($"Lastname: {Customer.LastName}");
+            Console.WriteLine($"Lastname: {Customer.Lastname}");
             Console.WriteLine($"Email: {Customer.Email}");
             Console.WriteLine($"Phone: {Customer.Phone}");
             Console.WriteLine($"CompanyName: {Customer.CompanyName}");
