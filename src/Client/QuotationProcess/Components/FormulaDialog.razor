@@ -5,31 +5,49 @@
 
 <MudDialog DefaultFocus="DefaultFocus.LastChild">
     <DialogContent>
-        <MudText Class="mb-6">Gelieve @(CurrentChoice.MinQuantity) stuks te kiezen.</MudText>
-        @foreach (var choice in CurrentChoice.Options)
-        {
-            <MudGrid Class="my-3">
-                <MudItem xs="4" Class="d-flex align-center justify-start">
-                    <MudImage Src="@(choice.Supplement.ImageUrls.ElementAt(0).ToString())" Width="100" />
-                </MudItem>
+        <MudForm id="form" Model="@model" @ref="@form" Validation="@(validator.ValidateValue)" ValidationDelay="0">
+            <MudText Class="mb-6">Gelieve minimum @(model.MinQuantity) eenheden te kiezen.</MudText>
+            @foreach (var choice in model.Options)
+            {
+                <MudGrid Class="my-3">
+                    <MudItem xs="4" Class="d-flex align-center justify-start">
+                        <MudImage Src="@(choice.Supplement.ImageUrls.ElementAt(0).ToString())" Width="100" />
+                    </MudItem>
 
-                <MudItem xs="5" Class="d-flex align-center justify-start">
-                    <MudText>@(choice.Supplement.Name)</MudText>
-                    </MudItem>
-                    <MudItem xs="3" Class="d-flex align-center justify-start">
-                        <MudNumericField Variant="Variant.Outlined" @bind-Value="choice.Quantity" Min="0" />
-                    </MudItem>
-                </MudGrid>
-            <MudDivider />
-        }
+                    <MudItem xs="5" Class="d-flex align-center justify-start">
+                        <MudText>@(choice.Supplement.Name)</MudText>
+                        </MudItem>
+
+                        <MudItem xs="3" Class="d-flex align-center justify-start">
+                            <MudForm Model="choice" Validation="itemValidator.ValidateValue">
+                                <MudNumericField Variant="Variant.Outlined" @bind-Value="choice.Quantity" For="@(() => choice.Quantity)" Min="0" />
+                            </MudForm>
+                        </MudItem>
+
+                    </MudGrid>
+                <MudDivider />
+            }
+            @*  Ignore this - only to show error when minimum quantity is not reached, don't know how to fix :( ' *@
+            <div class="d-none">
+                <MudCheckBox Checked="false" For="() => model.IsMinimumQuantityReached">test</MudCheckBox>
+            </div>
+
+            @if (!form.IsValid)
+            {
+                <MudText Color="Color.Error" Class="mt-3">Gelieve minimum @model.MinQuantity eenheden te selecteren</MudText>
+            }
+
+        </MudForm>
+
     </DialogContent>
+
     <DialogActions>
         <MudButton OnClick="Cancel">Annuleren</MudButton>
         @if (CurrentIndex != 0)
         {
             <MudButton OnClick="Previous">Vorige</MudButton>
         }
-        <MudButton Color="Color.Primary" OnClick="Submit">Doorgaan</MudButton>
+        <MudButton form="form" Color="Color.Primary" OnClick="Submit">Doorgaan</MudButton>
     </DialogActions>
 
 
@@ -39,48 +57,31 @@
     [Parameter, EditorRequired] public FormulaDto.Detail? Formula { get; set; }
     [Parameter, EditorRequired] public Action OnSubmit { get; set; }
 
-    private readonly List<FormulaChoice> choices = new();
-    public IReadOnlyList<FormulaChoice> Choices => choices.AsReadOnly();
+    private FormulaChoiceFormModel model => QuotationProcessState.ChoiceFormModels[CurrentIndex];
+    private readonly FormulaChoiceFormModel.Validator validator = new();
+    private readonly FormulaChoiceFormItem.Validator itemValidator = new();
+    private MudForm form;
 
     private int CurrentIndex = 0;
-    private FormulaChoice CurrentChoice => choices[CurrentIndex];
 
-    protected override void OnParametersSet()
-    {
-        if (QuotationProcessState.HasConfiguredFormulaChoices(Formula))
-        {
-            choices.AddRange(QuotationProcessState.FormulaChoices);
-        }
-        else
-        {
-            choices.AddRange(Formula.Choices.Select(choice => new FormulaChoice(choice)));
-        }
-    }
+    private void Cancel() => MudDialog.Cancel();
+    private void Previous() => CurrentIndex--;
 
-    void Submit()
+    private async Task Submit()
     {
-        if (CurrentIndex != choices.Count - 1)
+        await form.Validate();
+
+        if (!form.IsValid) return;
+
+
+        if (CurrentIndex != QuotationProcessState.ChoiceFormModels.Count - 1)
         {
             CurrentIndex++;
             return;
         }
+        QuotationProcessState.ConfigureQuotationFormula(Formula);
 
-        QuotationProcessState.ConfigureFormula(Formula, Choices.ToList());
-        choices.Clear();
         MudDialog.Close(DialogResult.Ok(true));
         OnSubmit.Invoke();
     }
-
-    void Cancel()
-    {
-        choices.Clear();
-        MudDialog.Cancel();
-    }
-
-    void Previous()
-    {
-        CurrentIndex--;
-    }
-
-
 }
