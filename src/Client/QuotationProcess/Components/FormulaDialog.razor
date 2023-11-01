@@ -5,14 +5,7 @@
 
 <MudDialog DefaultFocus="DefaultFocus.LastChild">
     <DialogContent>
-        @if (CurrentChoice.IsQuantityNumberOfGuests)
-        {
-            <MudText Class="mb-6">Gelieve een of meerdere keuzes te maken.</MudText>
-        }
-        else
-        {
-            <MudText Class="mb-6">Gelieve @(CurrentChoice.MinQuantity) stuks te kiezen.</MudText>
-        }
+        <MudText Class="mb-6">Gelieve @(CurrentChoice.MinQuantity) stuks te kiezen.</MudText>
         @foreach (var choice in CurrentChoice.Options)
         {
             <MudGrid Class="my-3">
@@ -24,16 +17,9 @@
                     <MudText>@(choice.Supplement.Name)</MudText>
                     </MudItem>
                     <MudItem xs="3" Class="d-flex align-center justify-start">
-                        @if (CurrentChoice.IsQuantityNumberOfGuests)
-                    {
-                        <MudCheckBox Color="Color.Primary" Style="width: 150px;" @bind-Checked="choice.IsChosen" />
-                    }
-                    else
-                    {
                         <MudNumericField Variant="Variant.Outlined" @bind-Value="choice.Quantity" Min="0" />
-                    }
-                </MudItem>
-            </MudGrid>
+                    </MudItem>
+                </MudGrid>
             <MudDivider />
         }
     </DialogContent>

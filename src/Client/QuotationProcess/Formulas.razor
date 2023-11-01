@@ -86,7 +86,7 @@ else
 
                                             @foreach (var item in QuotationProcessState.ChosenFormulaChoiceItems)
                                             {
-                                                <MudChip Variant="Variant.Outlined" Size="Size.Small">@(item.IsChosen ? $"{item.Supplement.Name} voor al je gasten" : $"{item.Quantity} x {item.Supplement.Name}")</MudChip>
+                                                <MudChip Variant="Variant.Outlined" Size="Size.Small">@item.Quantity x @item.Supplement.Name</MudChip>
                                             }
                                         </MudStack>
                                     }

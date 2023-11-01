@@ -11,14 +11,13 @@ namespace Domain.Quotations;
 	public Category Category { get; } = default!;
 	public Money Price { get; } = default!;
 	public int Quantity { get; set; } = default!;
-	public bool IncludedInFormula { get; } = default!;
 
 	/// <summary>
 	/// Database Constructor
 	/// </summary>
 	private QuotationSupplementLine() { }
 
-	public QuotationSupplementLine(SupplementItem supplementItem, bool includedInFormula)
+	public QuotationSupplementLine(SupplementItem supplementItem)
 	{
 		Guard.Against.Null(supplementItem, nameof(supplementItem));
 		Supplement supplement = supplementItem.Supplement;
@@ -27,7 +26,5 @@ namespace Domain.Quotations;
 		Category = supplement.Category;
 		Price = supplement.Price.Copy();
 		Quantity = supplementItem.Quantity;
-
-		IncludedInFormula = includedInFormula;
 	}
 }
