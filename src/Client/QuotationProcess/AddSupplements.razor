@@ -1,0 +1,43 @@
+﻿@page "/aanvraag/extras-toevoegen"
+@using Foodtruck.Client.QuotationProcess.Components
+@using Foodtruck.Client.QuotationProcess.Helpers
+@inject QuotationProcessState QuotationProcessState
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
+    <QuotationProcessTimeline currentStep="QuotationProcessStep.ADD_SUPPLEMENTS" />
+
+    @if (supplements is null)
+    {
+        <p>Loading...</p>
+    }
+    else
+    {
+        <div Class="mx-8">
+            <MudGrid Justify="Justify.FlexStart">
+
+                @if (supplements != null)
+                {
+                    @foreach (var supplement in supplements)
+                    {
+                        <MudItem xs="3">
+                            <MudCard Outlined="true" Style="height: 100%;">
+                                <MudCardMedia Image="@supplement?.ImageUrls?.Last().ToString()" Height="225" Style="width: 100%"/>
+                                <MudCardContent>
+                                        <MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement.Name</MudText>
+                                        <MudText Typo="Typo.body2">Aantal beschikbaar: @supplement.AmountAvailable</MudText>
+                                        <MudText Typo="Typo.body1" Class="mt-2">@supplement.Description</MudText>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                }
+            </MudGrid>
+        </div>
+
+    }
+
+
+
+</MudContainer>
+
+                                        

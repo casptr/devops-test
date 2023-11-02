@@ -143,8 +143,6 @@ public class FakeSupplementService : ISupplementService
         };
 
         
-        supplements.Add(supBbqStel);
-        supplements.Add(supBbqKit);
         supplements.Add(supApertiefPlateaus);
         supplements.Add(supTafel);
         supplements.Add(supStoelen);
