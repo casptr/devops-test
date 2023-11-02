@@ -1,37 +1,36 @@
-using global::System;
-using global::System.Collections.Generic;
-using global::System.Linq;
-using global::System.Threading.Tasks;
 using global::Microsoft.AspNetCore.Components;
-using System.Net.Http;
-using System.Net.Http.Json;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Routing;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.AspNetCore.Components.WebAssembly.Http;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.JSInterop;
-using Foodtruck.Client;
-using Foodtruck.Client.Shared;
-using Foodtruck.Client.Layout;
-using MudBlazor;
-using Foodtruck.Client.QuotationProcess.Components;
-using Foodtruck.Client.QuotationProcess.Helpers;
 using Foodtruck.Shared.Supplements;
+using Foodtruck.Client.QuotationProcess.Helpers;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Foodtruck.Client.QuotationProcess
 {
-    public partial class AddSupplements
+	public partial class AddSupplements
     {
-        [Inject]
-        public ISupplementService SupplementService { get; set; } = default !;
+        [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
+		[Inject] public ISupplementService SupplementService { get; set; } = default !;
 
-        private IEnumerable<SupplementDto.Detail>? supplements;
+        private IEnumerable<SupplementChoice>? supplements;
         protected override async Task OnParametersSetAsync()
         {
             var response = await SupplementService.GetAllAsync();
-            supplements = response.Supplements;
+            supplements = response.Supplements?.Select( supplement => new SupplementChoice()
+            {
+                Supplement = supplement,
+                Quantity = 0
+            }).ToList();
+        }
+
+        private void AddSupplement(SupplementDto.Detail supplement, int quantity)
+        {
+            var supplementChoice = new SupplementChoice()
+            {
+                Supplement = supplement,
+                Quantity = quantity
+            };
+
+            QuotationProcessState.AddSupplement(supplementChoice);
         }
     }
 }

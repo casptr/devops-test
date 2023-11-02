@@ -1,7 +1,6 @@
 ﻿@page "/aanvraag/extras-toevoegen"
 @using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers
-@inject QuotationProcessState QuotationProcessState
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
     <QuotationProcessTimeline currentStep="QuotationProcessStep.ADD_SUPPLEMENTS" />
@@ -21,18 +20,18 @@
                     {
                         <MudItem lg="3" md="4" sm="6" xs="12">
                             <MudCard Outlined="true" Class="d-flex flex-column" Style="height: 100%">
-                                <MudCardMedia Image="@supplement?.ImageUrls?.Last().ToString()" Height="225" />
+                                <MudCardMedia Image="@supplement?.Supplement.ImageUrls?.Last().ToString()" Height="225" />
                                 <MudCardContent>
-                                    <MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement.Name</MudText>
-                                    <MudText Typo="Typo.body2">Aantal beschikbaar: @supplement.AmountAvailable</MudText>
-                                    <MudText Typo="Typo.body1" Class="mt-2">@supplement.Description</MudText>
+                                    <MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement?.Supplement.Name</MudText>
+                                    <MudText Typo="Typo.body2">Aantal beschikbaar: @supplement?.Supplement.AmountAvailable</MudText>
+                                    <MudText Typo="Typo.body1" Class="mt-2">@supplement?.Supplement.Description</MudText>
                                 </MudCardContent>
                                 <MudCardActions Class="mt-auto px-4">
                                     <MudStack Row="true" AlignItems="AlignItems.Center">
                                         <div style="width: 4.5rem;">
-                                            <MudNumericField Variant="Variant.Outlined" Min="0" Max="@supplement.AmountAvailable" Style="height: 3rem;" />
+                                            <MudNumericField T="int" Variant="Variant.Outlined" Min="0" Max="@supplement!.Supplement.AmountAvailable" Style="height: 3rem;" @bind-Value="supplement.Quantity" />
                                         </div>
-                                        <MudButton Color="Color.Primary" Style="height: 46px;margin-bottom: -5px">Toevoegen</MudButton>
+                                        <MudButton Color="Color.Primary" Style="height: 46px;margin-bottom: -5px" OnClick="() => {AddSupplement(supplement.Supplement, supplement.Quantity); supplement.Quantity = 0;}">Toevoegen</MudButton>
                                     </MudStack>
                                 </MudCardActions>
                             </MudCard>

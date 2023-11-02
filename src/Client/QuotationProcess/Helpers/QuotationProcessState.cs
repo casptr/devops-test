@@ -17,6 +17,9 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         private readonly List<FormulaChoice> formulaChoices = new();
         public IReadOnlyCollection<FormulaChoice> FormulaChoices => formulaChoices.AsReadOnly();
 
+        private readonly List<SupplementChoice> supplementChoices = new();
+        public IReadOnlyCollection<SupplementChoice> SupplementChoices => supplementChoices.AsReadOnly();
+
         // Item is chosen if: quantity is dependent on number of guests => checkbox true, quantity dependent on input => quantity != 0
         public IReadOnlyCollection<FormulaChoiceItem> ChosenFormulaChoiceItems => FormulaChoices.SelectMany(choice => choice.Options.Where(option => choice.IsQuantityNumberOfGuests ? option.IsChosen : option.Quantity != 0)).ToList();
 
@@ -34,7 +37,6 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             return formulaChoices.Count != 0 && CurrentSelectedFormula == formula;
         }
 
-
         public void ConfigureFormula(FormulaDto.Detail formula, List<FormulaChoice>? formulaChoices = null)
         {
             CurrentSelectedFormula = formula;
@@ -46,6 +48,24 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             }
 
+        }
+
+        public void AddSupplement(SupplementChoice supplement)
+        {
+            // TODO: Add check to see if quantity that is gonna be added doesn't go over the AmountAvailable otherwise user can add more than available amount of a certain item
+            if (supplementChoices.Contains(supplement))
+            {
+                supplementChoices.Where(supplementChoice => supplementChoice.Equals(supplement)).ToList().ForEach(supplementChoice => supplementChoice.Quantity += supplement.Quantity);
+            }
+            else
+            {
+                supplementChoices.Add(supplement);
+            }
+            Console.WriteLine();
+            foreach (var choice in supplementChoices)
+            {
+                Console.WriteLine(choice.Supplement.Name + ": " + choice.Quantity.ToString());
+            }
         }
 
         // Finish quotation request
