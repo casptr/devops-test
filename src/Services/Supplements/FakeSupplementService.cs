@@ -20,71 +20,15 @@ public class FakeSupplementService : ISupplementService
         var catExtra = new CategoryDto.Index { Id = 3, Name = "Extra" };
         var catDrinken = new CategoryDto.Index { Id = 4, Name = "Drinken" };
        
-        var supApertiefPlateaus = new SupplementDto.Detail()
+        var supDienblad = new SupplementDto.Detail()
         {
             Id = 8,
             Category = catExtra,
-            AmountAvailable = 35,
-            Description = "Plateaus om je aperitiefhapjes mooi te kunnen presenteren.",
-            Name = "Aperitiefhapjes plateau",
-            Price = 2,
-            ImageUrls = new List<Uri>() { new Uri("https://cdn.myonlinestore.eu/9c120eab-73c2-4c08-a996-64d749bc2606/image/cache/full/bcf2e0c943c5961be00c1a0a73fa981664057eab.jpg?20230824130710") },
-        };
-
-        var supTafel = new SupplementDto.Detail()
-        {
-            Id = 9,
-            AmountAvailable = 4,
-            Category = catExtra,
-            Description = "Tafel voor 8 personen.",
-            Name = "Tafel",
-            Price = 8,
-            ImageUrls = new List<Uri>() { new Uri("https://buitenhof.xcdn.nl/images/COT-260-LAV-CRT_concept-tuintafel-260-rechthoek-lava-robuust-teak_V_1.jpg?f=rs:fit:1500:1500/g:ce&s=1") }
-        };
-
-        var supStoelen = new SupplementDto.Detail()
-        {
-            Id = 10,
-            AmountAvailable = 40,
-            Category = catExtra,
-            Description = "Comfortabele stoel geschikt voor binnen en buiten.",
-            Name = "Stoel",
-            Price = 2,
-            ImageUrls = new List<Uri>() { new Uri("https://designonline24.nl/media/wysiwyg/Hoofdcategorieen/tuin/wicker-tuinstoelen-designonline24.jpg") }
-        };
-
-        var supReceptieTafel = new SupplementDto.Detail()
-        {
-            Id = 11,
-            AmountAvailable = 12,
-            Category = catExtra,
-            Description = "Ronde hoge tafel geschikt voor recepties.",
-            Name = "Receptietafel",
-            Price = 2,
-            ImageUrls = new List<Uri>() { new Uri("https://www.fjestum.be/images/product/ReceptietafelStretchhoeszwart_116.jpg") }
-        };
-
-        var supWitteWijnglazen = new SupplementDto.Detail()
-        {
-            Id = 12,
-            AmountAvailable = 50,
-            Category = catDrinken,
-            Description = "Wijnglas geschikt voor witte wijn.",
-            Name = "Wijnglas witte wijn",
-            Price = 0.25M,
-            ImageUrls = new List<Uri>() { new Uri("https://moodsathome.com/src/Frontend/Files/Cache/products_preview_thumb/src/Frontend/Files/Products/ProductImageDetail/source/f377992f6f95152dba8adde73dae0f0ac4720f74.jpeg") }
-        };
-
-        var supRodeWijnglazen = new SupplementDto.Detail()
-        {
-
-            Id = 13,
-            AmountAvailable = 50,
-            Category = catDrinken,
-            Description = "Wijnglas geschikt voor rode wijn.",
-            Name = "Wijnglas rode wijn",
-            Price = 0.25M,
-            ImageUrls = new List<Uri>() { new Uri("https://media.s-bol.com/Jy9VQ6wANn8y/550x487.jpg") }
+            AmountAvailable = 10,
+            Description = "Plateau’s/dienblad zwart antislip (diameter 35cm).",
+            Name = "Plateau’s",
+            Price = 1.5M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Dienblad.jpg") },
         };
 
         var supSfeerverlichting = new SupplementDto.Detail()
@@ -93,69 +37,234 @@ public class FakeSupplementService : ISupplementService
             Id = 14,
             AmountAvailable = 8,
             Category = catExtra,
-            Description = "Sfeerverlichting om op te hangen.",
-            Name = "Sfeerverlichting",
+            Description = "Lichtslinger (guirlandes 10m).",
+            Name = "Lichtslinger",
             Price = 3,
-            ImageUrls = new List<Uri>() { new Uri("https://cdn.webshopapp.com/shops/293468/files/323407380/1015x535x1/image.jpg") }
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Sfeerverlichting.jpg") }
         };
-        var supHapjes = new SupplementDto.Detail()
-        {
-
-            Id = 15,
-            AmountAvailable = 10,
-            Category = catEten,
-            Description = "Vier verschillende soorten hapjes per persoon.",
-            Name = "Hapjes",
-            Price = 2M,
-            ImageUrls = new List<Uri>() { new Uri("https://img.static-rmg.be/a/view/q75/w/h/4764567/warme-en-koude-hapjes-jpg.jpg") }
-        };
-        var supFruitsap = new SupplementDto.Detail()
-        {
-
-            Id = 16,
-            AmountAvailable = 75,
-            Category = catDrinken,
-            Description = "Een bokaal vers fruitsap.",
-            Name = "Fruitsap",
-            Price = 5M,
-            ImageUrls = new List<Uri>() { new Uri("https://weilandshof.be/wp-content/uploads/2021/04/fruitsap-orange-juice-weilandshof.jpg") }
-        };
-        var supLimonade = new SupplementDto.Detail()
-        {
-            Id = 17,
-            AmountAvailable = 75,
-            Category = catDrinken,
-            Description = "Een bokaal zelf gemaakte limonade.",
-            Name = "Limonade",
-            Price = 5M,
-            ImageUrls = new List<Uri>() { new Uri("https://1.bp.blogspot.com/--WOuRTUIW48/Xud2-T28wFI/AAAAAAAABAs/7svop0gvCwAM-BUve767bmx9V2OeU3D2ACNcBGAsYHQ/s1600/three-juice-jar-dispensers-3217151.jpg") }
-        };
-
-        var supChampagneWijnglazen = new SupplementDto.Detail()
-        {
-            Id = 18,
-            AmountAvailable = 150,
-            Category = catDrinken,
-            Description = "Glas geschikt voor champagne.",
-            Name = "Champagne glas",
-            Price = 0.25M,
-            ImageUrls = new List<Uri>() { new Uri("https://cdn.zilvercms.nl/x1000,q80/http://cookinglife.zilvercdn.nl/uploads/product/images/LatelierDeVin-Algemeen-3.jpg") }
-        };
-
         
-        supplements.Add(supBbqStel);
-        supplements.Add(supBbqKit);
-        supplements.Add(supApertiefPlateaus);
-        supplements.Add(supTafel);
-        supplements.Add(supStoelen);
-        supplements.Add(supReceptieTafel);
-        supplements.Add(supWitteWijnglazen);
-        supplements.Add(supRodeWijnglazen);
+        var supSaladette = new SupplementDto.Detail()
+        {
+            Id = 19,
+            AmountAvailable = 2,
+            Category = catExtra,
+            Description = "Inclusief 5 GN bakken ¼ + 5 deksels, diepte 150 mm",
+            Name = "Saladette",
+            Price = 65M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Saladette.jpg") }
+        };
+
+        var supGNBakken = new SupplementDto.Detail()
+        {
+            Id = 20,
+            AmountAvailable = 20,
+            Category = catExtra,
+            Description = "GN bakken ¼ + 5 deksels, diepte 150 mm",
+            Name = "GN bakken",
+            Price = 3M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/GNbaken14.jpg") }
+        };
+        var supGNBakken1_6 = new SupplementDto.Detail()
+        {
+            Id = 21,
+            AmountAvailable = 10,
+            Category = catExtra,
+            Description = "GN bakken 1/6  + deksel, diepte 150mm ",
+            Name = "GN bakken 1/6",
+            Price = 3M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/GNbakken16.jpg") }
+        };
+        var supBarKoeler = new SupplementDto.Detail()
+        {
+            Id = 22,
+            AmountAvailable = 1,
+            Category = catExtra,
+            Description = "Barkoeler 320 liter – 3x glazen schuifdeur - zwart ( 50cm (l) x 135cm (b) x 87cm (h)",
+            Name = "Barkoeler",
+            Price = 65M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Barkoeler.jpg") }
+        };
+        
+        var supCocktailglasGoud = new SupplementDto.Detail()
+        {
+            Id = 23,
+            AmountAvailable = 100,
+            Category = catExtra,
+            Description = "Cocktail glas met gouden rand 330ml",
+            Name = "Cocktail glas gouden rand",
+            Price = 0.5M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/CocktailGoudenRand.jpg") }
+        };
+
+        var supCocktailglasGewoon = new SupplementDto.Detail()
+        {
+            Id = 24,
+            AmountAvailable = 100,
+            Category = catExtra,
+            Description = "Cocktail glas type rand 330ml",
+            Name = "Cocktail glas type rand",
+            Price = 0.2M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/CocktailRand.jpg") }
+        };
+
+        var supCocktailglasKlein = new SupplementDto.Detail()
+        {
+            Id = 25,
+            AmountAvailable = 100,
+            Category = catExtra,
+            Description = "Cocktailglas 250ml",
+            Name = "Cocktailglas klein",
+            Price = 0.15M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Cocktailglazen.jpg") }
+        };
+
+        var supIjsemmer = new SupplementDto.Detail()
+        {
+            Id = 26,
+            AmountAvailable = 1,
+            Category = catExtra,
+            Description = "Ijsemmer 7l",
+            Name = "Ijsemmer",
+            Price = 10M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Ijsemmer.jpg") }
+        };
+
+        var supVuurschaal = new SupplementDto.Detail()
+        {
+            Id = 27,
+            AmountAvailable = 1,
+            Category = catExtra,
+            Description = "Vuurschaal diameter 120cm ",
+            Name = "Vuurschaal",
+            Price = 40M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Vuurschaal.jpg") }
+        };
+
+        var supDriepoot = new SupplementDto.Detail()
+        {
+            Id = 28,
+            AmountAvailable = 1,
+            Category = catExtra,
+            Description = "Driepoot met BBQ rooster + vuurschaal ",
+            Name = "Driepoot",
+            Price = 100M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Driepoot.jpg") }
+        };
+
+        var supDiepvries = new SupplementDto.Detail()
+        {
+            Id = 29,
+            AmountAvailable = 1,
+            Category = catExtra,
+            Description = "Diepvries 80l (60cm (l)x60cm (b) x 80cm (h))",
+            Name = "Diepvries",
+            Price = 50M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Diepvries.jpg") }
+        };
+        var supSnijplank = new SupplementDto.Detail()
+        {
+            Id = 30,
+            AmountAvailable = 3,
+            Category = catExtra,
+            Description = "Snijplanken groen (60cm x 40cm)",
+            Name = "Snijplank",
+            Price = 4M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Snijplanken.jpg") }
+        };
+        var supSpoelbak = new SupplementDto.Detail()
+        {
+            Id = 31,
+            AmountAvailable = 1,
+            Category = catExtra,
+            Description = "Spoelbak klein type camping 100cm(b) x 50 cm(l) x 80cm(h)",
+            Name = "Spoelbak",
+            Price = 10M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Spoelbak.jpg") }
+        };
+        var supDrankenDispenser = new SupplementDto.Detail()
+        {
+            Id = 32,
+            AmountAvailable = 2,
+            Category = catExtra,
+            Description = "Drankendispenser",
+            Name = "Drankendispenser",
+            Price = 15M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Drankendispenser.jpg") }
+        };
+        var supSoepketel = new SupplementDto.Detail()
+        {
+            Id = 33,
+            AmountAvailable = 2,
+            Category = catExtra,
+            Description = "Soepketel 10 liter + pollepel",
+            Name = "Soepketel",
+            Price = 15M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Soepketel.jpg") }
+        };
+        var supStrobaal = new SupplementDto.Detail()
+        {
+            Id = 34,
+            AmountAvailable = 10,
+            Category = catExtra,
+            Description = "Strobalen (80cm (l) x 45cm (b) x 45cm (h) )",
+            Name = "Strobaal",
+            Price = 4M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Strobalen.jpg") }
+        };
+        var supSchapenvacht = new SupplementDto.Detail()
+        {
+            Id = 35,
+            AmountAvailable = 10,
+            Category = catExtra,
+            Description = "Schapenvacht ong. 100 cm x 50cm",
+            Name = "Schapenvacht",
+            Price = 12M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Schapenvacht.jpg") }
+        };
+        var supBiertafel = new SupplementDto.Detail()
+        {
+            Id = 36,
+            AmountAvailable = 5,
+            Category = catExtra,
+            Description = "Biertafel set : 1 tafel (220cm (l) x 80cm (b) x 77cm (h) + 2 banken ( 220cm (l) x 25cm (b) x 48 cm (h)",
+            Name = "Biertafel set",
+            Price = 15M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Biertafel.jpg") }
+        };
+        var supFruitkist = new SupplementDto.Detail()
+        {
+            Id = 37,
+            AmountAvailable = 20,
+            Category = catExtra,
+            Description = "Fruitkisten (50cm (l) x 41cm (b) x 31cm (h)",
+            Name = "Fruitkist",
+            Price = 5M,
+            ImageUrls = new List<Uri>() { new Uri("https://localhost:7143/images/Fruitkist.jpg") }
+        };
+        supplements.Add(supDienblad);
         supplements.Add(supSfeerverlichting);
-        supplements.Add(supHapjes);
-        supplements.Add(supFruitsap);
-        supplements.Add(supLimonade);
-        supplements.Add(supChampagneWijnglazen);
+        supplements.Add(supSaladette);
+        supplements.Add(supGNBakken);
+        supplements.Add(supGNBakken1_6);
+        supplements.Add(supBarKoeler);
+
+        supplements.Add(supCocktailglasKlein);
+        supplements.Add(supCocktailglasGewoon);
+        supplements.Add(supCocktailglasGoud);
+        supplements.Add(supIjsemmer);
+        supplements.Add(supVuurschaal);
+        supplements.Add(supDriepoot);
+
+        supplements.Add(supDiepvries);
+        supplements.Add(supSnijplank);
+        supplements.Add(supSpoelbak);
+        supplements.Add(supDrankenDispenser);
+        supplements.Add(supSoepketel);
+        supplements.Add(supStrobaal);
+        supplements.Add(supSchapenvacht);
+        supplements.Add(supBiertafel);
+        supplements.Add(supFruitkist);
+
     }
 
     public Task<SupplementResult.Index> GetAllAsync()
