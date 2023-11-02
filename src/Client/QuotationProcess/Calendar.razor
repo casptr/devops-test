@@ -10,7 +10,20 @@
 
     <MudStack Spacing="10">
         <MudText Typo="Typo.h4" Align="Align.Center">Selecteer een datum</MudText>
-        <MudDateRangePicker Rounded="true" PickerVariant="PickerVariant.Static" @bind-DateRange="selectedDateRange" MinDate="DateTime.Now.Date" IsDateDisabledFunc="IsDateAlreadyBooked" Elevation="5" DisableToolbar="true" Class="datum-aanvraag-picker" />
+        <div class="relative">
+            @if (reservations is null)
+            {
+                <div style="position: absolute; width: 100%; height: 100%; top:auto; left: 0; opacity: 0.8;background: white; z-index:100">
+                    <MudStack Row="true" Style="position: absolute;top:50%; left: 0;  transform: translateY(-50%);width: 100%;" AlignItems="AlignItems.Center" Justify="Justify.Center" Spacing="7">
+                        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+                        <MudText>Reservaties ophalen..</MudText>
+                    </MudStack>
+
+                </div>
+            }
+            <MudDateRangePicker Rounded="true" PickerVariant="PickerVariant.Static" @bind-DateRange="selectedDateRange" MinDate="DateTime.Now.Date" IsDateDisabledFunc="IsDateAlreadyBooked" Elevation="5" DisableToolbar="true" Class="datum-aanvraag-picker" />
+        </div>
+
         <MudText>Gelieve de datum te selecteren waarop je evenement begint en eindigt. De foodtruck wordt opgehaald de dag na de einddatum van je evenement.</MudText>
         <MudGrid Spacing="4">
             <MudItem xs="12" md="6">
@@ -61,7 +74,7 @@
     {
         get
         {
-            return dateTime => reservations.Any(reservation => dateTime >= reservation.Start && dateTime <= reservation.End);
+            return dateTime => reservations is null ? false : reservations.Any(reservation => dateTime >= reservation.Start && dateTime <= reservation.End);
         }
     }
 
@@ -82,7 +95,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        reservations = await ReservationService.GetAllAsync();
+        ReservationResult.Index result = await ReservationService.GetIndexAsync();
+        reservations = result.Reservations;
 
         foreach (var r in reservations)
         {

@@ -1,7 +1,9 @@
 ﻿using Foodtruck.Shared.Formulas;
+using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.Extensions.DependencyInjection;
 using Services.Formulas;
+using Services.Reservations;
 using Services.Supplements;
 
 namespace Services;
@@ -17,6 +19,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IFormulaService, FormulaService>();
         services.AddScoped<ISupplementService, SupplementService>();
+        services.AddScoped<IReservationService, FakeReservationService>();
         // Add more services here...
 
         return services;
