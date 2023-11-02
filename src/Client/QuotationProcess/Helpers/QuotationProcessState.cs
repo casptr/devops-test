@@ -12,7 +12,6 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         private QuotationDto.Create configuringQuotation = new();
         public QuotationVersionDto.Create ConfiguringQuotationVersion => configuringQuotation.QuotationVersion;
 
-
         public FormulaDto.Detail? CurrentSelectedFormula { get; private set; }
 
         private readonly List<FormulaChoiceFormModel> CompletedChoiceFormModels = new();
