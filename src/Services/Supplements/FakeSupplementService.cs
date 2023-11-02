@@ -19,85 +19,7 @@ public class FakeSupplementService : ISupplementService
         var catEten = new CategoryDto.Index { Id = 2, Name = "Eten" };
         var catExtra = new CategoryDto.Index { Id = 3, Name = "Extra" };
         var catDrinken = new CategoryDto.Index { Id = 4, Name = "Drinken" };
-        var suppJup = new SupplementDto.Detail()
-        {
-            Id = 1,
-            Name = "Vat Jupiler",
-            Description = "1 Vat Jupiler van 50 L",
-            AmountAvailable = 5,
-            Price = 150,
-            ImageUrls = new List<Uri>() { new Uri("https://thysshop.be/321-thickbox_default/Jupiler-33-cl-Fles.jpg") },
-            Category = catEten,
-
-        };
-
-        var suppDuvel = new SupplementDto.Detail()
-        {
-            Id = 2,
-            Name = "Vat Duvel",
-            Description = "Vat Duvel van 50 L",
-            AmountAvailable = 3,
-            Price = 200,
-            ImageUrls = new List<Uri>() { new Uri("https://www.prikentik.be/media/catalog/product/d/u/duvel_bottle_classic_be-nl-fr.jpg") },
-            Category = catEten,
-        };
-        var suppStella = new SupplementDto.Detail()
-        {
-            Id = 3,
-            Name = "Vat Stella Artois",
-            Description = "1 Vat Stella van 50 L",
-            AmountAvailable = 7,
-            Price = 190M,
-            ImageUrls = new List<Uri>() { new Uri("https://goedkoopdrank.be/wp-content/uploads/2023/07/P2911.jpg") },
-            Category = catEten,
-        };
-
-        var suppHamburger = new SupplementDto.Detail()
-        {
-            Id = 4,
-            Name = "Hamburgers",
-            Description = "Heerlijke rundshamburger",
-            AmountAvailable = 70,
-            Price = 4,
-            ImageUrls = new List<Uri>() { new Uri("https://www.fryskblackangus.nl/wp-content/uploads/2019/05/black-angus-steakburger-bbq-1080x675.jpg") },
-            Category = catEten,
-
-        };
-
-        var suppRibbetjes = new SupplementDto.Detail()
-        {
-            Id = 5,
-            Name = "Ribbetjes",
-            Description = "1 hele varkensrib gemarineerd in pikante saus",
-            Price = 10.00M,
-            Category = catEten,
-            AmountAvailable = 10,
-            ImageUrls = new List<Uri> { new Uri("https://hunting.be/wp-content/uploads/2021/02/grilled-pork-ribs-P6RJQ79-scaled.jpg") }
-
-        };
-
-        var supBbqStel = new SupplementDto.Detail()
-        {
-            Id = 6,
-            Category = catExtra,
-            AmountAvailable = 3,
-            Description = "Bbq-stel om lekker vlees op te bakken. Inclusief hout voor bbq",
-            Name = "Bbq set",
-            Price = 50,
-            ImageUrls = new List<Uri>() { new Uri("https://mb.fqcdn.nl/square1200ng/8676170/krumble-teflon-bakmat-rond-bbq-set-van-2.jpg") },
-        };
-
-        var supBbqKit = new SupplementDto.Detail()
-        {
-            Id = 7,
-            Category = catExtra,
-            AmountAvailable = 2,
-            Description = "Barbequekit 18-delig. Alles wat je nodig hebt om je bbq te gebruiken",
-            Name = "Bbq-kit",
-            Price = 20,
-            ImageUrls = new List<Uri>() { new Uri("https://img.fruugo.com/product/4/37/575202374_max.jpg") },
-            CreatedAt = DateTime.Now,
-        };
+       
         var supApertiefPlateaus = new SupplementDto.Detail()
         {
             Id = 8,
@@ -220,11 +142,7 @@ public class FakeSupplementService : ISupplementService
             ImageUrls = new List<Uri>() { new Uri("https://cdn.zilvercms.nl/x1000,q80/http://cookinglife.zilvercdn.nl/uploads/product/images/LatelierDeVin-Algemeen-3.jpg") }
         };
 
-        supplements.Add(suppJup);
-        supplements.Add(suppDuvel);
-        supplements.Add(suppStella);
-        supplements.Add(suppHamburger);
-        supplements.Add(suppRibbetjes);
+        
         supplements.Add(supBbqStel);
         supplements.Add(supBbqKit);
         supplements.Add(supApertiefPlateaus);

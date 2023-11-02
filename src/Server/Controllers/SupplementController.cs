@@ -1,4 +1,5 @@
-﻿using Foodtruck.Shared.Supplements;
+﻿
+using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
