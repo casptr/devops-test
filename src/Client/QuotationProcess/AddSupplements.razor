@@ -4,40 +4,45 @@
 @inject QuotationProcessState QuotationProcessState
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
-    <QuotationProcessTimeline currentStep="QuotationProcessStep.ADD_SUPPLEMENTS" />
+	<QuotationProcessTimeline currentStep="QuotationProcessStep.ADD_SUPPLEMENTS" />
 
-    @if (supplements is null)
-    {
-        <p>Loading...</p>
-    }
-    else
-    {
-        <div Class="mx-8">
-            <MudGrid Justify="Justify.FlexStart">
+	@if (supplements is null)
+	{
+		<p>Loading...</p>
+	}
+	else
+	{
+		<div Class="mx-8">
+			<MudGrid Justify="Justify.FlexStart">
 
-                @if (supplements != null)
-                {
-                    @foreach (var supplement in supplements)
-                    {
-                        <MudItem xs="3">
-                            <MudCard Outlined="true" Style="height: 100%;">
-                                <MudCardMedia Image="@supplement?.ImageUrls?.Last().ToString()" Height="225" Style="width: 100%"/>
-                                <MudCardContent>
-                                        <MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement.Name</MudText>
-                                        <MudText Typo="Typo.body2">Aantal beschikbaar: @supplement.AmountAvailable</MudText>
-                                        <MudText Typo="Typo.body1" Class="mt-2">@supplement.Description</MudText>
-                                </MudCardContent>
-                            </MudCard>
-                        </MudItem>
-                    }
-                }
-            </MudGrid>
-        </div>
+				@if (supplements != null)
+				{
+					@foreach (var supplement in supplements)
+					{
+						<MudItem xs="3">
+							<MudCard Outlined="true" Class="d-flex flex-column" Style="height: 100%">
+								<MudCardMedia Image="@supplement?.ImageUrls?.Last().ToString()" Height="225"/>
+								<MudCardContent>
+									<MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement.Name</MudText>
+									<MudText Typo="Typo.body2">Aantal beschikbaar: @supplement.AmountAvailable</MudText>
+									<MudText Typo="Typo.body1" Class="mt-2">@supplement.Description</MudText>
+								</MudCardContent>
+								<MudCardActions Class="mt-auto">
+									<div style="width: 4.5rem;">
+										<MudNumericField Variant="Variant.Outlined" Min="0" Max="@supplement.AmountAvailable" Style="height: 3rem;"/>
+									</div>
+									<MudButton Color="Color.Primary">Toevoegen</MudButton>
+								</MudCardActions>
+							</MudCard>
+						</MudItem>
+					}
+				}
+			</MudGrid>
+		</div>
 
-    }
+	}
 
 
 
 </MudContainer>
 
-                                        
