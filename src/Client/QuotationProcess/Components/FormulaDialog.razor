@@ -79,8 +79,8 @@
             CurrentIndex++;
             return;
         }
-        QuotationProcessState.ConfigureQuotationFormula(Formula);
 
+        QuotationProcessState.ConfigureQuotationFormula(Formula);
         MudDialog.Close(DialogResult.Ok(true));
         OnSubmit.Invoke();
     }

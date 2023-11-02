@@ -45,6 +45,7 @@ namespace Foodtruck.Client.QuotationProcess
                 return;
 
             QuotationProcessState.ConfigureQuotationCustomerDetails();
+            QuotationProcessState.PrintQuotation();
         }
     }
 }
