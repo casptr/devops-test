@@ -38,17 +38,19 @@ namespace Foodtruck.Client.QuotationProcess
 
         private void ChooseFormula(FormulaDto.Detail formula)
         {
-            if (formula.Choices.Count() != 0)
+            QuotationProcessState.SetupFormulaChoiceFormModels(formula);
+
+            if(QuotationProcessState.ChoiceFormModels.Count > 0)
             {
-                OpenDialog(formula);
+                OpenChoicesDialog(formula);
             }
             else
             {
-                QuotationProcessState.ConfigureFormula(formula);
+                QuotationProcessState.ConfigureQuotationFormula(formula);
             }
         }
 
-        private void OpenDialog(FormulaDto.Detail formula)
+        private void OpenChoicesDialog(FormulaDto.Detail formula)
         {
             var parameters = new DialogParameters<FormulaDialog>();
             parameters.Add(dialog => dialog.Formula, formula);
@@ -58,3 +60,6 @@ namespace Foodtruck.Client.QuotationProcess
         }
     }
 }
+
+
+
