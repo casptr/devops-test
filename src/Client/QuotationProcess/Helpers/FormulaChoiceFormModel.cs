@@ -19,7 +19,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             MinQuantity = choice.MinQuantity;
             options.AddRange(choice.SupplementsToChoose.Select(supplementToChoose =>
             {
-                int initialQuantity = choice.DefaultChoice == supplementToChoose ? choice.MinQuantity : 0;
+                int initialQuantity = choice.DefaultChoice.Id == supplementToChoose.Id ? choice.MinQuantity : 0;
                 return new FormulaChoiceFormItem(supplementToChoose, initialQuantity);
             }));
         }

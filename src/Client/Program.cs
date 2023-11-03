@@ -9,11 +9,9 @@ using Foodtruck.Client.Supplements;
 using Foodtruck.Client.Infrastructure;
 using Foodtruck.Client.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
-using Services.Reservations;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Client.QuotationProcess.Helpers;
 using Foodtruck.Client.QuotationProcess;
-
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

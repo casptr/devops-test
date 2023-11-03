@@ -16,6 +16,7 @@ namespace Foodtruck.Client.QuotationProcess
         protected override async Task OnParametersSetAsync()
         {
             var response = await SupplementService.GetAllAsync();
+            Console.WriteLine(response.Supplements);
             supplements = response.Supplements?.Select(supplement =>
             {
                 ExtraSupplement? extraSupplement = QuotationProcessState.SupplementChoices.Where(supplementInState => supplementInState.Equals(supplement)).FirstOrDefault();

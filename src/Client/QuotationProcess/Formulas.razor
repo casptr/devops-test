@@ -66,8 +66,7 @@ else
                         </td>
                         @foreach (var formula in formulas)
                         {
-
-                            <td style="width: 25%; text-align: center;vertical-align: baseline; border-bottom: 0;@(QuotationProcessState.CurrentSelectedFormula == formula ? $"border-left: {border}; border-right: {border}; border-top: {border}" : "")">
+                            <td style="width: 25%; text-align: center;vertical-align: baseline; border-bottom: 0;@(QuotationProcessState.CurrentSelectedFormula?.Id == formula.Id ? $"border-left: {border}; border-right: {border}; border-top: {border}" : "")">
                                 <MudStack AlignItems="AlignItems.Center">
                                     <MudText Typo="Typo.h4" Class="p-2">
                                         <b>@formula.Title</b>
@@ -79,7 +78,7 @@ else
                                     </div>
                                     <MudImage Src="@formula.ImageUrl.ToString()" Width="200" Height="150" Alt="@formula.Title" Class="rounded-lg ma-2" ObjectFit="ObjectFit.Cover" Elevation="5" />
 
-                                    @if (QuotationProcessState.CurrentSelectedFormula == formula && QuotationProcessState.ChosenFormulaChoiceItems.Count() != 0)
+                                    @if (QuotationProcessState.CurrentSelectedFormula?.Id == formula.Id && QuotationProcessState.ChosenFormulaChoiceItems.Count() != 0)
                                     {
                                         <MudText Typo="Typo.h6">Jouw keuzes</MudText>
                                         <MudStack Row="true" Spacing="1" Class="flex-wrap pb-3" Justify="Justify.Center">
@@ -101,8 +100,8 @@ else
                         <td style="border-top: 0;"></td>
                         @foreach (var formula in formulas)
                         {
-                            <td style="text-align: center; border-top: 0;padding-top: 0;@(QuotationProcessState.CurrentSelectedFormula == formula ? $"border-left: {border}; border-right: {border};" : "")">
-                                <MudButton Class="mt-auto" Variant="Variant.Filled" Disabled="@(QuotationProcessState.CurrentSelectedFormula == formula && formula.Choices.Count() == 0)" Color="Color.Primary" @onclick="() => ChooseFormula(formula)">@(QuotationProcessState.CurrentSelectedFormula == formula && formula.Choices.Count() != 0 ? "Wijzig formule" : "Kies deze formule")</MudButton>
+                            <td style="text-align: center; border-top: 0;padding-top: 0;@(QuotationProcessState.CurrentSelectedFormula?.Id == formula.Id ? $"border-left: {border}; border-right: {border};" : "")">
+                                <MudButton Class="mt-auto" Variant="Variant.Filled" Disabled="@(QuotationProcessState.CurrentSelectedFormula?.Id == formula.Id && formula.Choices.Count() == 0)" Color="Color.Primary" @onclick="() => ChooseFormula(formula)">@(QuotationProcessState.CurrentSelectedFormula == formula && formula.Choices.Count() != 0 ? "Wijzig formule" : "Kies deze formule")</MudButton>
                                 </td>
                         }
                     </tr>
@@ -111,7 +110,7 @@ else
                         <td><MudText><b>Foodtruck</b></MudText></td>
                         @foreach (var formula in formulas)
                         {
-                            <td style="text-align: center;@(QuotationProcessState.CurrentSelectedFormula == formula ? $"border-left: {border}; border-right: {border};" : "")">
+                            <td style="text-align: center;@(QuotationProcessState.CurrentSelectedFormula?.Id == formula.Id ? $"border-left: {border}; border-right: {border};" : "")">
                                 <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Primary" />
                             </td>
                         }
@@ -128,7 +127,7 @@ else
                                 {
                                     var isLastTd = formulaSupplementNames.Last() == name;
 
-                                    <td style="text-align: center;@(QuotationProcessState.CurrentSelectedFormula == formula ? $"border-left: {border}; border-right: {border}; border-bottom: {(isLastTd ? border : "")}" :"")">
+                                    <td style="text-align: center;@(QuotationProcessState.CurrentSelectedFormula?.Id == formula.Id ? $"border-left: {border}; border-right: {border}; border-bottom: {(isLastTd ? border : "")}" :"")">
                                         @if (formula.IncludedSupplements is not null && formula.IncludedSupplements.Any(includedLine => includedLine?.Supplement?.Name == name) || formula.Choices.Any(choice => choice?.Name == name))
                                         {
 
@@ -143,7 +142,7 @@ else
                     }
 
                 </tbody>
-            </MudSimpleTable>  
+            </MudSimpleTable>
         </MudHidden>
     </MudBreakpointProvider>
 }

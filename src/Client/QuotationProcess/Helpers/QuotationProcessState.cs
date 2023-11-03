@@ -45,7 +45,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             choiceFormModels.AddRange(formula.Choices.Select(choice => new FormulaChoiceFormModel(choice)));
 
             // Apply the previously chosen quantities
-            if (CurrentSelectedFormula == formula)
+            if (CurrentSelectedFormula?.Id == formula.Id)
             {
                 for (int choiceIndex = 0; choiceIndex < choiceFormModels.Count; choiceIndex++)
                 {
@@ -83,6 +83,20 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
                     SupplementId = includedSupplementLine.Supplement.Id,
                     Quantity = includedSupplementLine.Quantity
                 }));
+        }
+
+        public int CalculateMaxAmount(ExtraSupplement supplement)
+        {
+            ExtraSupplement? supplementChosen = supplementChoices.Where(supplementChoice => supplementChoice.Equals(supplement)).FirstOrDefault();
+
+            if (supplementChosen is null)
+            {
+                return supplement.Supplement.AmountAvailable;
+            }
+
+            int currentAmount = supplementChosen.Quantity;
+            return supplementChosen.Supplement.AmountAvailable - currentAmount;
+        }
 
         public void AddSupplement(ExtraSupplement supplement)
         {
