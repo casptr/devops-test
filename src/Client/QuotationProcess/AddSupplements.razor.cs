@@ -12,23 +12,25 @@ public partial class AddSupplements
     [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
     [Inject] public ISupplementService SupplementService { get; set; } = default!;
 
-    private IEnumerable<ExtraSupplement>? supplements;
+    private IEnumerable<ExtraSupplementLine>? supplements;
 
-	bool open = true;
+    bool open = true;
+    private int count = 0;
 
-	void ToggleStartDrawer()
-	{
-		open = !open;
-	}
+    void ToggleStartDrawer()
+    {
+        open = !open;
+        count++;
+    }
 
-	protected override async Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var response = await SupplementService.GetAllAsync();
-        Console.WriteLine(response.Supplements);
+
         supplements = response.Supplements?.Select(supplement =>
         {
-            ExtraSupplement? extraSupplement = QuotationProcessState.SupplementChoices.Where(supplementInState => supplementInState.Equals(supplement)).FirstOrDefault();
-            return new ExtraSupplement()
+            ExtraSupplementLine? extraSupplement = QuotationProcessState.ExtraSupplementLines.Where(supplementLineInState => supplementLineInState.Equals(supplement)).FirstOrDefault();
+            return new ExtraSupplementLine()
             {
                 Supplement = supplement,
                 Quantity = extraSupplement is null ? 0 : extraSupplement.Quantity,
@@ -38,12 +40,16 @@ public partial class AddSupplements
 
     private void AddSupplement(SupplementDto.Detail supplement, int quantity)
     {
-        var supplementChoice = new ExtraSupplement()
+        if (quantity == 0)
+            return;
+
+
+        var supplementChoice = new ExtraSupplementLine()
         {
             Supplement = supplement,
             Quantity = quantity
         };
 
-        QuotationProcessState.AddSupplement(supplementChoice);
+        QuotationProcessState.AddExtraSupplementLine(supplementChoice);
     }
 }

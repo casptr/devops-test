@@ -22,11 +22,11 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         public IReadOnlyCollection<FormulaChoiceFormItem> ChosenFormulaChoiceItems => CompletedChoiceFormModels.SelectMany(choice => choice.Options.Where(option => option.Quantity != 0)).ToList();
 
 
-
         public CustomerDetailsFormModel CustomerDetailsFormModel { get; set; } = new();
 
-        private readonly List<ExtraSupplement> supplementChoices = new();
-        public IReadOnlyCollection<ExtraSupplement> SupplementChoices => supplementChoices.AsReadOnly();
+
+        private readonly List<ExtraSupplementLine> extraSupplementLines = new();
+        public IReadOnlyCollection<ExtraSupplementLine> ExtraSupplementLines => extraSupplementLines.AsReadOnly();
 
         public void ConfigureReservation(DateTime start, DateTime end)
         {
@@ -85,35 +85,47 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
                 }));
         }
 
-        public int CalculateMaxAmount(ExtraSupplement supplement)
+        public int CalculateMaxAmountToAdd(ExtraSupplementLine extraSupplementLine)
         {
-            ExtraSupplement? supplementChosen = supplementChoices.Where(supplementChoice => supplementChoice.Equals(supplement)).FirstOrDefault();
+            ExtraSupplementLine? extraSupplementLineInState = extraSupplementLines.Where(e => e.Equals(extraSupplementLine)).FirstOrDefault();
 
-            if (supplementChosen is null)
+            if (extraSupplementLineInState is null)
             {
-                return supplement.Supplement.AmountAvailable;
+                return extraSupplementLine.Supplement.AmountAvailable;
             }
 
-            int currentAmount = supplementChosen.Quantity;
-            return supplementChosen.Supplement.AmountAvailable - currentAmount;
+            int currentAmount = extraSupplementLineInState.Quantity;
+            return extraSupplementLineInState.Supplement.AmountAvailable - currentAmount;
         }
 
-        public void AddSupplement(ExtraSupplement supplement)
+        public void RemoveExtraSupplementLine(ExtraSupplementLine extraSupplementLine)
+        {
+            extraSupplementLines.Remove(extraSupplementLine);
+        }
+
+        public void AddExtraSupplementLine(ExtraSupplementLine extraSupplementLineToAdd)
         {
             // TODO: Add check to see if quantity that is gonna be added doesn't go over the AmountAvailable otherwise user can add more than available amount of a certain item
-            if (supplementChoices.Contains(supplement))
+            ExtraSupplementLine? extraSupplementLineInState = extraSupplementLines.Where(extraSupplementLine => extraSupplementLine.Equals(extraSupplementLineToAdd)).FirstOrDefault();
+
+            if (extraSupplementLineInState is null)
             {
-                supplementChoices.Where(supplementChoice => supplementChoice.Equals(supplement)).ToList().ForEach(supplementChoice => supplementChoice.Quantity += supplement.Quantity);
+                extraSupplementLines.Add(extraSupplementLineToAdd);
             }
             else
             {
-                supplementChoices.Add(supplement);
+                extraSupplementLineInState.Quantity += extraSupplementLineToAdd.Quantity;
             }
-            Console.WriteLine();
-            foreach (var choice in supplementChoices)
+        }
+
+        public void ConfigureQuotationExtraSupplements()
+        {
+            configuringQuotation.QuotationVersion.ExtraSupplementItems.Clear();
+            configuringQuotation.QuotationVersion.ExtraSupplementItems.AddRange(extraSupplementLines.Select(extraSupplementLine => new SupplementItemDto.Create()
             {
-                Console.WriteLine(choice.Supplement.Name + ": " + choice.Quantity.ToString());
-            }
+                Quantity = extraSupplementLine.Quantity,
+                SupplementId = extraSupplementLine.Supplement.Id,
+            }));
         }
 
         public void ConfigureQuotationCustomerDetails()

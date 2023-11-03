@@ -2,7 +2,7 @@
 
 namespace Foodtruck.Client.QuotationProcess.Helpers;
 
-public class ExtraSupplement
+public class ExtraSupplementLine
 {
 	public SupplementDto.Detail Supplement { get; set; } = default!;
     public int Quantity { get; set; }
@@ -10,7 +10,7 @@ public class ExtraSupplement
     // override object.Equals
     public override bool Equals(object obj)
     {
-        ExtraSupplement other = obj as ExtraSupplement;
+        ExtraSupplementLine other = obj as ExtraSupplementLine;
 
         if (obj == null || GetType() != obj.GetType())
         {
