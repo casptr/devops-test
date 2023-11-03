@@ -9,6 +9,6 @@ namespace Foodtruck.Shared.Reservations
 {
     public interface IReservationService
     {
-        Task<IEnumerable<ReservationDto.Index>> GetAllAsync();
+        Task<ReservationResult.Index> GetIndexAsync();
     }
 }

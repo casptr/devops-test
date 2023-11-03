@@ -8,6 +8,6 @@ internal class FormulaConfiguration : IEntityTypeConfiguration<Formula>
 {
     public void Configure(EntityTypeBuilder<Formula> builder)
     {
-        builder.OwnsOne(x => x.Price).Property(x => x.Value);
+        
     }
 }

@@ -13,7 +13,6 @@ namespace Foodtruck.Shared.Formulas
         {
             public int Id { get; set; }
             public string? Name { get; set; }
-            public bool IsQuantityNumberOfGuests { get; set; }
             public int MinQuantity { get; set; }
             public SupplementDto.Detail? DefaultChoice { get; set; }
             public IEnumerable<SupplementDto.Detail>? SupplementsToChoose { get; set; }

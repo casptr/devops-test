@@ -22,12 +22,13 @@ namespace Services.Reservations
             reservations = reservationFaker.Generate(25);
         }
 
-
-        public Task<IEnumerable<ReservationDto.Index>> GetAllAsync()
+        public Task<ReservationResult.Index> GetIndexAsync()
         {
-            return Task.FromResult(reservations.AsEnumerable());
+            return Task.FromResult(new ReservationResult.Index()
+            {
+                Reservations = reservations.AsEnumerable(),
+                TotalAmount = reservations.Count,
+            });
         }
-
-
     }
 }

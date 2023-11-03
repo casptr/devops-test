@@ -15,7 +15,7 @@ public abstract class FormulaDto
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
+        public decimal MinPrice { get; set; }
         public Uri? ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -29,7 +29,6 @@ public abstract class FormulaDto
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public decimal Price { get; set; }
         public Uri? ImageUrl { get; set; }
         public IEnumerable<string>? IncludedSupplements { get; set; }
         public IEnumerable<string>? Choices { get; set; }
@@ -40,7 +39,6 @@ public abstract class FormulaDto
             {
                 RuleFor(s => s.Title).NotEmpty().MaximumLength(20).MinimumLength(3);
                 RuleFor(s => s.Description).NotEmpty().MaximumLength(100).MinimumLength(3);
-                RuleFor(s => s.Price).InclusiveBetween(0, Decimal.MaxValue);
                 RuleFor(s => s.IncludedSupplements).NotEmpty();
                 RuleFor(s => s.Choices).NotEmpty();
             }

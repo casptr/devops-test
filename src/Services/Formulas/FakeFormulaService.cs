@@ -119,7 +119,6 @@ public class FakeFormulaService : IFormulaService
             Name = "Keuze bier",
             DefaultChoice = suppJup,
             MinQuantity = 3,
-            IsQuantityNumberOfGuests = false,
             SupplementsToChoose = new List<SupplementDto.Detail>
             {
                 suppJup,suppDuvel,suppStella
@@ -133,7 +132,6 @@ public class FakeFormulaService : IFormulaService
             Name = "Keuze barbequevlees",
             DefaultChoice = suppRibbetjes,
             MinQuantity = 0,
-            IsQuantityNumberOfGuests = true,
             SupplementsToChoose = new List<SupplementDto.Detail>
             {
                suppRibbetjes,suppHamburger
@@ -148,7 +146,7 @@ public class FakeFormulaService : IFormulaService
             Id = 1, 
             Title = "Basis",
             Description = "Enkel de foodtruck huren",
-            Price = 350,
+            MinPrice = 350,
             ImageUrl= new Uri("https://imageupload.io/ib/P0NNekeu9XhNflc_1698522659.jpg"),
             IncludedSupplements = new List<FormulaSupplementLineDto.Detail>(),
             Choices = new List<FormulaSupplementChoiceDto.Detail>()
@@ -159,7 +157,7 @@ public class FakeFormulaService : IFormulaService
             Id = 2,
             Title = "Go to",
             Description = "Foodtruck met vat(en) bier inclusief glazen",
-            Price = 350,
+            MinPrice = 350,
             ImageUrl= new Uri("https://imageupload.io/ib/nP0up1d1SE2j7qU_1698522658.jpg"),
             IncludedSupplements = new List<FormulaSupplementLineDto.Detail>() 
             { new FormulaSupplementLineDto.Detail() 
@@ -180,7 +178,7 @@ public class FakeFormulaService : IFormulaService
             Id = 3,
             Title = "All in",
             Description = "Foodtruck met vat(en) bier inclusief glazen, barbeque en barbequeset",
-            Price = 500,
+            MinPrice = 500,
             ImageUrl = new Uri("https://imageupload.io/ib/VIAQl8v1kWqxWCE_1698522991.jpg"),
             IncludedSupplements = new List<FormulaSupplementLineDto.Detail>()
             { 

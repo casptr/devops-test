@@ -1,4 +1,5 @@
-﻿using Foodtruck.Shared.Customers;
+﻿using Domain.Quotations;
+using Foodtruck.Shared.Customers;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 
@@ -14,7 +15,8 @@ namespace Foodtruck.Shared.Quotations
             public ReservationDto.Create Reservation { get; set; } = new();
             public AddressDto EventAddress { get; set; } = new();
             public AddressDto BillingAddress { get; set; } = new();
-            public List<SupplementItemDto.Create> Items { get; set; } =  new();
+            public List<SupplementItemDto.Create> FormulaSupplementItems { get; set; } =  new();
+            public List<SupplementItemDto.Create> ExtraSupplementItems { get; set; } = new();
         }
     }
 }

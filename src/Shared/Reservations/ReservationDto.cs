@@ -15,4 +15,12 @@ public abstract class ReservationDto
         public DateTime? End { get; set; }
         public string? Description { get; set; }
     }
+
+    public class Detail
+    {
+        public int Id { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string Description { get; set; }
+    }
 }

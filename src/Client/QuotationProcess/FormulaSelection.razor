@@ -1,11 +1,37 @@
 ﻿@page "/aanvraag/formule-kiezen"
 @using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers;
+@inject QuotationProcessState QuotationProcessState
+@inject NavigationManager NavigationManager
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
     <QuotationProcessTimeline currentStep="QuotationProcessStep.SELECT_FORMULA" />
 
     <Formulas />
+
+    @if (ValidationFailed)
+    {
+        <MudText Color="Color.Error" Class="mb-3">Gelieve een formule te selecteren om door te gaan</MudText>
+    }
     <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Href="/aanvraag/datum-kiezen">Vorige stap</MudButton>
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" Href="/aanvraag/extras-toevoegen">Doorgaan</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
 </MudContainer>
+
+
+@code {
+    public bool HasSelectedFormula => QuotationProcessState.CurrentSelectedFormula != null;
+    public bool ValidationFailed { get; set; }
+
+    private void Submit()
+    {
+        ValidationFailed = false;
+
+        if (!HasSelectedFormula)
+        {
+            ValidationFailed = true;
+            return;
+        }
+
+        NavigationManager.NavigateTo("/aanvraag/gegevens-invullen");
+    }
+}

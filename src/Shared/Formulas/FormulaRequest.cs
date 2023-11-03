@@ -11,11 +11,8 @@ public abstract class FormulaRequest
 
     public class Index
     {
-        public string? Searchterm { get; set; }
-        public int Page { get; set; } = 1;
-        public int PageSize { get; set; } = 25; // Wat houdt PageSize in - Hoeveel elements of hoeveel pages?
-        public decimal? MinPrice { get; set; }
-        public decimal? MaxPrice { get; set; }
+        public int NumberOfDays { get; set; } = 1;
+       
     }
 
 }

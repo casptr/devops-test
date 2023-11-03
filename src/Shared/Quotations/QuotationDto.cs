@@ -7,13 +7,6 @@ namespace Foodtruck.Shared.Quotations;
 
 public abstract class QuotationDto{
 
-
-    // offerte aanvraag als 
-    public class RequestForQuotation
-    {
-        public QuotationVersion QuotationVersion {get; set;} = default!;
-    }
-
     public class Create
     {
         public CustomerDto.Create Customer { get; set; } = new();

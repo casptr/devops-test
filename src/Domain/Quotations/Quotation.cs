@@ -43,16 +43,19 @@ public class QuotationVersion : Entity
 	public Address BillingAddress { get; } = default!;
 
 	//TODO transport cost
+	private readonly List<QuotationSupplementLine> formulaSupplementLines = new();
+	public IReadOnlyCollection<QuotationSupplementLine> FormulaSupplementLines => formulaSupplementLines.AsReadOnly();
 
-	private readonly List<QuotationSupplementLine> supplementLines = new();
-	public IReadOnlyCollection<QuotationSupplementLine> SupplementLines => supplementLines.AsReadOnly();
+    private readonly List<QuotationSupplementLine> extraSupplementLines = new();
+    public IReadOnlyCollection<QuotationSupplementLine> ExtraSupplementLines => extraSupplementLines.AsReadOnly();
 
-	/// <summary>
-	/// Database Constructor
-	/// </summary>
-	private QuotationVersion() { }
 
-	public QuotationVersion(int numberOfGuests, string extraInfo, string description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> supplementItems, Address eventAddress, Address billingAddress)
+    /// <summary>
+    /// Database Constructor
+    /// </summary>
+    private QuotationVersion() { }
+
+	public QuotationVersion(int numberOfGuests, string extraInfo, string description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> formulaSupplementItems, IEnumerable<SupplementItem> extraSupplementItems, Address eventAddress, Address billingAddress)
 	{
 		NumberOfGuests = Guard.Against.OutOfRange(numberOfGuests, nameof(NumberOfGuests), 0, 2000);
 		ExtraInfo = Guard.Against.NullOrWhiteSpace(extraInfo, nameof(ExtraInfo));
@@ -62,19 +65,13 @@ public class QuotationVersion : Entity
 		EventAddress = Guard.Against.Null(eventAddress, nameof(EventAddress));
 		BillingAddress = Guard.Against.Null(billingAddress, nameof(BillingAddress));
 
-		Price = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Quantity)));
-		VatTotal = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Supplement.Category.Vat) / 100M));
+		formulaSupplementLines.AddRange(formulaSupplementItems.Select(item => new QuotationSupplementLine(item)));
+        extraSupplementLines.AddRange(extraSupplementItems.Select(item => new QuotationSupplementLine(item)));
 
-		List<Supplement> supplementsIncludedInFormula = formula.IncludedSupplements
-			.Select(s => s.Supplement)
-			.Concat(formula.Choices
-			.SelectMany(s => s.SupplementsToChoose)).ToList();
+        //Price = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Quantity)));
+        //VatTotal = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Supplement.Category.Vat) / 100M));
 
-		foreach (SupplementItem item in supplementItems)
-		{
-			bool isIncludedInFormula = supplementsIncludedInFormula.Any(includedSupplement => includedSupplement.Equals(item.Supplement));
-			supplementLines.Add(new QuotationSupplementLine(item, isIncludedInFormula));
-		}
-	}
+
+    }
 
 }

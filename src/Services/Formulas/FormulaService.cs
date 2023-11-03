@@ -25,9 +25,8 @@ public class FormulaService : IFormulaService
             throw new EntityAlreadyExistsException(nameof(Formula), nameof(Formula.Title), model.Title);
 
         Faker imageFaker = new();
-
-        Money price = new(model.Price);
-        Formula formula = new(model.Title, model.Description, price, new Uri(imageFaker.Image.PicsumUrl()));
+        FoodtruckFaker f = new FoodtruckFaker();
+        Formula formula = new(f.Generate(1).First(), model.Title, model.Description, new Uri(imageFaker.Image.PicsumUrl()));
 
         dbContext.Formulas.Add(formula);
         await dbContext.SaveChangesAsync();
@@ -54,10 +53,8 @@ public class FormulaService : IFormulaService
         if (formula is null)
             throw new EntityNotFoundException(nameof(Formula), formulaId);
 
-        Money price = new(model.Price);
         formula.Title = model.Title!;
         formula.Description = model.Description!;
-        formula.Price = price;
         formula.ImageUrl = model.ImageUrl!;
         //formula.IncludedSupplements = model.IncludedSupplements!;
 
@@ -66,12 +63,96 @@ public class FormulaService : IFormulaService
 
     public async Task<FormulaDto.Detail> GetDetailAsync(int formulaId)
     {
-        FormulaDto.Detail? formula = await dbContext.Formulas.Select(x => new FormulaDto.Detail
+        //FormulaDto.Detail? formula = await dbContext.Formulas.Select(x => new FormulaDto.Detail
+        //{
+        //    Id = x.Id,
+        //    Title = x.Title,
+        //    Price = x.MinPrice.Value,
+        //    Description = x.Description,
+        //    IncludedSupplements = x.IncludedSupplements.Select(x => new FormulaSupplementLineDto.Detail
+        //    {
+        //        Quantity = x.Quantity,
+        //        Id = x.Id,
+        //        Supplement = new SupplementDto.Detail
+        //        {
+        //            Id = x.Supplement.Id,
+        //            Name = x.Supplement.Name,
+        //            Category = new CategoryDto.Index { Name = x.Supplement.Category.Name },
+        //            AmountAvailable = x.Supplement.AmountAvailable,
+        //            Description = x.Supplement.Description,
+        //            Price = x.Supplement.Price.Value,
+        //            CreatedAt = x.Supplement.CreatedAt,
+        //            UpdatedAt = x.Supplement.UpdatedAt,
+        //            ImageUrls = x.Supplement.ImageUrls
+        //        }
+        //    }), 
+
+        //    Choices = x.Choices.Select(x => new FormulaSupplementChoiceDto.Detail
+        //    {
+        //        Id = x.Id,
+        //        DefaultChoice = new SupplementDto.Detail
+        //        {
+        //            Id = x.DefaultChoice.Id,
+        //            Name = x.DefaultChoice.Name,
+        //            Category = new CategoryDto.Index { Name = x.DefaultChoice.Category.Name },
+        //            AmountAvailable = x.DefaultChoice.AmountAvailable,
+        //            Description = x.DefaultChoice.Description,
+        //            Price = x.DefaultChoice.Price.Value,
+        //            CreatedAt = x.DefaultChoice.CreatedAt,
+        //            UpdatedAt = x.DefaultChoice.UpdatedAt,
+        //            ImageUrls = x.DefaultChoice.ImageUrls
+        //        },
+        //        MinQuantity = x.MinQuantity,
+        //        Name = x.Name,
+        //        SupplementsToChoose = x.SupplementsToChoose.Select(x => new SupplementDto.Detail
+        //        {
+        //            Id = x.Id,
+        //            Name = x.Name,
+        //            Category = new CategoryDto.Index { Name = x.Category.Name },
+        //            AmountAvailable = x.AmountAvailable,
+        //            Description = x.Description,
+        //            Price = x.Price.Value,
+        //            CreatedAt = x.CreatedAt,
+        //            UpdatedAt = x.UpdatedAt,
+        //            ImageUrls = x.ImageUrls
+        //        })
+        //    }),
+        //    ImageUrl = x.ImageUrl,
+        //    CreatedAt = x.CreatedAt,
+        //    UpdatedAt = x.UpdatedAt
+        //}).SingleOrDefaultAsync(x => x.Id == formulaId);
+
+        //if (formula is null)
+        //    throw new EntityNotFoundException(nameof(Formula), formulaId);
+
+        //return formula;
+        return new FormulaDto.Detail();
+    }
+
+    private decimal CalculateMinFormulaPrice(int numberOfDays, Formula formula)
+    {
+        return formula.Foodtruck.CalculatePrice(numberOfDays).Value
+             + formula.IncludedSupplements.Aggregate(0M, (sum, line) => sum + (line.Quantity + 0.0M) * line.Supplement.Price.Value)
+             + formula.Choices.Aggregate(0M, (sum, choice) => sum + (choice.MinQuantity + 0.0M) * (choice.SupplementsToChoose.OrderBy(supplement => supplement.Price.Value).First().Price.Value));
+    }
+
+    public async Task<FormulaResult.Index> GetAllAsync(FormulaRequest.Index request)
+    {
+        int numberOfDays = request.NumberOfDays;
+
+        var query = dbContext.Formulas.AsQueryable();
+        query = dbContext.Formulas;
+        int totalAmount = await query.CountAsync();
+        var domainItems = await query
+           .OrderBy(x => x.Id)
+           .ToListAsync();
+
+        var items = domainItems.Select(x => new FormulaDto.Detail
         {
             Id = x.Id,
             Title = x.Title,
-            Price = x.Price.Value,
             Description = x.Description,
+            MinPrice = CalculateMinFormulaPrice(numberOfDays, x),
             IncludedSupplements = x.IncludedSupplements.Select(x => new FormulaSupplementLineDto.Detail
             {
                 Quantity = x.Quantity,
@@ -88,7 +169,7 @@ public class FormulaService : IFormulaService
                     UpdatedAt = x.Supplement.UpdatedAt,
                     ImageUrls = x.Supplement.ImageUrls
                 }
-            }), 
+            }),
 
             Choices = x.Choices.Select(x => new FormulaSupplementChoiceDto.Detail
             {
@@ -105,7 +186,7 @@ public class FormulaService : IFormulaService
                     UpdatedAt = x.DefaultChoice.UpdatedAt,
                     ImageUrls = x.DefaultChoice.ImageUrls
                 },
-                IsQuantityNumberOfGuests = x.IsQuantityNumberOfGuests,
+
                 MinQuantity = x.MinQuantity,
                 Name = x.Name,
                 SupplementsToChoose = x.SupplementsToChoose.Select(x => new SupplementDto.Detail
@@ -121,84 +202,12 @@ public class FormulaService : IFormulaService
                     ImageUrls = x.ImageUrls
                 })
             }),
+
             ImageUrl = x.ImageUrl,
             CreatedAt = x.CreatedAt,
             UpdatedAt = x.UpdatedAt
-        }).SingleOrDefaultAsync(x => x.Id == formulaId);
+        });
 
-        if (formula is null)
-            throw new EntityNotFoundException(nameof(Formula), formulaId);
-
-        return formula;
-    }
-
-    public async Task<FormulaResult.Index> GetAllAsync()
-    {
-        var query = dbContext.Formulas.AsQueryable();
-        query = dbContext.Formulas;
-        int totalAmount = await query.CountAsync();
-        var items = await query
-           .OrderBy(x => x.Id)
-           .Select(x => new FormulaDto.Detail
-           {
-               Id = x.Id,
-               Title = x.Title,
-               Price = x.Price.Value,
-               Description = x.Description,
-               IncludedSupplements = x.IncludedSupplements.Select(x => new FormulaSupplementLineDto.Detail
-               {
-                   Quantity = x.Quantity,
-                   Id = x.Id,
-                   Supplement = new SupplementDto.Detail
-                   {
-                       Id = x.Supplement.Id,
-                       Name = x.Supplement.Name,
-                       Category =  new CategoryDto.Index { Name = x.Supplement.Category.Name },
-                       AmountAvailable = x.Supplement.AmountAvailable,
-                       Description = x.Supplement.Description,
-                       Price = x.Supplement.Price.Value,
-                       CreatedAt = x.Supplement.CreatedAt,
-                       UpdatedAt = x.Supplement.UpdatedAt,
-                       ImageUrls = x.Supplement.ImageUrls
-                   }
-               }), 
-
-               Choices = x.Choices.Select(x => new FormulaSupplementChoiceDto.Detail
-               {
-                   Id = x.Id,
-                   DefaultChoice = new SupplementDto.Detail
-                   {
-                       Id = x.DefaultChoice.Id,
-                       Name = x.DefaultChoice.Name,
-                       Category = new CategoryDto.Index { Name = x.DefaultChoice.Category.Name },
-                       AmountAvailable = x.DefaultChoice.AmountAvailable,
-                       Description = x.DefaultChoice.Description,
-                       Price = x.DefaultChoice.Price.Value,
-                       CreatedAt = x.DefaultChoice.CreatedAt,
-                       UpdatedAt = x.DefaultChoice.UpdatedAt,
-                       ImageUrls = x.DefaultChoice.ImageUrls
-                   },
-                   IsQuantityNumberOfGuests = x.IsQuantityNumberOfGuests,
-                   MinQuantity = x.MinQuantity,
-                   Name = x.Name,
-                   SupplementsToChoose = x.SupplementsToChoose.Select(x => new SupplementDto.Detail
-                   {
-                       Id = x.Id,
-                       Name = x.Name,
-                       Category = new CategoryDto.Index { Name = x.Category.Name },
-                       AmountAvailable = x.AmountAvailable,
-                       Description = x.Description,
-                       Price = x.Price.Value,
-                       CreatedAt = x.CreatedAt,
-                       UpdatedAt = x.UpdatedAt,
-                       ImageUrls = x.ImageUrls
-                   })
-               }),
-
-               ImageUrl = x.ImageUrl,
-               CreatedAt = x.CreatedAt,
-               UpdatedAt = x.UpdatedAt
-           }).ToListAsync();
 
         var result = new FormulaResult.Index
         {
@@ -231,6 +240,11 @@ public class FormulaService : IFormulaService
         formula.AddSupplemenChoice(faker.Generate(1).First());
         dbContext.Entry(formula).State = EntityState.Modified;
         await dbContext.SaveChangesAsync();
+    }
+
+    public Task<FormulaResult.Index> GetAllAsync()
+    {
+        throw new NotImplementedException();
     }
 
     // TODO: Admin add supplement to formula

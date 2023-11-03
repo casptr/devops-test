@@ -28,15 +28,12 @@ public class Customer : Entity
 	public string? CompanyName { get; set; }
 	public string? CompanyNumber { get; set; }
 
-	public bool WantsMarketingMails { get; set; } = default!;
-
-
 	/// <summary>
 	/// Database Constructor
 	/// </summary>
 	private Customer() { }
 
-	public Customer(string firstname, string lastname, EmailAddress email, string phone, string? companyName, string? companyNumber, bool wantsMarketingMails)
+	public Customer(string firstname, string lastname, EmailAddress email, string phone, string? companyName, string? companyNumber)
 	{
 		Firstname = firstname;
 		Lastname = lastname;
@@ -44,7 +41,6 @@ public class Customer : Entity
 		Phone = phone;
 		CompanyName = companyName;
 		CompanyNumber = companyNumber;
-		WantsMarketingMails = wantsMarketingMails;
 	}
 }
 
