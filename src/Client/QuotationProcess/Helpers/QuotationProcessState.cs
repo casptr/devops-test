@@ -17,13 +17,13 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         private readonly List<FormulaChoice> formulaChoices = new();
         public IReadOnlyCollection<FormulaChoice> FormulaChoices => formulaChoices.AsReadOnly();
 
-        private readonly List<SupplementChoice> supplementChoices = new();
-        public IReadOnlyCollection<SupplementChoice> SupplementChoices => supplementChoices.AsReadOnly();
-
         // Item is chosen if: quantity is dependent on number of guests => checkbox true, quantity dependent on input => quantity != 0
         public IReadOnlyCollection<FormulaChoiceItem> ChosenFormulaChoiceItems => FormulaChoices.SelectMany(choice => choice.Options.Where(option => choice.IsQuantityNumberOfGuests ? option.IsChosen : option.Quantity != 0)).ToList();
 
         public FormulaDto.Detail? CurrentSelectedFormula { get; set; }
+
+        private readonly List<ExtraSupplement> supplementChoices = new();
+        public IReadOnlyCollection<ExtraSupplement> SupplementChoices => supplementChoices.AsReadOnly();
 
         public void ConfigureReservation(DateTime start, DateTime end)
         {
@@ -45,12 +45,23 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             if (formulaChoices is not null)
             {
                 this.formulaChoices.AddRange(formulaChoices);
-
             }
 
         }
 
-        public void AddSupplement(SupplementChoice supplement)
+        public int CalculateMaxAmount(ExtraSupplement supplement)
+        {
+            ExtraSupplement? supplementChosen = supplementChoices.Where(supplementChoice => supplementChoice.Equals(supplement)).FirstOrDefault();
+
+            if(supplementChosen is null) {
+                return supplement.Supplement.AmountAvailable;
+            }
+
+            int currentAmount = supplementChosen.Quantity;
+            return supplementChosen.Supplement.AmountAvailable - currentAmount;
+        }
+
+        public void AddSupplement(ExtraSupplement supplement)
         {
             // TODO: Add check to see if quantity that is gonna be added doesn't go over the AmountAvailable otherwise user can add more than available amount of a certain item
             if (supplementChoices.Contains(supplement))

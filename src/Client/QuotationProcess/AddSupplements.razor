@@ -2,6 +2,7 @@
 @using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers
 
+
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
     <QuotationProcessTimeline currentStep="QuotationProcessStep.ADD_SUPPLEMENTS" />
 
@@ -28,10 +29,15 @@
                                 </MudCardContent>
                                 <MudCardActions Class="mt-auto px-4">
                                     <MudStack Row="true" AlignItems="AlignItems.Center">
+
+                                        @{
+                                            int maxAmount = QuotationProcessState.CalculateMaxAmount(supplement!);
+                                            bool canAddSupplement = maxAmount != 0;
+                                        }
                                         <div style="width: 4.5rem;">
-                                            <MudNumericField T="int" Variant="Variant.Outlined" Min="0" Max="@supplement!.Supplement.AmountAvailable" Style="height: 3rem;" @bind-Value="supplement.Quantity" />
+                                            <MudNumericField T="int" Variant="Variant.Outlined" Disabled="!canAddSupplement" Min="0" Max="maxAmount" Style="height: 3rem;" @bind-Value="supplement.Quantity" />
                                         </div>
-                                        <MudButton Color="Color.Primary" Style="height: 46px;margin-bottom: -5px" OnClick="() => {AddSupplement(supplement.Supplement, supplement.Quantity); supplement.Quantity = 0;}">Toevoegen</MudButton>
+                                        <MudButton Color="Color.Primary" Style="height: 46px;margin-bottom: -5px" Disabled="!canAddSupplement" OnClick="() => {AddSupplement(supplement.Supplement, supplement.Quantity); supplement.Quantity = 0;}">Toevoegen</MudButton>
                                     </MudStack>
                                 </MudCardActions>
                             </MudCard>
@@ -40,7 +46,8 @@
                 }
             </MudGrid>
         </div>
-
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Href="/aanvraag/formule-kiezen">Vorige stap</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true">Doorgaan</MudButton>
     }
 
 

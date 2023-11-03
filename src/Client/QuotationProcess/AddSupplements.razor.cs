@@ -3,28 +3,33 @@ using Foodtruck.Shared.Supplements;
 using Foodtruck.Client.QuotationProcess.Helpers;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 namespace Foodtruck.Client.QuotationProcess
 {
-	public partial class AddSupplements
+    public partial class AddSupplements
     {
         [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
-		[Inject] public ISupplementService SupplementService { get; set; } = default !;
+        [Inject] public ISupplementService SupplementService { get; set; } = default!;
 
-        private IEnumerable<SupplementChoice>? supplements;
+        private IEnumerable<ExtraSupplement>? supplements;
         protected override async Task OnParametersSetAsync()
         {
             var response = await SupplementService.GetAllAsync();
-            supplements = response.Supplements?.Select( supplement => new SupplementChoice()
+            supplements = response.Supplements?.Select(supplement =>
             {
-                Supplement = supplement,
-                Quantity = 0
+                ExtraSupplement? extraSupplement = QuotationProcessState.SupplementChoices.Where(supplementInState => supplementInState.Equals(supplement)).FirstOrDefault();
+                return new ExtraSupplement()
+                {
+                    Supplement = supplement,
+                    Quantity = extraSupplement is null ? 0 : extraSupplement.Quantity,
+                };
             }).ToList();
         }
 
         private void AddSupplement(SupplementDto.Detail supplement, int quantity)
         {
-            var supplementChoice = new SupplementChoice()
+            var supplementChoice = new ExtraSupplement()
             {
                 Supplement = supplement,
                 Quantity = quantity
