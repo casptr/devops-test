@@ -28,7 +28,7 @@
                     @if (count == 10)
                     {
                         <MudPaper Class="pa-2">
-                            <MudStack Row="true">
+                            <MudStack Row="true" AlignItems="AlignItems.Center">
                                 <MudImage Height="80" Src="https://i.seadn.io/gae/2hDpuTi-0AMKvoZJGd-yKWvK4tKdQr_kLIpB_qSeMau2TNGCNidAosMEvrEXFO9G6tmlFlPQplpwiqirgrIPWnCKMvElaYgI-HiVvXc?auto=format&dpr=1&w=1000" />
                                 <MudStack>
                                     <MudStack Row="true" Justify="Justify.SpaceBetween">
@@ -46,7 +46,7 @@
                     @foreach (var extraSupplementLine in QuotationProcessState.ExtraSupplementLines)
                     {
                         <MudPaper Class="pa-2">
-                            <MudStack Row="true">
+                            <MudStack Row="true" AlignItems="AlignItems.Center">
                                 <MudImage Height="80" Width="80" Style="min-width: 80px;" ObjectFit="ObjectFit.Cover" Src="@extraSupplementLine.Supplement.ImageUrls?.Last().ToString()" />
                                 <MudStack>
                                     <MudStack Row="true" Justify="Justify.SpaceBetween" Spacing="0">
