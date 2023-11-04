@@ -1,34 +1,31 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="_currentTheme" />
 <MudDialogProvider CloseOnEscapeKey="true" />
 <MudSnackbarProvider />
 
 <MudDrawerContainer Class="mud-height-full">
-    <MudDrawer @bind-Open="@open" Elevation="1" Variant="@DrawerVariant.Persistent" >
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h5">Blanche Admin</MudText>
-        </MudDrawerHeader>
-        <MudNavMenu>
-            <MudNavLink Match="NavLinkMatch.All" Href="/admin" Icon="@Icons.Material.Filled.Dashboard" IconColor="Color.Inherit">Dashboard</MudNavLink>
-            <MudNavLink Match="NavLinkMatch.All" Href="/admin/offertes" Icon="@Icons.Material.Filled.LocalLibrary" IconColor="Color.Inherit">Offertes</MudNavLink>
-            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.People" IconColor="Color.Inherit">Formules</MudNavLink>
-            <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.AddBox" IconColor="Color.Inherit">Supplementen</MudNavLink>
-        </MudNavMenu>
-        <MudSpacer />
-        <MudNavLink Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit" Class="mb-2">Afmelden</MudNavLink>
-    </MudDrawer>
+    <AdminNavmenu />
     <MudContainer MaxWidth="MaxWidth.Large" Class="pt-2">
         @Body
     </MudContainer>
 </MudDrawerContainer>
 
+
 @code {
-    bool open = true;
-
-    void ToggleDrawer()
-    {
-        open = !open;
-    }
-
+    private readonly MudTheme _currentTheme = new()
+        {
+            Palette = new PaletteLight()
+            {
+                Background = "#FAF9F6",
+            },
+            Typography = new Typography()
+            {
+                Button = new Button()
+                {
+                    TextTransform = "none",
+                },
+            }
+        };
 }
