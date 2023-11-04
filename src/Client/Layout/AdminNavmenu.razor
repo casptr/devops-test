@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject SignOutSessionStateManager SignOutManager
+@inject NavigationManager NavigationManager
+
+<MudDrawer Open="true" Elevation="1" Variant="@DrawerVariant.Persistent">
+    <MudDrawerHeader>
+        <MudStack>
+            <MudText Typo="Typo.h5">Blanche Admin</MudText>
+            <MudText Typo="Typo.body2">@username</MudText>
+        </MudStack>
+    </MudDrawerHeader>
+    <MudNavMenu>
+        @foreach (KeyValuePair<string, (string, string)> link in titleToLinkAndIcon)
+        {
+            <MudNavLink DisableElevation="true" IconColor="Color.Inherit" Icon="@link.Value.Item2" Color="Color.Default" Href="@link.Value.Item1" Style="min-width: max-content;" Match="NavLinkMatch.All">
+                @link.Key
+            </MudNavLink>
+        }
+    </MudNavMenu>
+    <MudSpacer />
+    <MudNavLink Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit" Class="mb-2" OnClick="BeginSignOut">Afmelden</MudNavLink>
+</MudDrawer>
+
+@code {
+    protected IDictionary<string, (string, string)> titleToLinkAndIcon = new Dictionary<string, (string, string)>(){
+{"Dashboard", ("/admin", Icons.Material.Filled.Dashboard)},
+{"Offertes", ("/admin/offertes",Icons.Material.Filled.AllInbox)},
+{"Reservaties", ("/admin/reservaties", Icons.Material.Filled.EventNote)},
+{"Formules", ("/admin/formules", Icons.Material.Filled.PriceChange)},
+{"Supplementen", ("/admin/supplementen",Icons.Material.Filled.AddBox)},
+{"Foodtruck", ("/admin/foodtruck", Icons.Material.Filled.FireTruck)}
+};
+
+    private string? username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            username = user.Identity.Name;
+        }
+    }
+
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        NavigationManager.NavigateTo("authentication/logout");
+    }
+
+
+
+}
