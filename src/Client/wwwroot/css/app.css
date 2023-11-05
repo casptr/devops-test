@@ -133,3 +133,7 @@ button.mud-range-start-selected:disabled {
     border-radius: 5px;
     display:flex;
 }
+
+.mud-picker-calendar-content {
+    justify-content: center !important;
+}
