@@ -60,8 +60,8 @@ namespace Foodtruck.Client.QuotationProcess
                 return;
             }
 
-            Model.Start?.AddHours(11);
-            Model.End?.AddHours(16);
+            Model.Start = Model.Start?.AddHours(11);
+            Model.End = Model.End?.AddHours(16);
             QuotationProcessState.ConfigureReservation(Model.Start, Model.End);
             NavigationManager.NavigateTo("/aanvraag/formule-kiezen");
         }
