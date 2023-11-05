@@ -10,75 +10,85 @@
             Selecteer een datum
         </MudText>
 
-        <MudStack Spacing="5" AlignItems="AlignItems.Center" Style="width:fit-content">
-            <MudText Align="Align.Center" Class="d-flex gap-1">
-                <MudIcon Icon="@Icons.Material.Outlined.Info" Size="Size.Small" Color="Color.Info" />
-                @(!startDateConfirmed ? "Gelieve een leverdatum te selecteren." : "Wanneer mag de truck opgehaald worden?")
-            </MudText>
+        <MudForm Model="@Model" @ref="@form" Validation="@(calendarValidator.ValidateValue)" ValidationDelay="0">
+            <MudStack Spacing="5" AlignItems="AlignItems.Center" Style="width:fit-content">
+                <MudText Align="Align.Center" Class="d-flex gap-1">
+                    <MudIcon Icon="@Icons.Material.Outlined.Info" Size="Size.Small" Color="Color.Info" />
+                    @(!startDateConfirmed ? "Gelieve een leverdatum te selecteren." : "Wanneer mag de truck opgehaald worden?")
+                </MudText>
 
-            <MudStack Spacing="0">
-                <MudCard Elevation="1" Class="calender-card pa-5" >
-                    <MudStack AlignItems="AlignItems.Center" Spacing="1">
-                        <MudStack Row AlignItems="AlignItems.Center">
-                             <MudText Style="@ChipStyle(!startDateConfirmed)">
-                                 Levering op
-                             </MudText>
+                <MudStack Spacing="0">
+                    <MudCard Elevation="1" Class="calendar-card pa-5">
+                        <MudStack AlignItems="AlignItems.Center" Spacing="1">
+                            <MudStack Row AlignItems="AlignItems.Center">
+                                 <MudText Style="@ChipStyle(!startDateConfirmed)">
+                                     Levering op
+                                 </MudText>
 
-                             <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(!startDateConfirmed)"
-                                      OnClick="@EditStartDate" Style="@ChipStyle(!startDateConfirmed)">
-                                 @(startDate is null ? "/" : "📅 " + startDate?.ToString("dd / MM / yyyy"))
-                            </MudChip>
+                                 <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(!startDateConfirmed)"
+                                          OnClick="@EditStartDate" Style="@ChipStyle(!startDateConfirmed)">
+                                     @(Model.Start is null ? "/" : "📅 " + Model.Start?.ToString("dd / MM / yyyy"))
+                                </MudChip>
 
-                            <MudText Style="@ChipStyle(startDateConfirmed)">
-                                Ophaling op
-                            </MudText>
+                                <MudText Style="@ChipStyle(startDateConfirmed)">
+                                    Ophaling op
+                                </MudText>
 
-                            <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(startDateConfirmed)">
-                                @(endDate is null ? "/" : "📅 " + endDate?.ToString("dd / MM / yyyy"))
-                            </MudChip>
+                                <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(startDateConfirmed)">
+                                    @(Model.End is null ? "/" : "📅 " + Model.End?.ToString("dd / MM / yyyy"))
+                                </MudChip>
+                            </MudStack>
                         </MudStack>
-                    </MudStack>
-                </MudCard>
+                    </MudCard>
 
-                @if (!startDateConfirmed)
-                {
-                    <MudDatePicker PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
-                                    DateChanged="SetStartDate" IsDateDisabledFunc="IsDateAlreadyBooked" />
-                }
+                    <div class="relative">
+                        @if (loading)
+                        {
+                            <div class="calendar-loading">
+                                <MudStack Row Spacing="7" AlignItems="AlignItems.Center" Justify="Justify.Center" Class="flex-grow-1">
+                                     <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate />
+                                     <MudText>Reservaties ophalen..</MudText>
+                                 </MudStack>
+                             </div>
+                        }
 
-                @if (startDateConfirmed)
-                {
-                    <MudDatePicker PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1" PickerMonth="@PickerMonth"
-                                    DateChanged="SetEndDate" IsDateDisabledFunc="IsDateAvailableAsEnd" AdditionalDateClassesFunc="AdditionalDateClassesFunc" />
-                }
+                        <MudDatePicker @bind-Date="Model.Start" For="@(() => Model.Start)" Class="@(startDateConfirmed ? "d-none" : "")"
+                                       PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
+                                        IsDateDisabledFunc="IsDateAlreadyBooked" />
 
+                         <MudDatePicker @bind-Date="Model.End" For="@(() => Model.End)" Class="@(!startDateConfirmed ? "d-none" : "")"
+                                        PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
+                                        IsDateDisabledFunc="IsDateAvailableAsEnd" AdditionalDateClassesFunc="AdditionalDateClassesFunc" PickerMonth="@PickerMonth" />
+                     </div>
+
+                 </MudStack>
+
+                 <MudText Class="mr-auto" Typo="Typo.body2">
+                     De truck wordt telkens om 11:00 geleverd en om 16:00 opgehaald
+                 </MudText>
+
+                 <MudStack Row Style="width:100%;">
+                     @if (!startDateConfirmed)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
+                                   OnClick="ConfirmStartDate" Disabled="@(Model.Start is null)">
+                            Leverdatum bevestigen
+                        </MudButton>
+                    }
+
+                    @if (startDateConfirmed)
+                    {
+                        <MudButton Variant="Variant.Outlined" OnClick="EditStartDate">
+                            Leverdatum aanpassen
+                        </MudButton>
+
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
+                                   OnClick="Submit" Disabled="@(Model.End is null)">
+                            Doorgaan
+                        </MudButton>
+                    }
+                </MudStack>
             </MudStack>
-
-            <MudText Class="mr-auto" Typo="Typo.body2">
-                De truck wordt telkens om 11:00 geleverd en om 16:00 opgehaald
-            </MudText>
-
-            <MudStack Row Style="width:100%;">
-                 @if (!startDateConfirmed)
-                {
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
-                               OnClick="@(ConfirmStartDate)" Disabled="@(startDate is null)">
-                        Leverdatum bevestigen
-                    </MudButton>
-                }
-
-                @if (startDateConfirmed)
-                {
-                    <MudButton Variant="Variant.Outlined" OnClick="@EditStartDate">
-                        Leverdatum aanpassen
-                    </MudButton>
-
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
-                               OnClick="@(Submit)" Disabled="@(endDate is null)">
-                        Doorgaan
-                    </MudButton>
-                }
-            </MudStack>
-        </MudStack>
+        </MudForm>
     </MudStack>
 </MudContainer>

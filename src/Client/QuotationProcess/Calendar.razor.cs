@@ -2,6 +2,9 @@
 using Foodtruck.Shared.Reservations;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using FluentValidation;
+using System;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Foodtruck.Client.QuotationProcess
 {
@@ -9,12 +12,16 @@ namespace Foodtruck.Client.QuotationProcess
     {
         [Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
         [Inject] private IReservationService ReservationService { get; set; } = default!;
+        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [CascadingParameter] private MudTheme? Theme { get; set; }
+        private ReservationDto.Create Model => QuotationProcessState.ReservationModel;
+        private readonly ReservationDto.Validator calendarValidator = new();
+        private MudForm form = default!;
 
         private IEnumerable<ReservationDto.Index>? reservations;
-        private DateTime? startDate;
-        private DateTime? endDate;
         private bool startDateConfirmed = false;
+        private bool loading = true;
+
         protected override async Task OnInitializedAsync()
         {
             ReservationResult.Index result = await ReservationService.GetIndexAsync();
@@ -25,75 +32,66 @@ namespace Foodtruck.Client.QuotationProcess
                 {
                     Console.WriteLine($"{r.Id} - {r.Start} - {r.End}");
                 }
+
+            if (Model.End is not null)
+                startDateConfirmed = true;
+
+            loading = false;
             StateHasChanged();
         }
 
-        private DateTime? PickerMonth => new(startDate?.Year ?? DateTime.Now.Year, startDate?.Month ?? DateTime.Now.Month, 1);
-
+        private DateTime? PickerMonth => new(Model.Start?.Year ?? DateTime.Now.Year, Model.Start?.Month ?? DateTime.Now.Month, 1);
         private string ChipStyle(bool condition) => "color:" + (condition ? Theme?.Palette.PrimaryContrastText : Theme?.Palette.PrimaryLighten);
         private Variant ChipVariant(bool condition) => condition ? Variant.Filled : Variant.Outlined;
 
-        private void SetStartDate(DateTime? dateTime) => startDate = dateTime?.AddHours(11);
-        private void SetEndDate(DateTime? dateTime) => endDate = dateTime?.AddHours(16);
         private void ConfirmStartDate() => startDateConfirmed = true;
         private void EditStartDate()
         {
-            endDate = null;
+            Model.End = null;
             startDateConfirmed = false;
         }
-        protected static async Task Submit()
+
+        protected async Task Submit()
         {
+            await form.Validate();
 
-            // FluentValidation.Results.ValidationResult validation = calendarValidator.Validate(model);
+            if (!form.IsValid)
+            {
+                return;
+            }
 
-
-            //if (!validation.IsValid)
-            //{
-            //    Console.WriteLine("hmm");
-            //    return;
-            //}
-            // QuotationProcessState.ConfigureReservation(start, end);
+            Model.Start?.AddHours(11);
+            Model.End?.AddHours(16);
+            QuotationProcessState.ConfigureReservation(Model.Start, Model.End);
+            NavigationManager.NavigateTo("/aanvraag/formule-kiezen");
         }
 
-
-        private bool IsDateAlreadyBooked(DateTime dateTime)
-        {
-            if (reservations is null)
-                return false;
-
-            return reservations
-                .Any(reservation => dateTime >= reservation.Start.AddDays(-1) && dateTime <= reservation.End || dateTime < DateTime.Now);
-        }
+        // MudDatePicker Functions
+        private bool IsDateAlreadyBooked(DateTime dateTime) => 
+            reservations is not null && reservations.Any(reservation =>
+                dateTime.Date >= reservation.Start.Date &&
+                dateTime.Date <= reservation.End.Date ||
+                dateTime.Date < DateTime.Now.Date);
 
         private bool IsDateAvailableAsEnd(DateTime dateTime)
         {
-            if (reservations is null || startDate is null)
+            if (reservations is null || Model.Start is null)
                 return true;
 
             ReservationDto.Index firstReservation = reservations
                 .OrderBy(reservation => reservation.Start)
-                .Where(reservation => reservation.Start > startDate)
+                .Where(reservation => reservation.Start.Date > Model.Start?.Date)
                 .First();
 
             return reservations
-                .Any(reservation => dateTime < startDate || dateTime.Date >= firstReservation.Start.Date);
+                .Any(reservation => dateTime.Date < Model.Start?.AddDays(1).Date || dateTime.Date >= firstReservation.Start.Date);
         }
 
-        private string AdditionalDateClassesFunc(DateTime dateTime)
-        {
-            if (reservations is null || startDate is null)
-                return "";
+        private string AdditionalDateClassesFunc(DateTime dateTime) =>
+            Model.Start is null ? "" :
+            dateTime.Date == Model.Start?.Date ? "mud-range mud-range-start-selected" :
+            dateTime.Date == Model.End?.Date ? "mud-range mud-range-end-selected mud-theme-primary" :
+            dateTime.Date > Model.Start?.Date && dateTime.Date < Model.End?.Date ? "mud-range mud-range-between mud-theme-primary" : "";
 
-            ReservationDto.Index firstReservation = reservations
-                .OrderBy(reservation => reservation.Start)
-                .Where(reservation => reservation.Start.Day > startDate?.Day)
-                .First();
-
-            return
-                dateTime.Date == startDate?.Date ? "mud-range mud-range-start-selected" :
-                dateTime.Date == endDate?.Date ? "mud-range mud-range-end-selected mud-theme-primary" :
-                dateTime > startDate && dateTime < endDate ? "mud-range mud-range-between mud-theme-primary" :
-                "";
-        }
     }
 }
