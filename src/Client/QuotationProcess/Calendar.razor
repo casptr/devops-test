@@ -18,30 +18,33 @@
 
                 <MudStack Spacing="0">
                     <MudCard Elevation="1" Class="calendar-card pa-5">
-                        <MudGrid Justify="Justify.Center" Class="flex-wrap">
-                            <MudItem xs="12" sm="6">
-                                <MudStack Spacing="0" AlignItems="AlignItems.Center">
+                        <MudGrid Justify="Justify.Center" Class="flex-wrap" Spacing="1">
+                            <MudItem xs="12" sm="4">
+                                <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
 
-                                    <MudText Style="@ChipStyle(true)">
-                                        Leverdatum
-                                    </MudText>
+                                     <MudText Style="@ChipStyle(true)">
+                                         Van
+                                     </MudText>
 
-                                    <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(!startDateConfirmed)"
-                                             OnClick="@EditStartDate" Style="@ChipStyle(true)">
-                                        @(Model.Start is null ? "/" : "📅 " + Model.Start?.ToString("dd / MM / yyyy"))
+                                     <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(!startDateConfirmed)"
+                                              OnClick="@EditStartDate" Style="@ChipStyle(true)">
+                                         @(Model.Start is null ? "/" : "📅 " + Model.Start?.ToString("dd / MM / yyyy"))
                                     </MudChip>
 
                                 </MudStack>
                             </MudItem>
-                            <MudItem xs="12" sm="6">
-                                <MudStack Spacing="0" AlignItems="AlignItems.Center">
+                            <MudItem xs="1" Class="d-flex justify-center align-center">
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowRightAlt" Size="Size.Medium" Style="@ChipStyle(false)" Class="@(startDateConfirmed ? "" : "invisible" )" />
+                            </MudItem>
+                            <MudItem xs="12" sm="4">
+                                <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
 
-                                    <MudText Style="@ChipStyle(startDateConfirmed)">
-                                        Ophaaldatum
-                                    </MudText>
+                                     <MudText Style="@ChipStyle(startDateConfirmed)">
+                                         Tot
+                                     </MudText>
 
-                                    <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(startDateConfirmed)">
-                                        @(Model.End is null ? "/" : "📅 " + Model.End?.ToString("dd / MM / yyyy"))
+                                     <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(startDateConfirmed)">
+                                         @(Model.End is null ? "/" : "📅 " + Model.End?.ToString("dd / MM / yyyy"))
                                     </MudChip>
 
                                 </MudStack>
