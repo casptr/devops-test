@@ -1,0 +1,20 @@
+﻿@page "/aanvraag"
+@using Foodtruck.Client.QuotationProcess.Components
+
+<PageTitle>Offerte aanvragen</PageTitle>
+
+<QuotationProcessStepControl>
+    <QuotationProcessStep Title="Datum selecteren">
+        <Calendar />
+    </QuotationProcessStep>
+    <QuotationProcessStep Title="Formule selecteren">
+        <FormulaSelection />
+    </QuotationProcessStep>
+    <QuotationProcessStep Title="Formule uitbreiden">
+        <AddSupplements/>
+    </QuotationProcessStep>
+    <QuotationProcessStep Title="Gegevens invullen">
+        <CustomerDetails />
+    </QuotationProcessStep>
+</QuotationProcessStepControl>
+

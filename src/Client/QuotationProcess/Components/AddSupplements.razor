@@ -1,16 +1,12 @@
-﻿@page "/aanvraag/extras-toevoegen"
-@using Foodtruck.Client.QuotationProcess.Components
+﻿@using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers
 
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2" Style="overflow:hidden; position:relative;">
-    <QuotationProcessTimeline currentStep="QuotationProcessStep.ADD_SUPPLEMENTS" />
-
-
     <div class="d-flex justify-center align-center">
-        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Href="/aanvraag/formule-kiezen">Vorige stap</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
         <MudButton Color="Color.Inherit" OnClick="@ToggleStartDrawer" StartIcon="@(open ? Icons.Material.Filled.West : Icons.Material.Filled.East)" Class="mx-2">Toggle start</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="QuotationProcessState.ConfigureQuotationExtraSupplements">Doorgaan</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
     </div>
     @if (supplements is null)
     {

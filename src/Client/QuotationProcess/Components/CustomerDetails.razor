@@ -1,4 +1,3 @@
-@page "/aanvraag/gegevens-invullen"
 @using FluentValidation;
 @using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers;
@@ -9,7 +8,6 @@
 <PageTitle>Offerte aanvragen</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
-    <QuotationProcessTimeline currentStep="QuotationProcessStep.ENTER_DETAILS" />
     <MudForm Model="@model" @ref="@form" Validation="@(validator.ValidateValue)" ValidationDelay="0">
         <MudGrid Class="mb-2">
             <MudItem xs="12" lg="6">
@@ -47,8 +45,8 @@
             <MudText Color="Color.Error" Class="mb-3">Gelieve alle gegevens correct in te vullen om door te gaan</MudText>
         }
 
-        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" Href="/aanvraag/formule-kiezen">Vorige stap</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" @onclick="Submit">Doorgaan</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="QuotationProcessStepControl.PreviousStep">Vorige stap</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="Submit">Doorgaan</MudButton>
     </MudForm>
 </MudContainer>
 
