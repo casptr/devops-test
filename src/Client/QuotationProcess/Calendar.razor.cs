@@ -24,17 +24,15 @@ namespace Foodtruck.Client.QuotationProcess
 
         protected override async Task OnInitializedAsync()
         {
-            ReservationResult.Index result = await ReservationService.GetIndexAsync();
-            reservations = result.Reservations;
+            if (Model.End is not null) startDateConfirmed = true;
+
+            reservations = (await ReservationService.GetIndexAsync()).Reservations;
 
             if (reservations is not null)
                 foreach (var r in reservations)
                 {
                     Console.WriteLine($"{r.Id} - {r.Start} - {r.End}");
                 }
-
-            if (Model.End is not null)
-                startDateConfirmed = true;
 
             loading = false;
             StateHasChanged();
@@ -67,7 +65,7 @@ namespace Foodtruck.Client.QuotationProcess
         }
 
         // MudDatePicker Functions
-        private bool IsDateAlreadyBooked(DateTime dateTime) => 
+        private bool IsDateAlreadyBooked(DateTime dateTime) =>
             reservations is not null && reservations.Any(reservation =>
                 dateTime.Date >= reservation.Start.Date &&
                 dateTime.Date <= reservation.End.Date ||
