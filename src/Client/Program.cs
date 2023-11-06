@@ -9,9 +9,7 @@ using Foodtruck.Client.Supplements;
 using Foodtruck.Client.Infrastructure;
 using Foodtruck.Client.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
-using Services.Reservations;
 using Foodtruck.Shared.Reservations;
-using Services.Formulas;
 using Foodtruck.Client.QuotationProcess.Helpers;
 using Foodtruck.Client.QuotationProcess;
 
@@ -41,10 +39,7 @@ builder.Services.AddHttpClient("Project.ServerAPI", client => client.BaseAddress
 
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("Project.ServerAPI"));
 
-
-
-//builder.Services.AddScoped<IFormulaService, FormulaService>();
-builder.Services.AddScoped<IFormulaService, FakeFormulaService>();
+builder.Services.AddScoped<IFormulaService, FormulaService>();
 builder.Services.AddScoped<ISupplementService, SupplementService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddScoped<QuotationProcessState>();

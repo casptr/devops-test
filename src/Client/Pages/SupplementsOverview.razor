@@ -1,33 +1,6 @@
 ﻿@page "/aanbod"
+@using Foodtruck.Client.Supplements.Components
 
 <h1 Class="ma-4">Supplementen</h1>
 
-@if (supplements is null)
-{
-    <p>Loading...</p>
-} 
-else
-{
-            <MudPaper Class="d-flex flex-wrap justify-center" Style="background-color: var(--mud-palette-background);" Elevation="0">
-        @if (supplements != null)
-        {
-            @foreach (var s in supplements)
-            {
-                        <MudCard Outlined="true" Class="ma-3 rounded-lg" Style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
-                        <MudCardContent>
-                           <MudPaper Style="text-align: center" Elevation="0">
-                                <MudImage src="@s.ImageUrls.Last().ToString()" Width="220" Height="165" />
-                            </MudPaper>
-                                    <MudPaper Class="d-flex justify-space-between" Elevation="0">
-                                <MudText Typo="Typo.h6" Style="font-weight: bold;">€ @s.Price</MudText>
-                                <MudText Typo="Typo.h6" Style="font-weight: bold;">Aantal: @s.AmountAvailable</MudText>
-                            </MudPaper>
-                            <MudText Typo="Typo.body1" Style="font-weight: 500;">@s.Name</MudText>
-                                            <MudText Typo="Typo.body2">@s.Description</MudText>
-
-                        </MudCardContent>
-                    </MudCard>
-            }
-        }
-    </MudPaper>
-}
+<SupplementsListView />
