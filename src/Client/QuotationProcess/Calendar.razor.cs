@@ -67,7 +67,7 @@ namespace Foodtruck.Client.QuotationProcess
         // MudDatePicker Functions
         private bool IsDateAlreadyBooked(DateTime dateTime) =>
             reservations is not null && reservations.Any(reservation =>
-                dateTime.Date >= reservation.Start.Date &&
+                dateTime.Date >= reservation.Start.AddDays(-1).Date &&
                 dateTime.Date <= reservation.End.Date ||
                 dateTime.Date < DateTime.Now.Date);
 
