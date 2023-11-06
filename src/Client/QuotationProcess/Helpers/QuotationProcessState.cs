@@ -3,6 +3,7 @@ using Domain.Formulas;
 using Foodtruck.Shared.Customers;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
+using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 
 namespace Foodtruck.Client.QuotationProcess.Helpers
@@ -21,14 +22,13 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
         // Item is chosen if quantity != 0
         public IReadOnlyCollection<FormulaChoiceFormItem> ChosenFormulaChoiceItems => CompletedChoiceFormModels.SelectMany(choice => choice.Options.Where(option => option.Quantity != 0)).ToList();
 
-
         public CustomerDetailsFormModel CustomerDetailsFormModel { get; set; } = new();
-
 
         private readonly List<ExtraSupplementLine> extraSupplementLines = new();
         public IReadOnlyCollection<ExtraSupplementLine> ExtraSupplementLines => extraSupplementLines.AsReadOnly();
+        public ReservationDto.Create ReservationModel { get; set; } = new();
 
-        public void ConfigureReservation(DateTime start, DateTime end)
+        public void ConfigureReservation(DateTime? start, DateTime? end)
         {
             ConfiguringQuotationVersion.Reservation.Start = start;
             ConfiguringQuotationVersion.Reservation.End = end;
