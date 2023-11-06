@@ -7,7 +7,9 @@
 <MudLayout>
     <Navmenu />
     <MudMainContent>
+        <CascadingValue Value="@_currentTheme">
         @Body
+        </CascadingValue>
     </MudMainContent>
     <Footer />
 </MudLayout>
@@ -23,7 +25,7 @@
             {
                 Primary = "#d8b05a",
                 Secondary = "#405d7a",
-                Info = "#C2CCC5",
+                Info = "#58b4e3",
                 Success = "#00FF00",
                 Warning = Colors.Orange.Accent1,
                 Error = Colors.Red.Accent1,
@@ -34,6 +36,7 @@
                 AppbarBackground = "#FAF9F6",
                 AppbarText = "#242324",
                 White = "#ffffff",
+                PrimaryLighten = "#e7cf9c",               
             },
             Typography = new Typography()
             {

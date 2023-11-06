@@ -2,106 +2,104 @@
 @using Foodtruck.Client.QuotationProcess.Components
 @using Foodtruck.Client.QuotationProcess.Helpers;
 @using Foodtruck.Shared.Reservations;
-@inject IReservationService ReservationService
-@inject QuotationProcessState QuotationProcessState
 
 <MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
     <QuotationProcessTimeline currentStep="QuotationProcessStep.CHOOSE_DATE" />
+    <MudStack Spacing="10" AlignItems="AlignItems.Center">
+        <MudText Typo="Typo.h4" Align="Align.Center">
+            Selecteer een datum
+        </MudText>
 
-    <MudStack Spacing="10">
-        <MudText Typo="Typo.h4" Align="Align.Center">Selecteer een datum</MudText>
-        <div class="relative">
-            @if (reservations is null)
-            {
-                <div style="position: absolute; width: 100%; height: 100%; top:auto; left: 0; opacity: 0.8;background: white; z-index:100">
-                    <MudStack Row="true" Style="position: absolute;top:50%; left: 0;  transform: translateY(-50%);width: 100%;" AlignItems="AlignItems.Center" Justify="Justify.Center" Spacing="7">
-                        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
-                        <MudText>Reservaties ophalen..</MudText>
-                    </MudStack>
+        <MudForm Model="@Model" @ref="@form" Validation="@(calendarValidator.ValidateValue)" ValidationDelay="0">
+            <MudStack Spacing="5" AlignItems="AlignItems.Center" Style="width:fit-content">
+                <MudText Align="Align.Center" Class="d-flex gap-1">
+                    De truck wordt telkens om 11:00 geleverd en om 16:00 opgehaald
+                </MudText>
 
-                </div>
-            }
-            <MudDateRangePicker Rounded="true" PickerVariant="PickerVariant.Static" @bind-DateRange="selectedDateRange" MinDate="DateTime.Now.Date" IsDateDisabledFunc="IsDateAlreadyBooked" Elevation="5" DisableToolbar="true" Class="datum-aanvraag-picker" />
-        </div>
+                <MudStack Spacing="0">
+                    <MudCard Elevation="1" Class="calendar-card pa-5">
+                        <MudGrid Justify="Justify.Center" Class="flex-wrap" Spacing="1">
+                            <MudItem xs="12" sm="4">
+                                <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
 
-        <MudText>Gelieve de datum te selecteren waarop je evenement begint en eindigt. De foodtruck wordt opgehaald de dag na de einddatum van je evenement.</MudText>
-        <MudGrid Spacing="4">
-            <MudItem xs="12" md="6">
-                <MudTimePicker @ref="startTimePicker" Label="Startuur" @bind-Time="timeStart" HelperText="De foodtruck kan ten vroegste om 15:00 gebruikt worden">
-                    <PickerActions>
-                        <MudSpacer />
-                        <MudButton OnClick="@(() => startTimePicker.Close(false))">Annuleren</MudButton>
-                        <MudButton Color="Color.Primary" OnClick="@(() => startTimePicker.Close())">Ok</MudButton>
-                    </PickerActions>
+                                     <MudText Style="@ChipStyle(true)">
+                                         Van
+                                     </MudText>
 
-                </MudTimePicker>
-            </MudItem>
+                                     <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(!startDateConfirmed)"
+                                              OnClick="@EditStartDate" Style="@ChipStyle(true)">
+                                         @(Model.Start is null ? "/" : "📅 " + Model.Start?.ToString("dd / MM / yyyy"))
+                                    </MudChip>
 
-            <MudItem xs="12" md="6">
-                <MudTimePicker @ref="endTimePicker" Label="Einduur" @bind-Time="timeEnd" HelperText="Uur dat de foodtruck terug wordt opgehaald, ten laatste 11:00">
-                    <PickerActions>
-                        <MudSpacer />
-                        <MudButton OnClick="@(() => endTimePicker.Close(false))">Annuleren</MudButton>
-                        <MudButton Color="Color.Primary" OnClick="@(() => endTimePicker.Close())">Ok</MudButton>
-                    </PickerActions>
-                </MudTimePicker>
-            </MudItem>
-        </MudGrid>
-        <MudDivider />
-        <MudStack Spacing="1" Justify="Justify.Center" AlignItems="AlignItems.Center">
-            <MudText Style="min-width: 200px;">Gekozen datum en tijd</MudText>
-            <MudChip Size="Size.Large" Color="Color.Primary" Variant="Variant.Outlined">@selectedDateRange?.Start?.ToString("dd/MM/yyyy") vanaf @timeStart?.ToString(@"hh\:mm") tot @selectedDateRange?.End?.AddDays(1).ToString("dd/MM/yyyy") om @timeEnd?.ToString(@"hh\:mm")</MudChip>
-        </MudStack>
+                                </MudStack>
+                            </MudItem>
+                            <MudItem xs="1" Class="d-flex justify-center align-center">
+                                <MudIcon Icon="@Icons.Material.Filled.ArrowRightAlt" Size="Size.Medium" Style="@ChipStyle(false)" Class="@(startDateConfirmed ? "" : "invisible" )" />
+                            </MudItem>
+                            <MudItem xs="12" sm="4">
+                                <MudStack Row Spacing="2" AlignItems="AlignItems.Center" Justify="Justify.Center">
 
-        <MudStack Spacing="4" Justify="Justify.Center" Row="true">
-            <MudButton Variant="Variant.Outlined" DisableElevation="true" OnClick="Cancel">Annuleren</MudButton>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="ConfirmDateAndTime" Href="/aanvraag/formule-kiezen">Doorgaan</MudButton>
-        </MudStack>
+                                     <MudText Style="@ChipStyle(startDateConfirmed)">
+                                         Tot
+                                     </MudText>
 
+                                     <MudChip Size="Size.Large" Color="Color.Primary" Variant="@ChipVariant(startDateConfirmed)">
+                                         @(Model.End is null ? "/" : "📅 " + Model.End?.ToString("dd / MM / yyyy"))
+                                    </MudChip>
+
+                                </MudStack>
+                            </MudItem>
+                        </MudGrid>
+                    </MudCard>
+
+                    <div class="relative">
+                        @if (loading)
+                        {
+                            <div class="calendar-loading">
+                                <MudStack Row Spacing="7" AlignItems="AlignItems.Center" Justify="Justify.Center" Class="flex-grow-1">
+                                     <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate />
+                                     <MudText>Reservaties ophalen..</MudText>
+                                 </MudStack>
+                             </div>
+                        }
+
+                        <MudDatePicker @bind-Date="Model.Start" For="@(() => Model.Start)" Class="@(startDateConfirmed ? "d-none" : "")"
+                                       PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
+                                        IsDateDisabledFunc="IsDateAlreadyBooked" />
+
+                         <MudDatePicker @bind-Date="Model.End" For="@(() => Model.End)" Class="@(!startDateConfirmed ? "d-none" : "")"
+                                        PickerVariant="PickerVariant.Static" FirstDayOfWeek="DayOfWeek.Monday" DisplayMonths="2" DisableToolbar Elevation="1"
+                                        IsDateDisabledFunc="IsDateAvailableAsEnd" AdditionalDateClassesFunc="AdditionalDateClassesFunc" PickerMonth="@PickerMonth" />
+                     </div>
+
+                 </MudStack>
+
+                 <MudText Class="d-flex gap-1" Typo="Typo.body2">
+                     <MudIcon Icon="@Icons.Material.Outlined.Info" Size="Size.Small" Color="Color.Info" />
+                     @(!startDateConfirmed ? "Gelieve een leverdatum te selecteren." : "Wanneer mag de truck opgehaald worden?")
+                </MudText>
+
+                <MudStack Row Style="width:100%;">
+                     @if (!startDateConfirmed)
+                    {
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
+                                   OnClick="ConfirmStartDate" Disabled="@(Model.Start is null)">
+                            Leverdatum bevestigen
+                        </MudButton>
+                    }
+                    else
+                    {
+                        <MudButton Variant="Variant.Outlined" OnClick="EditStartDate">
+                            Leverdatum aanpassen
+                        </MudButton>
+
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto"
+                                   OnClick="Submit" Disabled="@(Model.End is null)">
+                            Doorgaan
+                        </MudButton>
+                    }
+                </MudStack>
+            </MudStack>
+        </MudForm>
     </MudStack>
 </MudContainer>
-
-@code {
-    private DateRange selectedDateRange = new DateRange(DateTime.Now.Date, DateTime.Now.Date);
-    private TimeSpan? timeStart = new TimeSpan(15, 00, 00);
-    private TimeSpan? timeEnd = new TimeSpan(11, 00, 00);
-
-    MudTimePicker startTimePicker, endTimePicker;
-
-    private IEnumerable<ReservationDto.Index>? reservations;
-
-    public Func<DateTime, bool> IsDateAlreadyBooked
-    {
-        get
-        {
-            return dateTime => reservations is null ? false : reservations.Any(reservation => dateTime >= reservation.Start && dateTime <= reservation.End);
-        }
-    }
-
-
-    private void ConfirmDateAndTime()
-    {
-        DateTime start = new DateTime(selectedDateRange.Start.Value.Year, selectedDateRange.Start.Value.Month, selectedDateRange.Start.Value.Day, timeStart.Value.Hours, timeStart.Value.Minutes, 0);
-        DateTime endDate = selectedDateRange.End.Value.AddDays(1); // reservation ends the following day
-        DateTime end = new DateTime(endDate.Year, endDate.Month, endDate.Day, timeEnd.Value.Hours, timeEnd.Value.Minutes, 0);
-        QuotationProcessState.ConfigureReservation(start, end);
-    }
-
-    private void Cancel()
-    {
-
-    }
-
-
-    protected override async Task OnInitializedAsync()
-    {
-        ReservationResult.Index result = await ReservationService.GetIndexAsync();
-        reservations = result.Reservations;
-
-        foreach (var r in reservations)
-        {
-            Console.WriteLine($"{r.Id} - {r.Start} - {r.End}");
-        }
-        StateHasChanged();
-    }
-}
