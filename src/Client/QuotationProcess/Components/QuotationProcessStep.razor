@@ -1,9 +1,7 @@
-﻿<div style="transition: width 20s, height 20s;">
-    @if (QuotationProcessStepControl.ActiveStep == this)
-    {
-        @ChildContent
-    }
-</div>
+﻿@if (QuotationProcessStepControl.ActiveStep == this)
+{
+    @ChildContent
+}
 
 @code {
     [CascadingParameter]
