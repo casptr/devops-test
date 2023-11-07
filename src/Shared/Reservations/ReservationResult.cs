@@ -15,5 +15,11 @@ namespace Foodtruck.Shared.Reservations
             public int TotalAmount { get; set; }
         }
 
+        public class Detailed
+        {
+            public IEnumerable<ReservationDto.Detail>? Reservations { get; set; }
+            public int TotalAmount { get; set; }
+        }
+
     }
 }

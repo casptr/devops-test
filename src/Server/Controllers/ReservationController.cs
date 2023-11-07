@@ -25,5 +25,13 @@ namespace Foodtruck.Server.Controllers
         {
             return await reservationService.GetIndexAsync();
         }
+
+
+        [SwaggerOperation("Returns all detailed reservations for admin")]
+        [HttpGet("detailed"), AllowAnonymous] // TODO Only admins should be able to get this
+        public async Task<ReservationResult.Detailed> GetAdminIndex()
+        {
+            return await reservationService.GetDetailedAsync();
+        }
     }
 }

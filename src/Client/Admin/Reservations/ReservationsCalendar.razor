@@ -1,0 +1,76 @@
+﻿@page "/admin/reservaties"
+@using Foodtruck.Shared.Reservations;
+@attribute [Authorize]
+@layout AdminLayout
+@inject IReservationService ReservationService
+
+
+<PageTitle>Admin page</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-3">Reservaties</MudText>
+<div class="relative">
+    @if (loading)
+    {
+        <div class="calendar-loading">
+            <MudStack Row Spacing="7" AlignItems="AlignItems.Center" Justify="Justify.Center" Class="flex-grow-1">
+                 <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate />
+                 <MudText>Reservaties ophalen..</MudText>
+             </MudStack>
+         </div>
+    }
+    <MudCalendar CellClicked="CellClicked" Items="calendarItems" ShowDay="false" Outlined="true">
+        <CellTemplate>
+            <div style="width: 100%; height: 100%; border: 2px solid @GetColor(((CustomItem)context).Color);">
+                <div style="background-color: @GetColor(((CustomItem)context).Color)">
+                    <MudText Style="color: #ffffff;" Typo="Typo.body1" Align="Align.Center">@(((CustomItem)context).Text)</MudText>
+                    </div>
+                    <div class="pa-2"><MudText Typo="Typo.body2">@context.Text</MudText></div>
+                </div>
+            </CellTemplate>
+        </MudCalendar>
+    </div>
+    @code {
+
+    private string GetColor(Color color) => $"var(--mud-palette-{color.ToDescriptionString()})";
+    private Color[] calendarItemColors = { Color.Success, Color.Secondary, Color.Tertiary, Color.Dark };
+    private IEnumerable<ReservationDto.Detail>? reservations;
+    private List<CustomItem> calendarItems = new();
+    private bool loading = true;
+
+    [Inject]
+    private IDialogService DialogService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        reservations = (await ReservationService.GetDetailedAsync()).Reservations;
+
+        if (reservations is not null)
+        {
+            int previousColorIndex = 0;
+            calendarItems = reservations.Select(reservation => new CustomItem()
+                {
+                    Start = reservation.Start,
+                    End = reservation.End,
+                    Text = reservation.Description ?? "Reservatie",
+                    AllDay = true,
+                    Color = calendarItemColors[previousColorIndex++ % calendarItemColors.Length]
+                }).ToList();
+        }
+
+        loading = false;
+        StateHasChanged();
+    }
+
+    private class CustomItem : CalendarItem
+    {
+        public Color Color { get; set; } = Color.Primary;
+    }
+
+    private Task CellClicked(DateTime dateTime)
+    {
+        return DialogService.ShowMessageBox("Click", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
+    }
+
+
+}

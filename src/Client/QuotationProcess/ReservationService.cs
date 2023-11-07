@@ -19,5 +19,11 @@ namespace Foodtruck.Client.QuotationProcess
             var response = await client.GetFromJsonAsync<ReservationResult.Index>($"{endpoint}");
             return response!;
         }
+
+        public async Task<ReservationResult.Detailed> GetDetailedAsync()
+        {
+            var response = await client.GetFromJsonAsync<ReservationResult.Detailed>($"{endpoint}/detailed");
+            return response!;
+        }
     }
 }
