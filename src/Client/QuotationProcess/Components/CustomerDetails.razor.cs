@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Foodtruck.Client.QuotationProcess.Helpers;
-namespace Foodtruck.Client.QuotationProcess
+namespace Foodtruck.Client.QuotationProcess.Components
 {
     public partial class CustomerDetails
     {
+        [CascadingParameter] private QuotationProcessStepControl QuotationProcessStepControl { get; set; }
         [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
         private CustomerDetailsFormModel model => QuotationProcessState.CustomerDetailsFormModel;
         private readonly CustomerDetailsFormModel.Validator validator = new();
@@ -16,6 +17,9 @@ namespace Foodtruck.Client.QuotationProcess
         // For testing purposes TODO delete this
         protected override void OnInitialized()
         {
+            if (QuotationProcessStepControl == null)
+                throw new ArgumentNullException(nameof(QuotationProcessStepControl), "CustomerDetails must be used inside a QuotationProcessStep");
+
             if (!useTestData)
                 return;
             model.Customer.WantsMarketingMails = true;
@@ -35,6 +39,7 @@ namespace Foodtruck.Client.QuotationProcess
             model.BillingAddress.Zip = "9090";
             model.IsEventAddressDifferentThanBillingAddress = true;
             model.ExtraInfo = "Het gaat om een bedrijfsfeest. Je mag mij gerust bellen om de offerte te bespreken.";
+
         }
 
         public async Task Submit()
@@ -46,6 +51,7 @@ namespace Foodtruck.Client.QuotationProcess
 
             QuotationProcessState.ConfigureQuotationCustomerDetails();
             QuotationProcessState.PrintQuotation();
+            QuotationProcessStepControl.NextStep();
         }
     }
 }

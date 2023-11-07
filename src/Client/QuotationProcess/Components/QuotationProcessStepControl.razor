@@ -1,0 +1,54 @@
+﻿@using Foodtruck.Client.QuotationProcess.Components
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
+    <QuotationProcessTimeline Steps="Steps" CurrentStepIndex="ActiveStepIndex" />
+
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</MudContainer>
+
+@code {
+    [Inject] IJSRuntime JsRuntime { get; set; }
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public int ActiveStepIndex { get; set; }
+    public QuotationProcessStep ActiveStep { get; set; }
+
+    List<QuotationProcessStep> Steps = new();
+
+    internal void AddStep(QuotationProcessStep step)
+    {
+        Steps.Add(step);
+        if (Steps.Count == 1)
+            ActiveStep = step;
+        StateHasChanged();
+    }
+
+    public void NextStep()
+    {
+        if (Steps.Count - 1 == ActiveStepIndex)
+            return;
+
+        ActiveStep = Steps[++ActiveStepIndex];
+        StateHasChanged();
+        BackToTop();
+    }
+
+    public void PreviousStep()
+    {
+        if (ActiveStepIndex == 0)
+            return;
+
+        ActiveStep = Steps[--ActiveStepIndex];
+        StateHasChanged();
+        BackToTop(); // Does not awaiting this matter? TODO
+    }
+
+
+    private async Task BackToTop()
+    {
+        await JsRuntime.InvokeVoidAsync("backToTop");
+    }
+}

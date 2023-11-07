@@ -2,10 +2,9 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Supplements;
-using Foodtruck.Client.QuotationProcess.Components;
 using Foodtruck.Client.QuotationProcess.Helpers;
 
-namespace Foodtruck.Client.QuotationProcess
+namespace Foodtruck.Client.QuotationProcess.Components
 {
     public partial class Formulas
     {
@@ -21,6 +20,7 @@ namespace Foodtruck.Client.QuotationProcess
 
         private IEnumerable<FormulaDto.Detail>? formulas;
         private List<string>? formulaSupplementNames = new();
+
         protected override async Task OnParametersSetAsync()
         {
             var response = await FormulaService.GetAllAsync();

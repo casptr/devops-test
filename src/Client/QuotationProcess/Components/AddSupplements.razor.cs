@@ -5,10 +5,11 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Linq;
 
-namespace Foodtruck.Client.QuotationProcess;
+namespace Foodtruck.Client.QuotationProcess.Components;
 
 public partial class AddSupplements
 {
+    [CascadingParameter] private QuotationProcessStepControl QuotationProcessStepControl { get; set; }
     [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
     [Inject] public ISupplementService SupplementService { get; set; } = default!;
 
@@ -51,5 +52,20 @@ public partial class AddSupplements
         };
 
         QuotationProcessState.AddExtraSupplementLine(supplementChoice);
+    }
+
+    private void Submit()
+    {
+        QuotationProcessState.ConfigureQuotationExtraSupplements();
+        QuotationProcessStepControl.NextStep();
+    }
+
+
+    protected override void OnInitialized()
+    {
+        if (QuotationProcessStepControl == null)
+            throw new ArgumentNullException(nameof(QuotationProcessStepControl), "AddSupplements must be used inside a QuotationProcessStep");
+
+        base.OnInitialized();
     }
 }

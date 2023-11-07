@@ -2,7 +2,7 @@
 using Foodtruck.Shared;
 using FluentValidation;
 
-namespace Foodtruck.Client.QuotationProcess
+namespace Foodtruck.Client.QuotationProcess.Helpers
 {
     public class CustomerDetailsFormModel
     {

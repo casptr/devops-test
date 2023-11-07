@@ -1,0 +1,27 @@
+﻿<div style="transition: width 20s, height 20s;">
+    @if (QuotationProcessStepControl.ActiveStep == this)
+    {
+        @ChildContent
+    }
+</div>
+
+@code {
+    [CascadingParameter]
+    private QuotationProcessStepControl QuotationProcessStepControl { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public string Title { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (QuotationProcessStepControl == null)
+            throw new ArgumentNullException(nameof(QuotationProcessStepControl), "QuotationProcessStep must exist within a QuotationProcessStepControl");
+
+        base.OnInitialized();
+        QuotationProcessStepControl.AddStep(this);
+    }
+}

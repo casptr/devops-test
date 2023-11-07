@@ -3,16 +3,14 @@ using Foodtruck.Shared.Reservations;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using FluentValidation;
-using System;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Foodtruck.Client.QuotationProcess
+namespace Foodtruck.Client.QuotationProcess.Components
 {
     public partial class Calendar
     {
+        [CascadingParameter] private QuotationProcessStepControl QuotationProcessStepControl { get; set; }
         [Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
         [Inject] private IReservationService ReservationService { get; set; } = default!;
-        [Inject] private NavigationManager NavigationManager { get; set; } = default!;
         [CascadingParameter] private MudTheme? Theme { get; set; }
         private ReservationDto.Create Model => QuotationProcessState.ReservationModel;
         private readonly ReservationDto.Validator calendarValidator = new();
@@ -61,7 +59,7 @@ namespace Foodtruck.Client.QuotationProcess
             Model.Start = Model.Start?.AddHours(11);
             Model.End = Model.End?.AddHours(16);
             QuotationProcessState.ConfigureReservation(Model.Start, Model.End);
-            NavigationManager.NavigateTo("/aanvraag/formule-kiezen");
+            QuotationProcessStepControl.NextStep();
         }
 
         // MudDatePicker Functions
@@ -91,5 +89,14 @@ namespace Foodtruck.Client.QuotationProcess
             dateTime.Date == Model.End?.Date ? "mud-range mud-range-end-selected mud-theme-primary" :
             dateTime.Date > Model.Start?.Date && dateTime.Date < Model.End?.Date ? "mud-range mud-range-between mud-theme-primary" : "";
 
+
+
+        protected override void OnInitialized()
+        {
+            if (QuotationProcessStepControl == null)
+                throw new ArgumentNullException(nameof(QuotationProcessStepControl), "Calendar must be used inside a QuotationProcessStep");
+
+            base.OnInitialized();
+        }
     }
 }
