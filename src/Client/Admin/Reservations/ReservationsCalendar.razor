@@ -18,24 +18,26 @@
              </MudStack>
          </div>
     }
-    <MudCalendar CellClicked="CellClicked" Items="calendarItems" ShowDay="false" Outlined="true">
+    <MudCalendar Items="calendarItems" ShowDay="false" Outlined="true" DayCellHeight="24" DayTimeInterval="CalendarTimeInterval.Minutes60">
         <CellTemplate>
-            <div style="width: 100%; height: 100%; border: 2px solid @GetColor(((CustomItem)context).Color);">
-                <div style="background-color: @GetColor(((CustomItem)context).Color)">
-                    <MudText Style="color: #ffffff;" Typo="Typo.body1" Align="Align.Center">@(((CustomItem)context).Text)</MudText>
-                    </div>
-                    <div class="pa-2"><MudText Typo="Typo.body2">@context.Text</MudText></div>
-                </div>
-            </CellTemplate>
-        </MudCalendar>
-    </div>
-    @code {
+            @{
+                CustomItem item = (CustomItem)context;
+            }
+            <div class="@item.cssClasses" style="background-color: @GetColor(item.Color);" @onmouseover="() => MouseOverCalendarItem(item.Reservation)" @onmouseout="() => MouseOutCalendarItem(item.Reservation)" @onclick="() => CalendarItemClicked(item.Reservation)">
+                <MudText Style="color: #ffff">@context.Text</MudText>
+            </div>
+        </CellTemplate>
+    </MudCalendar>
+</div>
+@code {
 
-    private string GetColor(Color color) => $"var(--mud-palette-{color.ToDescriptionString()})";
-    private Color[] calendarItemColors = { Color.Success, Color.Secondary, Color.Tertiary, Color.Dark };
     private IEnumerable<ReservationDto.Detail>? reservations;
     private List<CustomItem> calendarItems = new();
     private bool loading = true;
+
+
+    private string GetColor(Color color) => $"var(--mud-palette-{color.ToDescriptionString()})";
+    private Color[] calendarItemColors = { Color.Success, Color.Secondary, Color.Tertiary, Color.Dark };
 
     [Inject]
     private IDialogService DialogService { get; set; }
@@ -53,8 +55,8 @@
                     Start = reservation.Start,
                     End = reservation.End,
                     Text = reservation.Description ?? "Reservatie",
-                    AllDay = true,
-                    Color = calendarItemColors[previousColorIndex++ % calendarItemColors.Length]
+                    Color = calendarItemColors[previousColorIndex++ % calendarItemColors.Length],
+                    Reservation = reservation,
                 }).ToList();
         }
 
@@ -65,12 +67,26 @@
     private class CustomItem : CalendarItem
     {
         public Color Color { get; set; } = Color.Primary;
+        public ReservationDto.Detail Reservation { get; set; }
+        public bool IsBeingHovered { get; set; }
+
+        public string cssClasses => $"admin_reservation_calendar_item {(IsBeingHovered ? "admin_reservation_calendar_item_hover" : "")}";
     }
 
-    private Task CellClicked(DateTime dateTime)
+    // Hover effect should apply to every CalendarItem of that reservation
+    private void MouseOverCalendarItem(ReservationDto.Detail reservation)
     {
-        return DialogService.ShowMessageBox("Click", dateTime.ToString(Thread.CurrentThread.CurrentCulture));
+        calendarItems.Where(calendarItem => calendarItem.Reservation.Id == reservation.Id).ToList().ForEach(c => c.IsBeingHovered = true);
     }
 
+    private void MouseOutCalendarItem(ReservationDto.Detail reservation)
+    {
+        calendarItems.Where(calendarItem => calendarItem.Reservation.Id == reservation.Id).ToList().ForEach(c => c.IsBeingHovered = false);
+    }
+
+    private void CalendarItemClicked(ReservationDto.Detail reservation)
+    {
+        DialogService.ShowMessageBox("Reservation was clicked", $"Id {reservation.Id} | Description: {reservation.Description}");
+    }
 
 }
