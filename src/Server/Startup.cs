@@ -34,9 +34,8 @@ namespace Server
 
                 var conStrBuilder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Foodtruck"))
                 {
-                    UserID = Configuration["MySql:Password"],
-                    Password = Configuration["MySql:User"]
-                    
+                    UserID = Configuration["MySql:User"],
+                    Password = Configuration["MySql:Password"]
                 };
                 var connectionString = conStrBuilder.ConnectionString;
 
