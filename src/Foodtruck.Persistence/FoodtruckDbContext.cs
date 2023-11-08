@@ -8,12 +8,12 @@ namespace Foodtruck.Persistence
 {
     public class FoodtruckDbContext : DbContext
     {
-        public DbSet<Customer> Customer { get; set; }
-        public DbSet<MarketingSubscriber> MarketingSubscriber { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<MarketingSubscriber> MarketingSubscribers { get; set; }
 
-        public DbSet<Supplement> Supplement { get; set; }
-        public DbSet<Formula> Formula { get; set; }
-        public DbSet<Quotation> Quotation { get; set; }
+        public DbSet<Supplement> Supplements { get; set; }
+        public DbSet<Formula> Formulas { get; set; }
+        public DbSet<Quotation> Quotations { get; set; }
 
         public FoodtruckDbContext(DbContextOptions<FoodtruckDbContext> options) : base(options) { }
 
