@@ -8,6 +8,6 @@ internal class SupplementConfiguration : IEntityTypeConfiguration<Supplement>
 {
     public void Configure(EntityTypeBuilder<Supplement> builder)
     {
-        builder.OwnsOne(x => x.Price).Property(x => x.Value);
+        builder.OwnsOne(x => x.Price).Property(x => x.Value).HasColumnName(nameof(Supplement.Price));
     }
 }

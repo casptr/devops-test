@@ -8,8 +8,8 @@ internal class QuotationVersionConfiguration : IEntityTypeConfiguration<Quotatio
 {
 	public void Configure(EntityTypeBuilder<QuotationVersion> builder)
 	{
-		builder.OwnsOne(x => x.Price).Property(x => x.Value);
-		builder.OwnsOne(x => x.VatTotal).Property(x => x.Value);
+		builder.OwnsOne(x => x.Price).Property(x => x.Value).HasColumnName(nameof(QuotationVersion.Price));
+		builder.OwnsOne(x => x.VatTotal).Property(x => x.Value).HasColumnName(nameof(QuotationVersion.VatTotal));
 		builder.OwnsOne(x => x.EventAddress, address =>
 		{
 			// Without this mapping EF Core does not save the properties since they're getters only.

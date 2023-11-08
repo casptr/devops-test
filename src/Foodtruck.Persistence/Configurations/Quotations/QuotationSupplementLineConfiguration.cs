@@ -8,6 +8,6 @@ internal class QuotationSupplementLineConfiguration : IEntityTypeConfiguration<Q
 {
 	public void Configure(EntityTypeBuilder<QuotationSupplementLine> builder)
 	{
-		builder.OwnsOne(x => x.Price).Property(x => x.Value);
+		builder.OwnsOne(x => x.Price).Property(x => x.Value).HasColumnName(nameof(QuotationSupplementLine.Price));
 	}
 }
