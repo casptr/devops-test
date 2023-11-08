@@ -16,9 +16,17 @@ namespace Services.Reservations
             var reservationFaker = new Faker<ReservationDto.Detail>("nl")
             .UseSeed(1)
             .RuleFor(x => x.Id, _ => ++reservationIds)
-            .RuleFor(x => x.Start, f => prev?.End.AddDays(random.Next(1, 30)) ?? DateTime.Now.AddDays(1))
+            .RuleFor(x => x.Start, f =>
+            {
+                DateTime date = prev?.End.AddDays(random.Next(1, 30)) ?? DateTime.Now.AddDays(1);
+                return new DateTime(date.Year, date.Month, date.Day, 11, 0, 0);
+            })
             .RuleFor(x => x.Description, f => f.Person.FullName)
-            .RuleFor(x => x.End, (f, current) => current.Start.AddDays(random.Next(0, 5))).FinishWith((f, current) => prev = current);
+            .RuleFor(x => x.End, (f, current) =>
+            {
+                DateTime date = current.Start.AddDays(random.Next(0, 5));
+                return new DateTime(date.Year, date.Month, date.Day, 16, 0, 0);
+            }).FinishWith((f, current) => prev = current);
 
             reservations = reservationFaker.Generate(25);
         }
