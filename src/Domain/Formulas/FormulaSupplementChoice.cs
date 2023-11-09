@@ -17,6 +17,8 @@ namespace Domain.Formulas
 
         private readonly List<Supplement> supplementsToChoose = new();
         public IReadOnlyCollection<Supplement> SupplementsToChoose => supplementsToChoose.AsReadOnly();
+        private readonly List<Formula> formulas = new();
+        public IReadOnlyCollection<Formula> Formulas => formulas.AsReadOnly();
 
         /// <summary>
         /// Database Constructor
@@ -34,6 +36,12 @@ namespace Domain.Formulas
         {
             Guard.Against.Null(supplement, nameof(supplement));
             supplementsToChoose.Add(supplement);
+        }
+
+        public void AddFormula(Formula formula)
+        {
+            Guard.Against.Null(formula, nameof(formula));
+            formulas.Add(formula);
         }
 
     }

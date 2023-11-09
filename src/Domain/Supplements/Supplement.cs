@@ -1,12 +1,13 @@
 using Ardalis.GuardClauses;
 using Domain.Common;
+using Domain.Formulas;
 
 namespace Domain.Supplements;
 
 public class Supplement : Entity
 {
 	private string name = default!;
-	public string Name
+    public string Name
 	{
 		get => name;
 		set => name = Guard.Against.NullOrWhiteSpace(value, nameof(Name));
@@ -33,8 +34,8 @@ public class Supplement : Entity
 		set => price = Guard.Against.Null(value, nameof(Price));
 	}
 
-	private readonly List<Uri> imageUrls = new();
-	public IReadOnlyCollection<Uri> ImageUrls => imageUrls.AsReadOnly();
+	private readonly List<SupplementImage> imageUrls = new();
+	public IReadOnlyCollection<SupplementImage> ImageUrls => imageUrls.AsReadOnly();
 
 	private int amountAvailable = default!;
 	public int AmountAvailable
@@ -43,7 +44,12 @@ public class Supplement : Entity
 		set => amountAvailable = Guard.Against.Negative(value, nameof(AmountAvailable));
 	}
 
-	private Supplement() { }
+    private readonly List<FormulaSupplementChoice> formulaSupplementChoices = new();
+    public IReadOnlyCollection<FormulaSupplementChoice> FormulaSupplementChoices => formulaSupplementChoices.AsReadOnly();
+
+    private readonly List<FormulaSupplementChoice> formulaSupplementDefaultChoices = new();
+    public IReadOnlyCollection<FormulaSupplementChoice> FormulaSupplementDefaultChoices => formulaSupplementDefaultChoices.AsReadOnly();
+    private Supplement() { }
 
 	public Supplement(string name, string description, Category category, Money price, int amountAvailable)
 	{
@@ -57,11 +63,12 @@ public class Supplement : Entity
 	public void AddImageUrl(Uri imageUrl)
 	{
 		Guard.Against.Null(imageUrl, nameof(imageUrl));
-		if (imageUrls.Contains(imageUrl))
+		if (imageUrls.Any(x => x.Image == imageUrl))
 		{
 			throw new ApplicationException($"{nameof(Supplement)} '{name}' already contains the imageUrl:{imageUrl}");
 		}
-		imageUrls.Add(imageUrl);
+		imageUrls.Add(new SupplementImage(imageUrl, this));
 	}
+
 
 }

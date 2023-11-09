@@ -9,7 +9,7 @@ public class Foodtruck : Entity
     // 2 dagen huren: 450€ excl 21% btw
     // 3 dagen huren: 520€ excl 21%
     // Elke extra dag: +50€ excl 21% btw
-    private readonly List<PricePerDayLine> pricePerDays = new();
+    private List<PricePerDayLine> pricePerDays = new();
     public IReadOnlyCollection<PricePerDayLine> PricePerDays => pricePerDays.AsReadOnly();
 
     private Money extraPricePerDay = default!;
@@ -28,8 +28,12 @@ public class Foodtruck : Entity
         return new Money(lastPricePerDay.Price.Value + (dayDifference * ExtraPricePerDay.Value));
     }
 
-    public Foodtruck() { }
-    /*private Foodtruck() { }*/
+    public Foodtruck(decimal extraPricePerDay, IEnumerable<PricePerDayLine> pricePerDays)
+    {
+        ExtraPricePerDay = new Money(extraPricePerDay);
+        this.pricePerDays = Guard.Against.Null(pricePerDays, nameof(pricePerDays)).ToList();
+    }
+    private Foodtruck() { }
 }
 
 // DayNumber Price

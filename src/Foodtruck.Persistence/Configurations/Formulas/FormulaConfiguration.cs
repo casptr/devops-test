@@ -8,6 +8,6 @@ internal class FormulaConfiguration : IEntityTypeConfiguration<Formula>
 {
     public void Configure(EntityTypeBuilder<Formula> builder)
     {
-        
+        builder.HasMany(e => e.Choices).WithMany(e => e.Formulas);
     }
 }

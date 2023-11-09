@@ -10,9 +10,9 @@ namespace Foodtruck.Persistence;
 
 public class FakeSeeder
 {
-    private readonly BogusDbContext dbContext;
+    private readonly FoodtruckDbContext dbContext;
    
-    public FakeSeeder(BogusDbContext dbContext)
+    public FakeSeeder(FoodtruckDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
