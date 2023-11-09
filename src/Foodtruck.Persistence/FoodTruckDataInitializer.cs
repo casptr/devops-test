@@ -1,5 +1,7 @@
 using Domain.Common;
+using Domain.Customers;
 using Domain.Formulas;
+using Domain.Quotations;
 using Domain.Supplements;
 using Foodtruck.Persistence;
 //using Foodtruck.Shared.Formulas;
@@ -125,7 +127,7 @@ namespace Persistence
             bierChoice.AddSupplementToChoose(suppDuvel);
             bierChoice.AddSupplementToChoose(suppStella);
 
-            var etenChoice = new FormulaSupplementChoice("Keuze barbequevlees", 0, suppRibbetjes);
+            var etenChoice = new FormulaSupplementChoice("Keuze barbequevlees", 20, suppRibbetjes);
             etenChoice.AddSupplementToChoose(suppRibbetjes);
             etenChoice.AddSupplementToChoose(suppHamburger);
 
@@ -145,11 +147,28 @@ namespace Persistence
             formulaAllIn.AddSupplemenChoice(etenChoice);
 
 
+            Customer customer1 = new Customer("Yi Long", "Ma", new EmailAddress("YiLong@yahoo.com"), "0472543891", "Tussla", "203242348932");
+            Customer customer2 = new Customer("Froderick", "De Tander", new EmailAddress("Frodetender2004@skynet.com"), "0483231923");
+
+            Quotation quotation1 = new Quotation(customer1);
+
+            Reservation reservation = new Reservation(new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 2, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 4, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
+            List<SupplementItem> formulaSupplementItems = formulaAllIn.Choices.Select(choice => new SupplementItem(choice.DefaultChoice, choice.MinQuantity)).ToList(); // add choices
+            formulaSupplementItems.AddRange(formulaAllIn.IncludedSupplements.Select(includedSupplementLine => new SupplementItem(includedSupplementLine.Supplement, includedSupplementLine.Quantity)));
+            List<SupplementItem> extraSupplements = new List<SupplementItem>() { new SupplementItem(supDrankenDispenser, 2), new SupplementItem(supStrobaal, 5), new SupplementItem(supBiertafel, 2) };
+            Address eventAddress = new Address("9000", "Gent", "Sint-Denijslaan", "300"); 
+            Address billingAddress = new Address("9160", "Lokeren", "Nieuwpoortstraat", "12");
+
+            QuotationVersion quotationVersion= new QuotationVersion(1000, "Mijn feest moet super tof worden met jouw coole tapwagen", "TODO Delete description", reservation, formulaAllIn, formulaSupplementItems, extraSupplements, eventAddress, billingAddress);
+            quotation1.AddVersion(quotationVersion);
+
+
             _dbContext.Foodtruck.Add(foodTruck);
             _dbContext.Supplements.AddRange(new List<Supplement>() { supDienblad, supSfeerverlichting, supSaladette, supGNBakken, supGNBakken1_6, supBarKoeler, supCocktailglasGoud, supCocktailglasGewoon, supCocktailglasKlein, supIjsemmer, supVuurschaal, supDriepoot, supDiepvries, supSnijplank, supSpoelbak, supDrankenDispenser, supSoepketel, supStrobaal, supSchapenvacht, supBiertafel, supFruitkist });
             _dbContext.Formulas.Add(formulaBasic);
             _dbContext.Formulas.Add(formulaGoTo);
             _dbContext.Formulas.Add(formulaAllIn);
+            _dbContext.Quotations.Add(quotation1);
 
 
             _dbContext.SaveChanges();

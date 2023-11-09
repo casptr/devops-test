@@ -5,6 +5,7 @@ namespace Domain.Formulas;
 
 public class Foodtruck : Entity
 {
+    public const int VAT_PERCENTAGE = 21;
     // 1 dag huren: 350 excl 21% btw 
     // 2 dagen huren: 450€ excl 21% btw
     // 3 dagen huren: 520€ excl 21%

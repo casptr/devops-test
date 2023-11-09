@@ -2,7 +2,7 @@ using Ardalis.GuardClauses;
 using Domain.Common;
 
 namespace Domain.Customers;
-public class Customer : Entity
+public class Customer : Entity // TODO make customer valueobject?
 {
 	private string firstname = default!;
 	public string Firstname { get => firstname; set => firstname = Guard.Against.NullOrWhiteSpace(value, nameof(Firstname)); }
@@ -28,12 +28,15 @@ public class Customer : Entity
 	public string? CompanyName { get; set; }
 	public string? CompanyNumber { get; set; }
 
-	/// <summary>
-	/// Database Constructor
-	/// </summary>
-	private Customer() { }
 
-	public Customer(string firstname, string lastname, EmailAddress email, string phone, string? companyName, string? companyNumber)
+    public int QuotationId { get; set; }
+
+    /// <summary>
+    /// Database Constructor
+    /// </summary>
+    private Customer() { }
+
+	public Customer(string firstname, string lastname, EmailAddress email, string phone, string? companyName = null, string? companyNumber = null)
 	{
 		Firstname = firstname;
 		Lastname = lastname;

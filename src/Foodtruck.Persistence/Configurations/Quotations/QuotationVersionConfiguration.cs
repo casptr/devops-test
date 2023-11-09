@@ -29,5 +29,7 @@ internal class QuotationVersionConfiguration : IEntityTypeConfiguration<Quotatio
 			address.Property(x => x.Street);
 			address.Property(x => x.HouseNumber);
 		});
+
+		
 	}
 }

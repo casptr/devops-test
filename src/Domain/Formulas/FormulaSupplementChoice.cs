@@ -17,6 +17,7 @@ namespace Domain.Formulas
 
         private readonly List<Supplement> supplementsToChoose = new();
         public IReadOnlyCollection<Supplement> SupplementsToChoose => supplementsToChoose.AsReadOnly();
+
         private readonly List<Formula> formulas = new();
         public IReadOnlyCollection<Formula> Formulas => formulas.AsReadOnly();
 
