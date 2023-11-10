@@ -32,11 +32,11 @@ public class Quotation : Entity
 
 public class QuotationVersion : Entity
 {
-    public int VersionNumber { get; } = default!;
+    public int VersionNumber { get; set; } = default!;
     public int NumberOfGuests { get; } = default!;
-    public string ExtraInfo { get; } = default!;
+    public string ExtraInfo { get; set; } = default!;
     public string Description { get; } = default!;
-    public Money Price { get; } = default!;
+    public Money Price { get; set; } = default!;
     public Money VatTotal { get; } = default!;
     public Reservation Reservation { get; } = default!;
     public Formula Formula { get; } = default!;
@@ -46,7 +46,6 @@ public class QuotationVersion : Entity
     //TODO transport cost
     private readonly List<QuotationSupplementLine> quotationSupplementLines = new();
     public IReadOnlyCollection<QuotationSupplementLine> QuotationSupplementLines => quotationSupplementLines.AsReadOnly();
-
 
     [NotMapped]
     public IReadOnlyCollection<QuotationSupplementLine> FormulaSupplementLines => quotationSupplementLines.Where(quotationSupplementLine => Formula.IncludedSupplements.Any(includedSupplement => includedSupplement.Supplement.Id == quotationSupplementLine.SupplementId) || Formula.Choices.SelectMany(choice => choice.SupplementsToChoose).Any(supplement => supplement.Id == quotationSupplementLine.SupplementId)).ToList().AsReadOnly();
@@ -69,6 +68,7 @@ public class QuotationVersion : Entity
         Formula = Guard.Against.Null(formula, nameof(Formula));
         EventAddress = Guard.Against.Null(eventAddress, nameof(EventAddress));
         BillingAddress = Guard.Against.Null(billingAddress, nameof(BillingAddress));
+        VersionNumber = 1;
 
         quotationSupplementLines.AddRange(formulaSupplementItems.Select(item => new QuotationSupplementLine(item)));
         quotationSupplementLines.AddRange(extraSupplementItems.Select(item => new QuotationSupplementLine(item)));
@@ -76,8 +76,6 @@ public class QuotationVersion : Entity
         var foodtruckPrice = formula.Foodtruck.CalculatePrice(((int)Math.Floor((reservation.End - reservation.Start).TotalDays))).Value;
         Price = new Money(quotationSupplementLines.Aggregate(0M, (total, next) => total + next.Price.Value * new decimal(next.Quantity)) + foodtruckPrice);
         VatTotal = new Money(quotationSupplementLines.Aggregate(0M, (total, next) => total + next.Vat.Value * new decimal(next.Quantity)) + foodtruckPrice * new decimal(Domain.Formulas.Foodtruck.VAT_PERCENTAGE) / 100M);
-
-
     }
 
 }

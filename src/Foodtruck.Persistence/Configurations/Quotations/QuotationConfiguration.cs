@@ -15,8 +15,11 @@ namespace Foodtruck.Persistence.Configurations.Quotations
     {
         public void Configure(EntityTypeBuilder<Quotation> builder)
         {
-            builder.HasOne(x => x.Customer).WithOne().HasForeignKey<Customer>(c => c.QuotationId).IsRequired();
 
+            builder.OwnsOne(x => x.Customer, customer =>
+            {
+                customer.OwnsOne(x => x.Email).Property(x => x.Value).HasColumnName(nameof(Customer.Email));
+            });
         }
     }
 }

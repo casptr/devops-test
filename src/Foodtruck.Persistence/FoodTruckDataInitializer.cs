@@ -27,13 +27,16 @@ namespace Persistence
 
         private void Seed()
         {
+            // foodtruck pricing
             List<PricePerDayLine> pricePerDayLines = new List<PricePerDayLine> { new PricePerDayLine(1, new Money(350)), new PricePerDayLine(2, new Money(450)), new PricePerDayLine(3, new Money(520)) };
             var foodTruck = new Domain.Formulas.Foodtruck(50, pricePerDayLines);
 
+            // categories
             var catBier = new Category("Bier", 6);
             var catEten = new Category("Eten", 6);
             var catExtra = new Category("Extra", 21);
 
+            //supplements
             var suppJup = new Supplement("Vat Jupiler", "1 Vat Jupiler van 50 L", catBier, new Money(150), 5);
             suppJup.AddImageUrl(new Uri("https://thysshop.be/321-thickbox_default/Jupiler-33-cl-Fles.jpg"));
 
@@ -58,7 +61,6 @@ namespace Persistence
             var supApertiefPlateaus = new Supplement("Aperitiefhapjes plateau", "Plateaus om je aperitiefhapjes mooi te kunnen presenteren.", catExtra, new Money(2), 35);
             supApertiefPlateaus.AddImageUrl(new Uri("https://www.elle.be/nl/wp-content/uploads/2021/12/nicola-dreyer-wlfiazldleu-unsplash-kopieren.jpg"));
 
-            //begin
             var supDienblad = new Supplement("Plateau’s", "Plateau’s/dienblad zwart antislip (diameter 35cm).", catExtra, new Money(1.5M), 10);
             supDienblad.AddImageUrl(new Uri("https://localhost:7143/images/Dienblad.jpg"));
 
@@ -122,6 +124,7 @@ namespace Persistence
             var supFruitkist = new Supplement("Fruitkist", "Fruitkisten (50cm (l) x 41cm (b) x 31cm (h)", catExtra, new Money(5M), 20);
             supFruitkist.AddImageUrl(new Uri("https://localhost:7143/images/Fruitkist.jpg"));
 
+            // choices
             var bierChoice = new FormulaSupplementChoice("Keuze bier", 3, suppJup);
             bierChoice.AddSupplementToChoose(suppJup);
             bierChoice.AddSupplementToChoose(suppDuvel);
@@ -132,7 +135,7 @@ namespace Persistence
             etenChoice.AddSupplementToChoose(suppHamburger);
 
 
-
+            // formulas 
             var formulaBasic = new Formula(foodTruck, "Basis", "Enkel de foodtruck huren", new Uri("https://imageupload.io/ib/P0NNekeu9XhNflc_1698522659.jpg"));
 
             var formulaGoTo = new Formula(foodTruck, "Go to", "Foodtruck met vat(en) bier inclusief glazen", new Uri("https://imageupload.io/ib/nP0up1d1SE2j7qU_1698522658.jpg"));
@@ -147,30 +150,63 @@ namespace Persistence
             formulaAllIn.AddSupplemenChoice(etenChoice);
 
 
-            Customer customer1 = new Customer("Yi Long", "Ma", new EmailAddress("YiLong@yahoo.com"), "0472543891", "Tussla", "203242348932");
-            Customer customer2 = new Customer("Froderick", "De Tander", new EmailAddress("Frodetender2004@skynet.com"), "0483231923");
 
+            // Quotation 1
+            Customer customer1 = new Customer("Yi Long", "Ma", new EmailAddress("YiLong@yahoo.com"), "0472543891", "Tussla", "203242348932");
             Quotation quotation1 = new Quotation(customer1);
 
             Reservation reservation = new Reservation(new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 2, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(1).Year, DateTime.Now.AddMonths(1).Month, 4, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
             List<SupplementItem> formulaSupplementItems = formulaAllIn.Choices.Select(choice => new SupplementItem(choice.DefaultChoice, choice.MinQuantity)).ToList(); // add choices
             formulaSupplementItems.AddRange(formulaAllIn.IncludedSupplements.Select(includedSupplementLine => new SupplementItem(includedSupplementLine.Supplement, includedSupplementLine.Quantity)));
             List<SupplementItem> extraSupplements = new List<SupplementItem>() { new SupplementItem(supDrankenDispenser, 2), new SupplementItem(supStrobaal, 5), new SupplementItem(supBiertafel, 2) };
-            Address eventAddress = new Address("9000", "Gent", "Sint-Denijslaan", "300"); 
+            Address eventAddress = new Address("9000", "Gent", "Sint-Denijslaan", "300");
             Address billingAddress = new Address("9160", "Lokeren", "Nieuwpoortstraat", "12");
 
-            QuotationVersion quotationVersion= new QuotationVersion(1000, "Mijn feest moet super tof worden met jouw coole tapwagen", "TODO Delete description", reservation, formulaAllIn, formulaSupplementItems, extraSupplements, eventAddress, billingAddress);
+            QuotationVersion quotationVersion = new QuotationVersion(1000, "Mijn feest moet super tof worden met jouw coole tapwagen", "TODO Delete description", reservation, formulaAllIn, formulaSupplementItems, extraSupplements, eventAddress, billingAddress);
             quotation1.AddVersion(quotationVersion);
 
 
+            // Quotation 2
+            Customer customer2 = new Customer("Froderick", "De Tander", new EmailAddress("Frodetender2004@skynet.com"), "0483231923");
+            Quotation quotation2 = new Quotation(customer2);
+
+            Reservation reservation2 = new Reservation(new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 10, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(1).Month, 11, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
+            List<SupplementItem> formulaSupplementItems2 = formulaGoTo.Choices.SelectMany(choice => choice.SupplementsToChoose.Select(supplementToChoose => new SupplementItem(supplementToChoose, new Random().Next(2, 5)))).ToList(); // add choices
+            formulaSupplementItems.AddRange(formulaGoTo.IncludedSupplements.Select(includedSupplementLine => new SupplementItem(includedSupplementLine.Supplement, includedSupplementLine.Quantity)));
+
+            List<SupplementItem> extraSupplements2 = new List<SupplementItem>() { new SupplementItem(supSpoelbak, 1), new SupplementItem(supBarKoeler, 2), new SupplementItem(supGNBakken, 4), new SupplementItem(supGNBakken1_6, 10) };
+            Address eventAddress2 = new Address("9090", "Melle", "Langestraat", "1A");
+            Address billingAddress2 = new Address("9090", "Melle", "Langestraat", "1A");
+
+            QuotationVersion quotationVersion2 = new QuotationVersion(55, "Ik geef een feest voor mijn sweet 16", "TODO Delete description?", reservation2, formulaGoTo, formulaSupplementItems2, extraSupplements2, eventAddress2, billingAddress2);
+            quotation2.AddVersion(quotationVersion2);
+
+            // Quotation 3
+            Customer customer3 = new Customer("Michel", "Van den brande", new EmailAddress("MichelVdb@gmail.com"), "04567856423");
+            Quotation quotation3 = new Quotation(customer3);
+
+            Reservation reservation3 = new Reservation(new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 15, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(1).Month, 19, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
+
+            List<SupplementItem> extraSupplements3 = new List<SupplementItem>() { new SupplementItem(supDrankenDispenser, 2), new SupplementItem(supSaladette, 1) };
+            Address eventAddress3 = new Address("1000", "Brussel", "Brusselseenormlangesteenwegnaam", "200");
+            Address billingAddress3 = new Address("1000", "Brussel", "Brusselseenormlangesteenwegnaam", "200");
+
+            QuotationVersion quotationVersion3 = new QuotationVersion(55, "Ik geef een feest voor mijn sweet 16", "TODO Delete description?", reservation3, formulaBasic, new List<SupplementItem>(), new List<SupplementItem>(), eventAddress3, billingAddress3);
+            quotation3.AddVersion(quotationVersion3);
+
+
+            // add to db
             _dbContext.Foodtruck.Add(foodTruck);
             _dbContext.Supplements.AddRange(new List<Supplement>() { supDienblad, supSfeerverlichting, supSaladette, supGNBakken, supGNBakken1_6, supBarKoeler, supCocktailglasGoud, supCocktailglasGewoon, supCocktailglasKlein, supIjsemmer, supVuurschaal, supDriepoot, supDiepvries, supSnijplank, supSpoelbak, supDrankenDispenser, supSoepketel, supStrobaal, supSchapenvacht, supBiertafel, supFruitkist });
             _dbContext.Formulas.Add(formulaBasic);
             _dbContext.Formulas.Add(formulaGoTo);
             _dbContext.Formulas.Add(formulaAllIn);
             _dbContext.Quotations.Add(quotation1);
+            _dbContext.Quotations.Add(quotation2);
+            _dbContext.Quotations.Add(quotation3);
 
-
+            _dbContext.SaveChanges();
+            quotationVersion.ExtraInfo = "De extra info is bewerkt bij deze versie van de offerte";
             _dbContext.SaveChanges();
         }
     }

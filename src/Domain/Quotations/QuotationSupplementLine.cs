@@ -11,10 +11,10 @@ public class QuotationSupplementLine : Entity
     public int SupplementId { get; } = default!;
     public string Name { get; } = default!;
     public string Description { get; } = default!;
-    public Category Category { get; } = default!;
     public Money Price { get; } = default!;
     public Money Vat { get; } = default!;
     public int Quantity { get; set; } = default!;
+    public int QuotationVersionId { get; set; }
 
     /// <summary>
     /// Database Constructor
@@ -28,7 +28,6 @@ public class QuotationSupplementLine : Entity
         SupplementId = supplement.Id;
         Name = supplement.Name;
         Description = supplement.Description;
-        Category = supplement.Category;
         Price = supplement.Price.Copy();
         Vat = new Money(supplement.Price.Value * new decimal(supplement.Category.Vat) / 100M);
         Quantity = supplementItem.Quantity;

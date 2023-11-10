@@ -30,6 +30,7 @@ internal class QuotationVersionConfiguration : IEntityTypeConfiguration<Quotatio
 			address.Property(x => x.HouseNumber);
 		});
 
-		
+		builder.HasMany(x => x.QuotationSupplementLines).WithOne().HasForeignKey(x => x.QuotationVersionId).IsRequired();
+
 	}
 }

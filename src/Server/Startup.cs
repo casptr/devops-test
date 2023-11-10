@@ -2,6 +2,7 @@ using BogusStore.Persistence.Triggers;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Foodtruck.Persistence;
+using Foodtruck.Persistence.Triggers;
 using Foodtruck.Server.Authentication;
 using Foodtruck.Server.Middleware;
 using Foodtruck.Shared.Formulas;
@@ -31,7 +32,6 @@ namespace Server
             services.AddDbContext<BogusDbContext>();
             services.AddDbContext<FoodtruckDbContext>(options =>
             {
-
                 var conStrBuilder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Foodtruck"))
                 {
                     UserID = Configuration["MySql:User"],
@@ -46,10 +46,12 @@ namespace Server
                     options.EnableSensitiveDataLogging();
                     options.UseTriggers(options =>
                     {
+                        options.AddTrigger<QuotationVersionBeforeSaveTrigger>();
                         options.AddTrigger<EntityBeforeSaveTrigger>();
                     });
                 }
             });
+           
 
             services.AddControllersWithViews();
 

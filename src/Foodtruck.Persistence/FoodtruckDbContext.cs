@@ -19,8 +19,6 @@ namespace Foodtruck.Persistence
         public DbSet<Supplement> Supplements => Set<Supplement>();
         public DbSet<Category> Category => Set<Category>();
 
-        public DbSet<Customer> Customers => Set<Customer>();
-
         public DbSet<Quotation> Quotations => Set<Quotation>();
         public DbSet<QuotationSupplementLine> QuotationSupplementLines => Set<QuotationSupplementLine>();
         public DbSet<Reservation> Reservations => Set<Reservation>();
