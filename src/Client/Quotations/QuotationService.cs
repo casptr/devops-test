@@ -19,4 +19,14 @@ public class QuotationService : IQuotationService
         var response = await client.PostAsJsonAsync(endpoint, request);
         return await response.Content.ReadFromJsonAsync<int>();
     }
+
+    public async Task<QuotationDto.Detail> GetDetailAsync(int quotationId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<QuotationResult.Index> GetIndexAsync(QuotationRequest.Index request)
+    {
+        throw new NotImplementedException();
+    }
 }

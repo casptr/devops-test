@@ -82,7 +82,7 @@ public class SupplementService : ISupplementService
               Price = x.Price.Value,
               Description = x.Description,
               Category = new CategoryDto.Index { Name = x.Category.Name },
-              ImageUrls = x.ImageUrls.ToList(), 
+              ImageUrls = x.ImageUrls.ToList().Select(image => image.Image)!, 
               AmountAvailable = x.AmountAvailable,
               CreatedAt = x.CreatedAt,
               UpdatedAt = x.UpdatedAt
@@ -106,7 +106,7 @@ public class SupplementService : ISupplementService
             Price = x.Price.Value,
             Description = x.Description,
             Category = new CategoryDto.Index { Name = x.Category.Name },
-            ImageUrls = x.ImageUrls,
+            ImageUrls = x.ImageUrls.Select(image => image.Image)!,
             AmountAvailable = x.AmountAvailable,
             CreatedAt = x.CreatedAt,
             UpdatedAt = x.UpdatedAt

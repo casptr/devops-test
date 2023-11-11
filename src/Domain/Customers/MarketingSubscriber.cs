@@ -12,6 +12,8 @@ namespace Domain.Customers
     {
         public EmailAddress Email { get;  } = default!;
 
+        private MarketingSubscriber() { }
+
         public MarketingSubscriber(EmailAddress email)
         {
             Email = Guard.Against.Null(email, nameof(Email));

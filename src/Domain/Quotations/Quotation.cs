@@ -8,70 +8,102 @@ namespace Domain.Quotations;
 
 public class Quotation : Entity
 {
-	public Customer Customer { get; } = default!;
-	private readonly List<QuotationVersion> versions = new();
-	public IReadOnlyCollection<QuotationVersion> Versions => versions.AsReadOnly();
+    public Customer Customer { get; } = default!;
+    private readonly List<QuotationVersion> versions = new();
+    public IReadOnlyCollection<QuotationVersion> Versions => versions.AsReadOnly();
 
-	public void AddVersion(QuotationVersion version)
-	{
-		Guard.Against.Null(version, nameof(version));
-		if (versions.Contains(version))
-			throw new ApplicationException($"{nameof(Quotation)} '{Id}' already contains the version:{version.VersionNumber}");
+    public void AddVersion(QuotationVersion version)
+    {
+        Guard.Against.Null(version, nameof(version));
+        if (versions.Contains(version))
+            throw new ApplicationException($"{nameof(Quotation)} '{Id}' already contains the version:{version.VersionNumber}");
 
-		versions.Add(version);
-	}
+        versions.Add(version);
+    }
 
-	private Quotation() { }
+    private Quotation() { }
 
-	public Quotation(Customer customer)
-	{
-		Customer = customer;
-	}
+    public Quotation(Customer customer)
+    {
+        Customer = customer;
+    }
 }
 
 public class QuotationVersion : Entity
 {
-	public int VersionNumber { get; } = default!;
-	public int NumberOfGuests { get; } = default!;
-	public string ExtraInfo { get; } = default!;
-	public string Description { get; } = default!;
-	public Money Price { get; } = default!;
-	public Money VatTotal { get; } = default!;
-	public Reservation Reservation { get; } = default!;
-	public Formula Formula { get; } = default!;
-	public Address EventAddress { get; } = default!;
-	public Address BillingAddress { get; } = default!;
+    private int versionNumber;
+    public int VersionNumber { get => versionNumber; set => versionNumber = Guard.Against.NegativeOrZero(value, nameof(VersionNumber)); }
 
-	//TODO transport cost
-	private readonly List<QuotationSupplementLine> formulaSupplementLines = new();
-	public IReadOnlyCollection<QuotationSupplementLine> FormulaSupplementLines => formulaSupplementLines.AsReadOnly();
+    private int numberOfGuests;
+    public int NumberOfGuests { get => numberOfGuests; set => numberOfGuests = Guard.Against.NegativeOrZero(value, nameof(NumberOfGuests)); }
 
-    private readonly List<QuotationSupplementLine> extraSupplementLines = new();
-    public IReadOnlyCollection<QuotationSupplementLine> ExtraSupplementLines => extraSupplementLines.AsReadOnly();
+    public string? ExtraInfo { get; set; }
 
+    public string? Description { get; set; }
+
+    private Reservation reservation;
+    public Reservation Reservation { get => reservation; set => reservation = Guard.Against.Null(value, nameof(Reservation)); }
+
+    private Formula formula;
+    public Formula Formula { get => formula; set => formula = Guard.Against.Null(value, nameof(Formula)); }
+
+    private Address eventAddress;
+    public Address EventAddress { get => eventAddress; set => eventAddress = Guard.Against.Null(value, nameof(EventAddress)); }
+
+
+    private Address billingAddress;
+    public Address BillingAddress { get => billingAddress; set => billingAddress = Guard.Against.Null(value, nameof(BillingAddress)); }
+
+    //TODO transport cost
+    // TODO when foodtruck price changes quotation price will also change, need to fix
+
+    private readonly List<QuotationSupplementLine> quotationSupplementLines = new();
+    public IReadOnlyCollection<QuotationSupplementLine> QuotationSupplementLines => quotationSupplementLines.AsReadOnly();
+
+
+    private Money foodtruckPrice;
+    public Money FoodtruckPrice { get => foodtruckPrice; set => foodtruckPrice = Guard.Against.Null(value, nameof(FoodtruckPrice)); }
+
+    private Money price;
+    public Money Price { get => price; set => price = Guard.Against.Null(value, nameof(Price)); }
+
+    private Money vatTotal;
+    public Money VatTotal { get => vatTotal; set => vatTotal = Guard.Against.Null(value, nameof(VatTotal)); }
 
     /// <summary>
     /// Database Constructor
     /// </summary>
     private QuotationVersion() { }
 
-	public QuotationVersion(int numberOfGuests, string extraInfo, string description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> formulaSupplementItems, IEnumerable<SupplementItem> extraSupplementItems, Address eventAddress, Address billingAddress)
-	{
-		NumberOfGuests = Guard.Against.OutOfRange(numberOfGuests, nameof(NumberOfGuests), 0, 2000);
-		ExtraInfo = Guard.Against.NullOrWhiteSpace(extraInfo, nameof(ExtraInfo));
-		Description = Guard.Against.NullOrWhiteSpace(description, nameof(Description));
-		Reservation = Guard.Against.Null(reservation, nameof(Reservation));
-		Formula = Guard.Against.Null(formula, nameof(Formula));
-		EventAddress = Guard.Against.Null(eventAddress, nameof(EventAddress));
-		BillingAddress = Guard.Against.Null(billingAddress, nameof(BillingAddress));
+    public QuotationVersion(int numberOfGuests, string extraInfo, string description, Reservation reservation, Formula formula, IEnumerable<SupplementItem> formulaSupplementItems, IEnumerable<SupplementItem> extraSupplementItems, Address eventAddress, Address billingAddress)
+    {
+        NumberOfGuests = numberOfGuests;
+        ExtraInfo = extraInfo;
+        Description = description;
+        Reservation = reservation;
+        Formula = formula;
+        EventAddress = eventAddress;
+        BillingAddress = billingAddress;
+        VersionNumber = 1;
 
-		formulaSupplementLines.AddRange(formulaSupplementItems.Select(item => new QuotationSupplementLine(item)));
-        extraSupplementLines.AddRange(extraSupplementItems.Select(item => new QuotationSupplementLine(item)));
-
-        //Price = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Quantity)));
-        //VatTotal = new Money(supplementItems.Aggregate(0M, (total, next) => next.Supplement.Price.Value * new decimal(next.Supplement.Category.Vat) / 100M));
-
-
+        SetQuotationSupplementLines(formulaSupplementItems, extraSupplementItems);
     }
+
+    public void SetQuotationSupplementLines(IEnumerable<SupplementItem> formulaSupplementItems, IEnumerable<SupplementItem> extraSupplementItems)
+    {
+        Guard.Against.Null(formulaSupplementItems, nameof(formulaSupplementItems));
+        Guard.Against.Null(extraSupplementItems, nameof(extraSupplementItems));
+
+        quotationSupplementLines.Clear();
+        quotationSupplementLines.AddRange(formulaSupplementItems.Select(item => new QuotationSupplementLine(item, true)));
+        quotationSupplementLines.AddRange(extraSupplementItems.Select(item => new QuotationSupplementLine(item, false)));
+
+        FoodtruckPrice = new Money(Formula.Foodtruck.CalculatePrice(((int)Math.Floor((Reservation.End - Reservation.Start).TotalDays))).Value);
+        Price = new Money(QuotationSupplementLines.Aggregate(0M, (total, next) => total + next.SupplementPrice.Value * new decimal(next.Quantity)) + FoodtruckPrice.Value);
+        VatTotal = new Money(QuotationSupplementLines.Aggregate(0M, (total, next) => total + next.SupplementVat.Value * new decimal(next.Quantity)) + FoodtruckPrice.Value * new decimal(Domain.Formulas.Foodtruck.VAT_PERCENTAGE) / 100M);
+    }
+
+
+
 
 }

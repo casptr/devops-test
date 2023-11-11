@@ -18,10 +18,12 @@ namespace Domain.Quotations
 		private Status status = default!;
 		public Status Status { get => status; set => status = Guard.Against.Null(value, nameof(Status)); }
 
-		/// <summary>
-		/// Database Constructor
-		/// </summary>
-		private Reservation() { }
+        public QuotationVersion? QuotationVersion { get; set; }
+
+        /// <summary>
+        /// Database Constructor
+        /// </summary>
+        private Reservation() { }
 
 		public Reservation(DateTime start, DateTime end, string description, Status status = Status.VOORGESTELD)
 		{

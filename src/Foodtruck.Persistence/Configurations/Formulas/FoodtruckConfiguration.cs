@@ -7,6 +7,6 @@ internal class FoodtruckConfiguration : IEntityTypeConfiguration<Domain.Formulas
 {
 	public void Configure(EntityTypeBuilder<Domain.Formulas.Foodtruck> builder)
 	{
-		builder.OwnsOne(x => x.ExtraPricePerDay).Property(x => x.Value);
+		builder.OwnsOne(x => x.ExtraPricePerDay).Property(x => x.Value).HasColumnName(nameof(Domain.Formulas.Foodtruck.ExtraPricePerDay));
 	}
 }

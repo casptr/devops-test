@@ -1,3 +1,4 @@
+using Foodtruck.Shared.Customers;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Authorization;
@@ -12,25 +13,36 @@ namespace Foodtruck.Server.Controllers;
 public class QuotationController : Controller
 {
     private readonly IQuotationService quotationService;
+
     public QuotationController(IQuotationService quotationService)
     {
         this.quotationService = quotationService;
     }
 
-    // [SwaggerOperation("Submit a request for a quotation")]
-    // [HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
-    // public async Task<QuotationDto.RequestForQuotation> SubmitRequestForQuotation(QuotationDto.RequestForQuotation requestForQuotation)
-    // {
-    //     var QuotationVersion = await quotationService.SubmitRequestForQuotation(requestForQuotation.QuotationVersion);
-    //     return CreatedAtAction(nameof(Create), requestForQuotation.QuotationVersion) ;
-    // }
-    [SwaggerOperation("Create a new QuotationVersion")]
+    [SwaggerOperation("Returns a list of all the quotations.")]
+    [HttpGet]
+    public async Task<QuotationResult.Index> GetIndex([FromQuery] QuotationRequest.Index request)
+    {
+        return await quotationService.GetIndexAsync(request);
+    }
+
+
+    [SwaggerOperation("Create a new quotation")]
     [HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
     public async Task<IActionResult> Create(QuotationDto.Create model)
     {
-        var QuotationVersion = await quotationService.CreateAsync(model);
-        return CreatedAtAction(nameof(Create), QuotationVersion) ;
+        int quotationId = await quotationService.CreateAsync(model);
+        return CreatedAtAction(nameof(Create), quotationId) ;
     }
-    
+
+    [SwaggerOperation("Returns a specific quotation.")]
+    [HttpGet("{quotationId}")]
+    public async Task<QuotationDto.Detail> GetDetail(int quotationId)
+    {
+        return await quotationService.GetDetailAsync(quotationId);
+    }
+
+
+
 
 }

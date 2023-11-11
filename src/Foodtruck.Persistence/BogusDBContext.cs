@@ -49,21 +49,21 @@ public class BogusDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(modelBuilder);
-        modelBuilder.Entity<Supplement>().Property(p => p.ImageUrls)
-        .HasConversion(
-        v => JsonConvert.SerializeObject(v),
-        v => JsonConvert.DeserializeObject<List<Uri>>(v));
+      //  base.OnModelCreating(modelBuilder);
+      //  modelBuilder.Entity<Supplement>().Property(p => p.ImageUrls)
+      //  .HasConversion(
+      //  v => JsonConvert.SerializeObject(v),
+      //  v => JsonConvert.DeserializeObject<List<Uri>>(v));
 
-        modelBuilder.Entity<Formula>().Property(p => p.Choices)
-       .HasConversion(
-       v => JsonConvert.SerializeObject(v),
-       v => JsonConvert.DeserializeObject<List<FormulaSupplementChoice>>(v));
+      //  modelBuilder.Entity<Formula>().Property(p => p.Choices)
+      // .HasConversion(
+      // v => JsonConvert.SerializeObject(v),
+      // v => JsonConvert.DeserializeObject<List<FormulaSupplementChoice>>(v));
 
-        modelBuilder.Entity<Formula>().Property(p => p.IncludedSupplements)
-      .HasConversion(
-      v => JsonConvert.SerializeObject(v),
-      v => JsonConvert.DeserializeObject<List<FormulaSupplementLine>>(v));
-        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+      //  modelBuilder.Entity<Formula>().Property(p => p.IncludedSupplements)
+      //.HasConversion(
+      //v => JsonConvert.SerializeObject(v),
+      //v => JsonConvert.DeserializeObject<List<FormulaSupplementLine>>(v));
+      //  modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
