@@ -1,3 +1,4 @@
+using Foodtruck.Shared.Customers;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,7 @@ namespace Foodtruck.Server.Controllers;
 public class QuotationController : Controller
 {
     private readonly IQuotationService quotationService;
+
     public QuotationController(IQuotationService quotationService)
     {
         this.quotationService = quotationService;
@@ -31,6 +33,15 @@ public class QuotationController : Controller
         var QuotationVersion = await quotationService.CreateAsync(model);
         return CreatedAtAction(nameof(Create), QuotationVersion) ;
     }
-    
+
+    [SwaggerOperation("Returns a specific quotation.")]
+    [HttpGet("{quotationId}")]
+    public async Task<QuotationDto.Detail> GetDetail(int quotationId)
+    {
+        return await quotationService.GetDetailAsync(quotationId);
+    }
+
+
+
 
 }

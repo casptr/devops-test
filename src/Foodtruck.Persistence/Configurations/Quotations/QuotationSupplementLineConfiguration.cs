@@ -1,4 +1,5 @@
 ﻿using Domain.Quotations;
+using Domain.Supplements;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +9,10 @@ internal class QuotationSupplementLineConfiguration : IEntityTypeConfiguration<Q
 {
 	public void Configure(EntityTypeBuilder<QuotationSupplementLine> builder)
 	{
-		builder.OwnsOne(x => x.Price).Property(x => x.Value).HasColumnName(nameof(QuotationSupplementLine.Price));
-        builder.OwnsOne(x => x.Vat).Property(x => x.Value).HasColumnName(nameof(QuotationSupplementLine.Vat));
+		builder.OwnsOne(x => x.SupplementPrice).Property(x => x.Value).HasColumnName(nameof(QuotationSupplementLine.SupplementPrice));
+        builder.OwnsOne(x => x.SupplementVat).Property(x => x.Value).HasColumnName(nameof(QuotationSupplementLine.SupplementVat));
+        builder.Property(x => x.Quantity);
+        builder.Property(x => x.Description);
+        builder.Property(x => x.Name);
     }
 }

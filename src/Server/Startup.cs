@@ -50,6 +50,7 @@ namespace Server
                         options.AddTrigger<EntityBeforeSaveTrigger>();
                     });
                 }
+
             });
            
 

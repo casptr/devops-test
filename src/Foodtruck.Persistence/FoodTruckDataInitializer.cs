@@ -170,7 +170,7 @@ namespace Persistence
             Customer customer2 = new Customer("Froderick", "De Tander", new EmailAddress("Frodetender2004@skynet.com"), "0483231923");
             Quotation quotation2 = new Quotation(customer2);
 
-            Reservation reservation2 = new Reservation(new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 10, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(1).Month, 11, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
+            Reservation reservation2 = new Reservation(new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 10, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 11, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
             List<SupplementItem> formulaSupplementItems2 = formulaGoTo.Choices.SelectMany(choice => choice.SupplementsToChoose.Select(supplementToChoose => new SupplementItem(supplementToChoose, new Random().Next(2, 5)))).ToList(); // add choices
             formulaSupplementItems.AddRange(formulaGoTo.IncludedSupplements.Select(includedSupplementLine => new SupplementItem(includedSupplementLine.Supplement, includedSupplementLine.Quantity)));
 
@@ -185,7 +185,7 @@ namespace Persistence
             Customer customer3 = new Customer("Michel", "Van den brande", new EmailAddress("MichelVdb@gmail.com"), "04567856423");
             Quotation quotation3 = new Quotation(customer3);
 
-            Reservation reservation3 = new Reservation(new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 15, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(1).Month, 19, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
+            Reservation reservation3 = new Reservation(new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 15, 11, 0, 0).ToUniversalTime(), new DateTime(DateTime.Now.AddMonths(2).Year, DateTime.Now.AddMonths(2).Month, 19, 16, 0, 0).ToUniversalTime(), "TODO what should be in description");
 
             List<SupplementItem> extraSupplements3 = new List<SupplementItem>() { new SupplementItem(supDrankenDispenser, 2), new SupplementItem(supSaladette, 1) };
             Address eventAddress3 = new Address("1000", "Brussel", "Brusselseenormlangesteenwegnaam", "200");
@@ -208,6 +208,7 @@ namespace Persistence
             _dbContext.SaveChanges();
             quotationVersion.ExtraInfo = "De extra info is bewerkt bij deze versie van de offerte";
             _dbContext.SaveChanges();
+
         }
     }
 }

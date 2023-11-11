@@ -26,8 +26,10 @@ public class QuotationVersionBeforeSaveTrigger : IBeforeSaveTrigger<QuotationVer
         {
             context.Entity.Id = 0;
             dbContext.Entry(context.Entity).State = EntityState.Added;
+
             dbContext.Entry(context.Entity.Price).State = EntityState.Added;
             dbContext.Entry(context.Entity.VatTotal).State = EntityState.Added;
+            dbContext.Entry(context.Entity.FoodtruckPrice).State = EntityState.Added;
 
             dbContext.Entry(context.Entity.BillingAddress).State = EntityState.Added;
             dbContext.Entry(context.Entity.EventAddress).State = EntityState.Added;
@@ -41,8 +43,8 @@ public class QuotationVersionBeforeSaveTrigger : IBeforeSaveTrigger<QuotationVer
             {
                 line.Id = 0;
                 dbContext.Entry(line).State = EntityState.Added;
-                dbContext.Entry(line.Price).State = EntityState.Added;
-                dbContext.Entry(line.Vat).State = EntityState.Added;
+                dbContext.Entry(line.SupplementPrice).State = EntityState.Added;
+                dbContext.Entry(line.SupplementVat).State = EntityState.Added;
             });
         }
         return Task.CompletedTask;
