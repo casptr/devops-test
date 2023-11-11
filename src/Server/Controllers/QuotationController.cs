@@ -1,4 +1,5 @@
 using Foodtruck.Shared.Customers;
+using Foodtruck.Shared.Emails;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Authorization;
@@ -13,17 +14,21 @@ namespace Foodtruck.Server.Controllers;
 public class QuotationController : Controller
 {
     private readonly IQuotationService quotationService;
+    private readonly IEmailService emailService;
 
-    public QuotationController(IQuotationService quotationService)
+    public QuotationController(IQuotationService quotationService, IEmailService emailService)
     {
         this.quotationService = quotationService;
+        this.emailService = emailService;
     }
 
     [SwaggerOperation("Returns a list of all the quotations.")]
     [HttpGet]
     public async Task<QuotationResult.Index> GetIndex([FromQuery] QuotationRequest.Index request)
     {
+        await emailService.SendEmail("halloooooooooooo");
         return await quotationService.GetIndexAsync(request);
+
     }
 
 

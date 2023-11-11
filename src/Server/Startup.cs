@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using SendGrid.Extensions.DependencyInjection;
 using Services;
 
 namespace Server
@@ -92,6 +93,8 @@ namespace Server
             services.AddRazorPages();
             services.AddFoodtruckServices();
             services.AddScoped<FoodTruckDataInitializer>();
+
+            services.AddSendGrid(opt => opt.ApiKey = Configuration["SendGrid:ApiKey"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,7 +11,6 @@ using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Services.Quotations
 {
