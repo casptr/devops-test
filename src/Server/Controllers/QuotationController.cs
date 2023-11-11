@@ -19,14 +19,15 @@ public class QuotationController : Controller
         this.quotationService = quotationService;
     }
 
-    // [SwaggerOperation("Submit a request for a quotation")]
-    // [HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
-    // public async Task<QuotationDto.RequestForQuotation> SubmitRequestForQuotation(QuotationDto.RequestForQuotation requestForQuotation)
-    // {
-    //     var QuotationVersion = await quotationService.SubmitRequestForQuotation(requestForQuotation.QuotationVersion);
-    //     return CreatedAtAction(nameof(Create), requestForQuotation.QuotationVersion) ;
-    // }
-    [SwaggerOperation("Create a new Quotation")]
+    [SwaggerOperation("Returns a list of all the quotations.")]
+    [HttpGet]
+    public async Task<QuotationResult.Index> GetIndex([FromQuery] QuotationRequest.Index request)
+    {
+        return await quotationService.GetIndexAsync(request);
+    }
+
+
+    [SwaggerOperation("Create a new quotation")]
     [HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
     public async Task<IActionResult> Create(QuotationDto.Create model)
     {

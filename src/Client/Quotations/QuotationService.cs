@@ -20,7 +20,12 @@ public class QuotationService : IQuotationService
         return await response.Content.ReadFromJsonAsync<int>();
     }
 
-    public Task<QuotationDto.Detail> GetDetailAsync(int quotationId)
+    public async Task<QuotationDto.Detail> GetDetailAsync(int quotationId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<QuotationResult.Index> GetIndexAsync(QuotationRequest.Index request)
     {
         throw new NotImplementedException();
     }

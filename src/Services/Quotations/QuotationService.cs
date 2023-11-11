@@ -24,11 +24,82 @@ namespace Services.Quotations
             this.dbContext = dbContext;
         }
 
+        public async Task<QuotationResult.Index> GetIndexAsync(QuotationRequest.Index request)
+        {
+            var query = dbContext.Quotations.AsQueryable();
+
+            int totalAmount = await query.CountAsync();
+
+            var items = await query
+           .Skip((request.Page - 1) * request.PageSize)
+           .Take(request.PageSize)
+           .OrderBy(x => x.Id)
+           .Select(x =>
+           new QuotationDto.Index()
+           {
+               Id = x.Id,
+               Customer = new CustomerDto.Detail()
+               {
+                   Firstname = x.Customer.Firstname,
+                   Lastname = x.Customer.Lastname,
+                   Email = x.Customer.Email.Value,
+                   Phone = x.Customer.Phone,
+                   CompanyName = x.Customer.CompanyName,
+                   CompanyNumber = x.Customer.CompanyNumber,
+               },
+               LastQuotationVersion = x.Versions.Select(version => new QuotationVersionDto.Index()
+               {
+                   Id = version.Id,
+                   VersionNumber = version.VersionNumber,
+                   NumberOfGuests = version.NumberOfGuests,
+                   ExtraInfo = version.ExtraInfo,
+                   Description = version.Description,
+                   Reservation = new ReservationDto.Detail()
+                   {
+                       Id = version.Reservation.Id,
+                       Description = version.Reservation.Description,
+                       Start = version.Reservation.Start,
+                       End = version.Reservation.End,
+                   },
+                   Formula = new FormulaDto.Index()
+                   {
+                       Id = version.Formula.Id,
+                       Title = version.Formula.Title,
+                   },
+                   EventAddress = new AddressDto()
+                   {
+                       Street = version.EventAddress.Street,
+                       City = version.EventAddress.City,
+                       HouseNumber = version.EventAddress.HouseNumber,
+                       Zip = version.EventAddress.Zip
+                   },
+                   BillingAddress = new AddressDto()
+                   {
+                       Street = version.BillingAddress.Street,
+                       City = version.BillingAddress.City,
+                       Zip = version.BillingAddress.Zip,
+                       HouseNumber = version.BillingAddress.HouseNumber,
+                   },
+                   FoodtruckPrice = version.FoodtruckPrice.Value,
+                   Price = version.Price.Value,
+                   VatTotal = version.VatTotal.Value,
+               }).OrderBy(x => x.Id).Last()
+           }).ToListAsync();
+
+            var result = new QuotationResult.Index
+            {
+                Quotations = items,
+                TotalAmount = totalAmount
+            };
+            return result;
+        }
+
         public async Task<int> CreateAsync(QuotationDto.Create model)
         {
             Customer customer = new Customer(model.Customer.Firstname, model.Customer.Lastname, new EmailAddress(model.Customer.Email), model.Customer.CompanyName, model.Customer.CompanyNumber);
 
-            Formula? formula = await dbContext.Formulas.SingleOrDefaultAsync(x => x.Id == model.QuotationVersion.FormulaId);
+            Formula? formula = await dbContext.Formulas.Include(x => x.Foodtruck.PricePerDays).SingleOrDefaultAsync(x => x.Id == model.QuotationVersion.FormulaId);
+
             if (formula is null)
                 throw new EntityNotFoundException(nameof(Formula), model.QuotationVersion.FormulaId);
 
@@ -36,8 +107,10 @@ namespace Services.Quotations
             IEnumerable<SupplementItemDto.Create> allSupplementItemDtos = model.QuotationVersion.ExtraSupplementItems.Concat(model.QuotationVersion.FormulaSupplementItems);
 
             IEnumerable<Supplement> supplements = await dbContext.Supplements
-                                               .Where(x => allSupplementItemDtos.Select(x => x.SupplementId).Contains(x.Id))
+                                               .Where(x => allSupplementItemDtos.Select(x => x.SupplementId).Contains(x.Id)).Include(x => x.Category)
                                                .ToListAsync();
+
+    
 
             List<SupplementItem> formulaSupplementItems = new();
             List<SupplementItem> extraSupplementItems = new();
@@ -62,7 +135,6 @@ namespace Services.Quotations
             }
 
 
-
             Address eventAddress = new Address(model.QuotationVersion.EventAddress.Zip, model.QuotationVersion.EventAddress.City, model.QuotationVersion.EventAddress.Street, model.QuotationVersion.EventAddress.Zip);
             Address billingAddress = new Address(model.QuotationVersion.BillingAddress.Zip, model.QuotationVersion.BillingAddress.City, model.QuotationVersion.BillingAddress.Street, model.QuotationVersion.BillingAddress.Zip);
             Reservation reservation = new Reservation(model.QuotationVersion.Reservation.Start.Value, model.QuotationVersion.Reservation.End.Value, model.QuotationVersion.Reservation.Description);
@@ -77,7 +149,6 @@ namespace Services.Quotations
 
             return newQuotation.Id;
         }
-
 
 
         public async Task<QuotationDto.Detail> GetDetailAsync(int quotationId)
@@ -159,5 +230,6 @@ namespace Services.Quotations
 
             return quotation;
         }
+
     }
 }

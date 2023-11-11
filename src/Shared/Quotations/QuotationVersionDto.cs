@@ -16,7 +16,7 @@ namespace Foodtruck.Shared.Quotations
             public string? ExtraInfo { get; set; }
             public string? Description { get; set; }
             public ReservationDto.Detail? Reservation { get; set; }
-            public FormulaDto.Detail? Formula { get; set; }
+            public FormulaDto.Index? Formula { get; set; }
             public AddressDto? EventAddress { get; set; }
             public AddressDto? BillingAddress { get; set; }
 

@@ -12,7 +12,7 @@ public abstract class QuotationDto
     {
         public int Id { get; set; }
         public CustomerDto.Detail? Customer { get; set; }
-        public QuotationVersionDto.Detail? LastQuotationVersion { get; set; }
+        public QuotationVersionDto.Index? LastQuotationVersion { get; set; }
     }
 
     public class Detail
