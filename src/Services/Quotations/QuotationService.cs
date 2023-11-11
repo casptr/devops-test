@@ -3,11 +3,13 @@ using Domain.Customers;
 using Domain.Exceptions;
 using Domain.Formulas;
 using Domain.Quotations;
+using Domain.Supplements;
 using Foodtruck.Persistence;
 using Foodtruck.Shared.Customers;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
+using Foodtruck.Shared.Supplements;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,9 +26,57 @@ namespace Services.Quotations
 
         public async Task<int> CreateAsync(QuotationDto.Create model)
         {
-            throw new NotImplementedException();
-        }
+            Customer customer = new Customer(model.Customer.Firstname, model.Customer.Lastname, new EmailAddress(model.Customer.Email), model.Customer.CompanyName, model.Customer.CompanyNumber);
 
+            Formula? formula = await dbContext.Formulas.SingleOrDefaultAsync(x => x.Id == model.QuotationVersion.FormulaId);
+            if (formula is null)
+                throw new EntityNotFoundException(nameof(Formula), model.QuotationVersion.FormulaId);
+
+
+            IEnumerable<SupplementItemDto.Create> allSupplementItemDtos = model.QuotationVersion.ExtraSupplementItems.Concat(model.QuotationVersion.FormulaSupplementItems);
+
+            IEnumerable<Supplement> supplements = await dbContext.Supplements
+                                               .Where(x => allSupplementItemDtos.Select(x => x.SupplementId).Contains(x.Id))
+                                               .ToListAsync();
+
+            List<SupplementItem> formulaSupplementItems = new();
+            List<SupplementItem> extraSupplementItems = new();
+
+            foreach (var item in model.QuotationVersion.FormulaSupplementItems)
+            {
+                Supplement? s = supplements.FirstOrDefault(x => x.Id == item.SupplementId);
+                if (s is null)
+                    throw new EntityNotFoundException(nameof(Supplement), item.SupplementId);
+
+                formulaSupplementItems.Add(new SupplementItem(s, item.Quantity));
+            }
+
+
+            foreach (var item in model.QuotationVersion.ExtraSupplementItems)
+            {
+                Supplement? s = supplements.FirstOrDefault(x => x.Id == item.SupplementId);
+                if (s is null)
+                    throw new EntityNotFoundException(nameof(Supplement), item.SupplementId);
+
+                extraSupplementItems.Add(new SupplementItem(s, item.Quantity));
+            }
+
+
+
+            Address eventAddress = new Address(model.QuotationVersion.EventAddress.Zip, model.QuotationVersion.EventAddress.City, model.QuotationVersion.EventAddress.Street, model.QuotationVersion.EventAddress.Zip);
+            Address billingAddress = new Address(model.QuotationVersion.BillingAddress.Zip, model.QuotationVersion.BillingAddress.City, model.QuotationVersion.BillingAddress.Street, model.QuotationVersion.BillingAddress.Zip);
+            Reservation reservation = new Reservation(model.QuotationVersion.Reservation.Start.Value, model.QuotationVersion.Reservation.End.Value, model.QuotationVersion.Reservation.Description);
+            QuotationVersion quotationVersion = new QuotationVersion(model.QuotationVersion.NumberOfGuests, model.QuotationVersion.ExtraInfo, "No description", reservation, formula, formulaSupplementItems, extraSupplementItems, eventAddress, billingAddress);
+
+
+            Quotation newQuotation = new Quotation(customer);
+            newQuotation.AddVersion(quotationVersion);
+
+            dbContext.Quotations.Add(newQuotation);
+            await dbContext.SaveChangesAsync();
+
+            return newQuotation.Id;
+        }
 
 
 

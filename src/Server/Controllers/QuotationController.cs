@@ -26,12 +26,12 @@ public class QuotationController : Controller
     //     var QuotationVersion = await quotationService.SubmitRequestForQuotation(requestForQuotation.QuotationVersion);
     //     return CreatedAtAction(nameof(Create), requestForQuotation.QuotationVersion) ;
     // }
-    [SwaggerOperation("Create a new QuotationVersion")]
+    [SwaggerOperation("Create a new Quotation")]
     [HttpPost]  // TODO: Roles - Authorize(Roles = Roles.Administrator) 
     public async Task<IActionResult> Create(QuotationDto.Create model)
     {
-        var QuotationVersion = await quotationService.CreateAsync(model);
-        return CreatedAtAction(nameof(Create), QuotationVersion) ;
+        int quotationId = await quotationService.CreateAsync(model);
+        return CreatedAtAction(nameof(Create), quotationId) ;
     }
 
     [SwaggerOperation("Returns a specific quotation.")]
