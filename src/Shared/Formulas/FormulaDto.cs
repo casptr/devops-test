@@ -15,7 +15,7 @@ public abstract class FormulaDto
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public decimal MinPrice { get; set; }
+        //public decimal MinPrice { get; set; }
         public Uri? ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
