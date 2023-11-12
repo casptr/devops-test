@@ -1,14 +1,9 @@
-﻿using Foodtruck.Shared.Supplements;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Foodtruck.Shared.Reservations
+﻿namespace Foodtruck.Shared.Reservations
 {
     public interface IReservationService
     {
-        Task<ReservationResult.Index> GetIndexAsync();
+        Task<ReservationResult.Index> GetIndexAsync(ReservationRequest.Index request);
+
+        Task<ReservationResult.Detailed> GetDetailedAsync(ReservationRequest.Detailed request);
     }
 }

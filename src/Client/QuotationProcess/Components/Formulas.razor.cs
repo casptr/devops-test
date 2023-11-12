@@ -34,13 +34,19 @@ namespace Foodtruck.Client.QuotationProcess.Components
 
             formulaSupplementNames = formulaSupplementNames.OrderByDescending(uniqueName => allNames.Count(name => name == uniqueName)).ToList();
             formulaSupplementNames.ForEach(n => Console.WriteLine(n));
+
+            bool useTestData = false;
+            if (useTestData)
+            {
+                ChooseFormula(formulas.ElementAt(2));
+            }
         }
 
         private void ChooseFormula(FormulaDto.Detail formula)
         {
             QuotationProcessState.SetupFormulaChoiceFormModels(formula);
 
-            if(QuotationProcessState.ChoiceFormModels.Count > 0)
+            if (QuotationProcessState.ChoiceFormModels.Count > 0)
             {
                 OpenChoicesDialog(formula);
             }

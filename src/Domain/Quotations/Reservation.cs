@@ -7,10 +7,10 @@ namespace Domain.Quotations
 	public class Reservation : Entity
 	{
 		private DateTime start = default!;
-		public DateTime Start { get => start; set => start = Guard.Against.OutOfRange(value, nameof(Start), DateTime.Now.AddDays(1), DateTime.Now.AddYears(5)); } // TODO
+		public DateTime Start { get => start; set => start = Guard.Against.Null(value, nameof(Start)); } // TODO
 
 		private DateTime end = default!;
-		public DateTime End { get => end; set => end = Guard.Against.OutOfRange(value, nameof(End), DateTime.Now.AddDays(1), DateTime.Now.AddYears(5)); } // TODO
+		public DateTime End { get => end; set => end = Guard.Against.Null(value, nameof(End)); } // TODO
 
 		private string description = default!;
 		public string Description { get => description; set => description = Guard.Against.NullOrWhiteSpace(value, nameof(Description)); }
@@ -23,7 +23,7 @@ namespace Domain.Quotations
         /// <summary>
         /// Database Constructor
         /// </summary>
-        private Reservation() { }
+        public Reservation() { }
 
 		public Reservation(DateTime start, DateTime end, string description, Status status = Status.VOORGESTELD)
 		{

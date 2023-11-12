@@ -12,12 +12,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using SendGrid.Extensions.DependencyInjection;
 using Services;
 using Services.Pdfs;
-using Services.Quotations;
+using System.Text.Json.Serialization;
 
 namespace Server
 {
@@ -42,9 +43,14 @@ namespace Server
                     UserID = Configuration["MySql:User"],
                     Password = Configuration["MySql:Password"]
                 };
+
+                if(Configuration["MySql:Server"] != null)
+                    conStrBuilder["Server"] = Configuration["MySql:Server"];
+
                 var connectionString = conStrBuilder.ConnectionString;
 
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions => mySqlOptions.EnableStringComparisonTranslations());
+                
                 if (Environment.IsDevelopment())
                 {
                     options.EnableDetailedErrors();
@@ -57,9 +63,10 @@ namespace Server
                 }
 
             });
-           
+
 
             services.AddControllersWithViews();
+
 
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
@@ -68,7 +75,7 @@ namespace Server
             services.AddSwaggerGen(c =>
             {
                 c.CustomSchemaIds(x => $"{x.DeclaringType?.Name}.{x.Name}");
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sportstore API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Foodtruck API", Version = "v1" });
             });
 
             //// (Fake) Authentication
@@ -97,11 +104,7 @@ namespace Server
             services.AddRazorPages();
             services.AddFoodtruckServices();
             services.AddScoped<FoodTruckDataInitializer>();
-            Console.WriteLine(Configuration["SendGrid:ApiKey"]);
             services.AddSendGrid(opt => opt.ApiKey = Configuration["SendGrid:ApiKey"]);
-
-            services.AddScoped<IPdfService, PdfService>();
-            services.AddScoped<IQuotationService,QuotationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,7 +115,7 @@ namespace Server
                 app.UseDeveloperExceptionPage();
                 app.UseWebAssemblyDebugging();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sportstore API"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Foodtruck API"));
             }
             else
             {
