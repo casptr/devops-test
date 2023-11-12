@@ -21,7 +21,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IFormulaService, FakeFormulaService>();
         services.AddScoped<ISupplementService, FakeSupplementService>();
-        services.AddScoped<IReservationService, FakeReservationService>();
+        services.AddScoped<IReservationService, ReservationService>();
         services.AddScoped<IQuotationService, QuotationService>();
         // Add more services here...
 

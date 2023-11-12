@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Services;
+using System.Text.Json.Serialization;
 
 namespace Server
 {
@@ -56,9 +57,10 @@ namespace Server
                 }
 
             });
-           
+
 
             services.AddControllersWithViews();
+
 
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
@@ -67,7 +69,7 @@ namespace Server
             services.AddSwaggerGen(c =>
             {
                 c.CustomSchemaIds(x => $"{x.DeclaringType?.Name}.{x.Name}");
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sportstore API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Foodtruck API", Version = "v1" });
             });
 
             //// (Fake) Authentication
@@ -106,7 +108,7 @@ namespace Server
                 app.UseDeveloperExceptionPage();
                 app.UseWebAssemblyDebugging();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sportstore API"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Foodtruck API"));
             }
             else
             {

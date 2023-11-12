@@ -1,4 +1,5 @@
-﻿using Foodtruck.Shared.Formulas;
+﻿using Azure.Core;
+using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +22,17 @@ namespace Foodtruck.Server.Controllers
 
         [SwaggerOperation("Returns all reservations")]
         [HttpGet, AllowAnonymous]
-        public async Task<ReservationResult.Index> GetIndex()
+        public async Task<ReservationResult.Index> GetIndex([FromQuery] ReservationRequest.Index request)
         {
-            return await reservationService.GetIndexAsync();
+            return await reservationService.GetIndexAsync(request);
+        }
+
+
+        [SwaggerOperation("Returns all detailed reservations for admin")]
+        [HttpGet("detailed"), AllowAnonymous] // TODO Only admins should be able to get this
+        public async Task<ReservationResult.Detailed> GetAdminIndex([FromQuery] ReservationRequest.Detailed request)
+        {
+            return await reservationService.GetDetailedAsync(request);
         }
     }
 }

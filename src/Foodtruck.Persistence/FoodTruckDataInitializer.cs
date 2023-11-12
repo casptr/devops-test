@@ -1,3 +1,4 @@
+using Bogus;
 using Domain.Common;
 using Domain.Customers;
 using Domain.Formulas;
@@ -194,6 +195,35 @@ namespace Persistence
             QuotationVersion quotationVersion3 = new QuotationVersion(55, "Ik geef een feest voor mijn sweet 16", "TODO Delete description?", reservation3, formulaBasic, new List<SupplementItem>(), new List<SupplementItem>(), eventAddress3, billingAddress3);
             quotation3.AddVersion(quotationVersion3);
 
+            // All quotations to add
+            List<Quotation> quotations = new List<Quotation>() { quotation1, quotation2, quotation3 };
+
+
+            // Some manual reservations by admin
+            var reservationIds = 0;
+            Reservation? prev = null;
+
+            Random random = new Random();
+            var reservationFaker = new Faker<Reservation>("nl")
+            .UseSeed(1)
+            .RuleFor(x => x.Start, f =>
+            {
+                DateTime date = prev?.End.AddDays(random.Next(1, 30)) ?? DateTime.Now.AddDays(2);
+                return new DateTime(date.Year, date.Month, date.Day, 11, 0, 0).ToUniversalTime();
+            })
+            .RuleFor(x => x.Status, f => Status.BEVESTIGD)
+            .RuleFor(x => x.Description, f => f.Person.FullName)
+            .RuleFor(x => x.End, (f, current) =>
+            {
+                DateTime date = current.Start.AddDays(random.Next(1, 5));
+                return new DateTime(date.Year, date.Month, date.Day, 16, 0, 0).ToUniversalTime();
+            }).FinishWith((f, current) => prev = current);
+
+            List<Reservation> reservations = reservationFaker.Generate(25);
+
+            // Seed Reservations should not overlap with quotation reservations
+            List<Reservation> validReservations = reservations.Where(r => !quotations.Any(q => r.Start <= q.Versions.First().Reservation.End && q.Versions.First().Reservation.Start <= r.End)).ToList();
+
 
             // add to db
             _dbContext.Foodtruck.Add(foodTruck);
@@ -201,9 +231,9 @@ namespace Persistence
             _dbContext.Formulas.Add(formulaBasic);
             _dbContext.Formulas.Add(formulaGoTo);
             _dbContext.Formulas.Add(formulaAllIn);
-            _dbContext.Quotations.Add(quotation1);
-            _dbContext.Quotations.Add(quotation2);
-            _dbContext.Quotations.Add(quotation3);
+            _dbContext.Reservations.AddRange(validReservations);
+            _dbContext.Quotations.AddRange(quotations);
+            
 
             _dbContext.SaveChanges();
             quotationVersion.ExtraInfo = "De extra info is bewerkt bij deze versie van de offerte";
