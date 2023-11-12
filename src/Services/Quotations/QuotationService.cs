@@ -178,7 +178,7 @@ namespace Services.Quotations
                         Start = version.Reservation.Start,
                         End = version.Reservation.End,
                     },
-                    Formula = new FormulaDto.Index()
+                    Formula = new FormulaDto.Detail()
                     {
                         Id = version.Formula.Id,
                         Title = version.Formula.Title,

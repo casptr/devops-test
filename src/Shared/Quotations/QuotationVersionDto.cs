@@ -34,7 +34,7 @@ namespace Foodtruck.Shared.Quotations
             public string? ExtraInfo { get; set; }
             public string? Description { get; set; }
             public ReservationDto.Detail? Reservation { get; set; }
-            public FormulaDto.Index? Formula { get; set; } // We do not need detail here?
+            public FormulaDto.Detail? Formula { get; set; } // We do not need detail here?
             public AddressDto? EventAddress { get; set; }
             public AddressDto? BillingAddress { get; set; }
 

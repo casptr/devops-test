@@ -2,6 +2,7 @@
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,19 +13,20 @@ namespace Services.Pdfs.QuotationPdfs;
 
 public class QuotationModel
 {
-    public string? Firstname { get; set; }
-    public string? Lastname { get; set; }
-    public string? Email { get; set; }
-    public string? Phone { get; set; }
-    public string? CompanyName { get; set; }
-    public string? CompanyNumber { get; set; }
+        //public string? Firstname { get; set; }
+        //public string? Lastname { get; set; }
+        //public string? Email { get; set; }
+        //public string? Phone { get; set; }
+        //public string? CompanyName { get; set; }
+        //public string? CompanyNumber { get; set; }
+    public CustomerDto.Detail Customer { get; set; }
     public int Id { get; set; }
     public int VersionNumber { get; set; }
     public int NumberOfGuests { get; set; }
     public string? ExtraInfo { get; set; }
     public string? Description { get; set; }
     public ReservationDto.Detail? Reservation { get; set; }
-    public string? Title { get; set; }
+    public FormulaDto.Detail? Formula { get; set; }
     public AddressDto? EventAddress { get; set; }
     public AddressDto? BillingAddress { get; set; }
 
@@ -40,12 +42,13 @@ public class QuotationModel
 
     public QuotationModel(QuotationDto.Detail quotationDto, QuotationVersionDto.Detail quotationVersion)
     {
-        Firstname = quotationDto.Customer?.Firstname;
-        Lastname = quotationDto.Customer?.Lastname;
-        Email = quotationDto.Customer?.Email;
-        Phone = quotationDto.Customer?.Phone;
-        CompanyName = quotationDto.Customer?.CompanyName;
-        CompanyNumber = quotationDto.Customer?.CompanyNumber;
+        Customer = quotationDto.Customer;
+        //Firstname = quotationDto.Customer?.Firstname;
+        //Lastname = quotationDto.Customer?.Lastname;
+        //Email = quotationDto.Customer?.Email;
+        //Phone = quotationDto.Customer?.Phone;
+        //CompanyName = quotationDto.Customer?.CompanyName;
+        //CompanyNumber = quotationDto.Customer?.CompanyNumber;
 
         // Quotation details
         VersionNumber = quotationVersion.VersionNumber;
@@ -53,7 +56,7 @@ public class QuotationModel
         ExtraInfo = quotationVersion.ExtraInfo;
         Description = quotationVersion.Description;
         Reservation = quotationVersion.Reservation;
-        Title = quotationVersion.Formula?.Title;
+        Formula = quotationVersion.Formula;
 
         // Address details
         EventAddress = quotationVersion.EventAddress;
@@ -67,6 +70,7 @@ public class QuotationModel
         // Supplement lines
         FormulaSupplementLines = quotationVersion.FormulaSupplementLines;
         ExtraSupplementLines = quotationVersion.ExtraSupplementLines;
+
 
     }
 

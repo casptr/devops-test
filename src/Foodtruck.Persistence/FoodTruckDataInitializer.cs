@@ -162,7 +162,7 @@ namespace Persistence
             Address eventAddress = new Address("9000", "Gent", "Sint-Denijslaan", "300");
             Address billingAddress = new Address("9160", "Lokeren", "Nieuwpoortstraat", "12");
 
-            QuotationVersion quotationVersion = new QuotationVersion(1000, "Mijn feest moet super tof worden met jouw coole tapwagen", "TODO Delete description", reservation, formulaAllIn, formulaSupplementItems, extraSupplements, eventAddress, billingAddress);
+            QuotationVersion quotationVersion = new QuotationVersion(65, "Mijn feest moet super tof worden met jouw coole tapwagen", "TODO Delete description", reservation, formulaAllIn, formulaSupplementItems, extraSupplements, eventAddress, billingAddress);
             quotation1.AddVersion(quotationVersion);
 
 
