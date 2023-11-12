@@ -2,16 +2,12 @@
 using Foodtruck.Shared.Quotations;
 using QuestPDF.Fluent;
 using Services.Pdfs.QuotationPdfs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Pdfs;
 
 public class PdfService : IPdfService
 {
+    
     public Task<string> GetQuotationPdfAsBase64(QuotationDto.Detail quotation, QuotationVersionDto.Detail quotationVersion, string text)
     {
         QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;

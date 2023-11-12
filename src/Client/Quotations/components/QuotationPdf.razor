@@ -1,0 +1,36 @@
+@page "/pdfapitest"
+@using Foodtruck.Shared.Pdfs;
+@using Foodtruck.Shared.Quotations;
+
+<div class="pdf-container">
+    <iframe class="quotation-pdf" id="pdfIframe" src="@PdfData"></iframe>
+</div>
+<MudButton Variant="Variant.Outlined" OnClick="GetPdf">GetPDF</MudButton>
+
+@inject IQuotationService QuotationService
+@inject IPdfService PdfService
+
+@code{
+    private string? PdfData { get; set; }
+    private QuotationDto.Detail? Quotation;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetQuotation(1);
+    }
+
+    private async Task GetQuotation(int Id)
+    {
+        Quotation = await QuotationService.GetDetailAsync(Id);
+    }
+
+    private async Task GetPdf()
+    {
+        if (Quotation != null && Quotation.QuotationVersions != null)
+        {
+            QuotationVersionDto.Detail version = Quotation.QuotationVersions.Last();
+            string base64 = await PdfService.GetQuotationPdfAsBase64(Quotation, version, "");
+            PdfData = $"data:application/pdf;base64,{base64}";
+        }
+    }
+}
