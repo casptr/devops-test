@@ -8,6 +8,6 @@ public class QuotationSupplementLineFaker : EntityFaker<QuotationSupplementLine>
 {
 	public QuotationSupplementLineFaker(string locale = "nl") : base(locale)
 	{
-		CustomInstantiator(f => new QuotationSupplementLine(new SupplementItemFaker()));
+		CustomInstantiator(f => new QuotationSupplementLine(new SupplementItemFaker(), false));
 	}
 }

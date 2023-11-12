@@ -13,6 +13,6 @@ internal class PricePerDayLineConfiguration : IEntityTypeConfiguration<PricePerD
 {
 	public void Configure(EntityTypeBuilder<PricePerDayLine> builder)
 	{
-		builder.OwnsOne(x => x.Price).Property(x => x.Value);
+		builder.OwnsOne(x => x.Price).Property(x => x.Value).HasColumnName(nameof(PricePerDayLine.Price));
 	}
 }

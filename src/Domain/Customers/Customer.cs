@@ -1,8 +1,10 @@
 using Ardalis.GuardClauses;
 using Domain.Common;
+using System.IO;
 
 namespace Domain.Customers;
-public class Customer : Entity
+
+public class Customer : ValueObject
 {
 	private string firstname = default!;
 	public string Firstname { get => firstname; set => firstname = Guard.Against.NullOrWhiteSpace(value, nameof(Firstname)); }
@@ -28,12 +30,12 @@ public class Customer : Entity
 	public string? CompanyName { get; set; }
 	public string? CompanyNumber { get; set; }
 
-	/// <summary>
-	/// Database Constructor
-	/// </summary>
-	private Customer() { }
+    /// <summary>
+    /// Database Constructor
+    /// </summary>
+    private Customer() { }
 
-	public Customer(string firstname, string lastname, EmailAddress email, string phone, string? companyName, string? companyNumber)
+	public Customer(string firstname, string lastname, EmailAddress email, string phone, string? companyName = null, string? companyNumber = null)
 	{
 		Firstname = firstname;
 		Lastname = lastname;
@@ -42,6 +44,16 @@ public class Customer : Entity
 		CompanyName = companyName;
 		CompanyNumber = companyNumber;
 	}
+
+    protected override IEnumerable<object?> GetEqualityComponents()
+    {
+        yield return Email;
+        yield return Firstname.ToLower();
+        yield return Lastname.ToLower();
+        yield return Phone.ToLower();
+        yield return CompanyNumber?.ToLower();
+        yield return CompanyName?.ToLower();
+    }
 }
 
 

@@ -167,7 +167,7 @@ public class FormulaService : IFormulaService
                     Price = x.Supplement.Price.Value,
                     CreatedAt = x.Supplement.CreatedAt,
                     UpdatedAt = x.Supplement.UpdatedAt,
-                    ImageUrls = x.Supplement.ImageUrls
+                    ImageUrls = x.Supplement.ImageUrls.Select(image => image.Image)!
                 }
             }),
 
@@ -184,7 +184,7 @@ public class FormulaService : IFormulaService
                     Price = x.DefaultChoice.Price.Value,
                     CreatedAt = x.DefaultChoice.CreatedAt,
                     UpdatedAt = x.DefaultChoice.UpdatedAt,
-                    ImageUrls = x.DefaultChoice.ImageUrls
+                    ImageUrls = x.DefaultChoice.ImageUrls.Select(image => image.Image)!
                 },
 
                 MinQuantity = x.MinQuantity,
@@ -199,7 +199,7 @@ public class FormulaService : IFormulaService
                     Price = x.Price.Value,
                     CreatedAt = x.CreatedAt,
                     UpdatedAt = x.UpdatedAt,
-                    ImageUrls = x.ImageUrls
+                    ImageUrls = x.ImageUrls.Select(image => image.Image)!
                 })
             }),
 
