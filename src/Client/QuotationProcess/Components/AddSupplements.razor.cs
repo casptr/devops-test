@@ -26,7 +26,11 @@ public partial class AddSupplements
 
     protected override async Task OnParametersSetAsync()
     {
-        var response = await SupplementService.GetAllAsync();
+        SupplementRequest.Index request = new SupplementRequest.Index()
+        {
+            Category = "Extra"
+        };
+        var response = await SupplementService.GetIndexAsync(request);
 
         supplements = response.Supplements?.Select(supplement =>
         {

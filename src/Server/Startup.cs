@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Persistence;
 using Services;
@@ -44,7 +45,8 @@ namespace Server
 
                 var connectionString = conStrBuilder.ConnectionString;
 
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions => mySqlOptions.EnableStringComparisonTranslations());
+                
                 if (Environment.IsDevelopment())
                 {
                     options.EnableDetailedErrors();

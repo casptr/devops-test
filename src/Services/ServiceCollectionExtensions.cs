@@ -19,8 +19,8 @@ public static class ServiceCollectionExtensions
     /// <returns></returns>
     public static IServiceCollection AddFoodtruckServices(this IServiceCollection services)
     {
-        services.AddScoped<IFormulaService, FakeFormulaService>();
-        services.AddScoped<ISupplementService, FakeSupplementService>();
+        services.AddScoped<IFormulaService, FormulaService>();
+        services.AddScoped<ISupplementService, SupplementService>();
         services.AddScoped<IReservationService, ReservationService>();
         services.AddScoped<IQuotationService, QuotationService>();
         // Add more services here...

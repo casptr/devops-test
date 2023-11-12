@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Bogus;
-using Domain.Common;
+﻿using Bogus;
 using Domain.Exceptions;
 using Domain.Supplements;
 using Foodtruck.Persistence;
@@ -11,65 +9,16 @@ namespace Services.Supplements;
 public class SupplementService : ISupplementService
 {
 
-    private readonly BogusDbContext dbContext;
+    private readonly FoodtruckDbContext dbContext;
 
-    public SupplementService(BogusDbContext dbContext)
+    public SupplementService(FoodtruckDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
 
-    public async Task<int> CreateAsync(SupplementDto.Mutate model)
-    {
-        if (await dbContext.Supplements.AnyAsync(x => x.Name == model.Name))
-            throw new EntityAlreadyExistsException(nameof(Supplement), nameof(Supplement.Name), model.Name);
-
-        Faker imageFaker = new();
-
-        Money price = new(model.Price);
-        Supplement supplement = new(model.Name, model.Description, model.Category, price, model.AmountAvailable);
-
-        supplement.AddImageUrl(new Uri(imageFaker.Image.PicsumUrl()));
-        dbContext.Supplements.Add(supplement);
-        await dbContext.SaveChangesAsync();
-
-        return supplement.Id;
-    }
-
-    public async Task DeleteAsync(int supplementId)
-    {
-        Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
-
-        if (supplement is null)
-            throw new EntityNotFoundException(nameof(Supplement), supplementId);
-
-        dbContext.Supplements.Remove(supplement);
-
-        await dbContext.SaveChangesAsync();
-    }
-
-    public async Task EditAsync(int supplementId, SupplementDto.Mutate model)
-    {
-        Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
-
-        if (supplement is null)
-            throw new EntityNotFoundException(nameof(Supplement), supplementId);
-
-        Money price = new(model.Price);
-        supplement.Name = model.Name!;
-        supplement.Description = model.Description!;
-        supplement.Category = model.Category!;
-        supplement.Price = price;
-        supplement.AmountAvailable = model.AmountAvailable;
-
-		//TODO: edit images
-		//supplement.ImageUrls = model.ImageUrls;
-
-		await dbContext.SaveChangesAsync();
-    }
-
     public async Task<SupplementResult.Index> GetAllAsync()
     {
-       
+
         var query = dbContext.Supplements.AsQueryable();
         query = dbContext.Supplements;
         int totalAmount = await query.CountAsync();
@@ -81,8 +30,8 @@ public class SupplementService : ISupplementService
               Name = x.Name,
               Price = x.Price.Value,
               Description = x.Description,
-              Category = new CategoryDto.Index { Name = x.Category.Name },
-              ImageUrls = x.ImageUrls.ToList().Select(image => image.Image)!, 
+              Category = new CategoryDto.Index { Id = x.Category.Id, Name = x.Category.Name },
+              ImageUrls = x.ImageUrls.ToList().Select(image => image.Image)!,
               AmountAvailable = x.AmountAvailable,
               CreatedAt = x.CreatedAt,
               UpdatedAt = x.UpdatedAt
@@ -92,7 +41,7 @@ public class SupplementService : ISupplementService
             Supplements = items,
             TotalAmount = totalAmount
         };
-        
+
         return result;
     }
 
@@ -105,7 +54,7 @@ public class SupplementService : ISupplementService
             Name = x.Name,
             Price = x.Price.Value,
             Description = x.Description,
-            Category = new CategoryDto.Index { Name = x.Category.Name },
+            Category = new CategoryDto.Index { Id = x.Category.Id, Name = x.Category.Name },
             ImageUrls = x.ImageUrls.Select(image => image.Image)!,
             AmountAvailable = x.AmountAvailable,
             CreatedAt = x.CreatedAt,
@@ -147,7 +96,7 @@ public class SupplementService : ISupplementService
             query = query.Where(x => x.AmountAvailable <= request.MaxAvailableAmount);
         }
 
-        if (!string.IsNullOrWhiteSpace(request.Searchterm))
+        if (!string.IsNullOrWhiteSpace(request.Category))
         {
             query = query.Where(s => s.Category.Name.Equals(request.Category, StringComparison.OrdinalIgnoreCase));
         }
@@ -162,6 +111,13 @@ public class SupplementService : ISupplementService
            {
                Id = x.Id,
                Name = x.Name,
+               Price = x.Price.Value,
+               Description = x.Description,
+               Category = new CategoryDto.Index { Id = x.Category.Id, Name = x.Category.Name },
+               ImageUrls = x.ImageUrls.Select(image => image.Image)!,
+               AmountAvailable = x.AmountAvailable,
+               CreatedAt = x.CreatedAt,
+               UpdatedAt = x.UpdatedAt
            }).ToListAsync();
 
         var result = new SupplementResult.Index
@@ -171,6 +127,56 @@ public class SupplementService : ISupplementService
         };
         return result;
     }
+
+    //  public async Task<int> CreateAsync(SupplementDto.Mutate model)
+    //  {
+    //      if (await dbContext.Supplements.AnyAsync(x => x.Name == model.Name))
+    //          throw new EntityAlreadyExistsException(nameof(Supplement), nameof(Supplement.Name), model.Name);
+
+    //      Faker imageFaker = new();
+
+    //      Money price = new(model.Price);
+    //      Supplement supplement = new(model.Name, model.Description, model.Category, price, model.AmountAvailable);
+
+    //      supplement.AddImageUrl(new Uri(imageFaker.Image.PicsumUrl()));
+    //      dbContext.Supplements.Add(supplement);
+    //      await dbContext.SaveChangesAsync();
+
+    //      return supplement.Id;
+    //  }
+
+    //  public async Task DeleteAsync(int supplementId)
+    //  {
+    //      Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
+
+    //      if (supplement is null)
+    //          throw new EntityNotFoundException(nameof(Supplement), supplementId);
+
+    //      dbContext.Supplements.Remove(supplement);
+
+    //      await dbContext.SaveChangesAsync();
+    //  }
+
+    //  public async Task EditAsync(int supplementId, SupplementDto.Mutate model)
+    //  {
+    //      Supplement? supplement = await dbContext.Supplements.SingleOrDefaultAsync(x => x.Id == supplementId);
+
+    //      if (supplement is null)
+    //          throw new EntityNotFoundException(nameof(Supplement), supplementId);
+
+    //      Money price = new(model.Price);
+    //      supplement.Name = model.Name!;
+    //      supplement.Description = model.Description!;
+    //      supplement.Category = model.Category!;
+    //      supplement.Price = price;
+    //      supplement.AmountAvailable = model.AmountAvailable;
+
+    ////TODO: edit images
+    ////supplement.ImageUrls = model.ImageUrls;
+
+    //await dbContext.SaveChangesAsync();
+    //  }
+
     //image test
     public async Task AddImage(int supplementId)
     {

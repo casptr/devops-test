@@ -31,6 +31,7 @@ namespace Foodtruck.Persistence
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(FoodtruckDbContext).Assembly);
+
         }
     }
 }
