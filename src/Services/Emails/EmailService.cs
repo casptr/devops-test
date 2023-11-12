@@ -7,99 +7,61 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Services.Emails;
 
 public class EmailService : IEmailService
 {
     private readonly ISendGridClient sendGridClient;
-    EmailAddress Sender = new EmailAddress("giovany.demurel@student.hogent.be", "Giovany van Blanche"); // TODO change this : Sendgrid settings - Sender Authentication - Single Sender Vertification
-   
-    
-    public EmailService(ISendGridClient sendGridClient)
+    private readonly IPdfService pdfService;
+
+    private readonly EmailAddress ADMIN_EMAIL = new EmailAddress("blanche.willem@gmail.com", "Willem van Blanche");// When changing this : Sendgrid settings - Sender Authentication - Single Sender Vertification
+
+    public EmailService(ISendGridClient sendGridClient, IPdfService pdfService)
     {
         this.sendGridClient = sendGridClient ?? throw new ArgumentNullException(nameof(sendGridClient));
+        this.pdfService = pdfService;
     }
 
-    public async Task<bool> SendEmail(string text)
+    public async Task<bool> SendNewQuotationConfirmationToCustomer(QuotationDto.Detail quotation)
     {
-
-        QuestPDF.Settings.License = LicenseType.Community;
-        var document = new SampleDocument();
-        string Base64String;
-
-        using (var memstream = new MemoryStream())
-        {
-            document.GeneratePdf(memstream);
-            Base64String = Convert.ToBase64String(memstream.ToArray());
-        }
-
-
         SendGridMessage msg = new SendGridMessage();
-        List<EmailAddress> recipients = new List<EmailAddress> { new EmailAddress("demurelgiovany@hotmail.com", "Your Name") };
-
-        msg.SetSubject("Test");
-        msg.SetFrom(Sender);
+        List<EmailAddress> recipients = new List<EmailAddress> { new EmailAddress(quotation.Customer.Email, quotation.Customer.Firstname + " " + quotation.Customer.Lastname)};
+        msg.SetFrom(ADMIN_EMAIL);
         msg.AddTos(recipients);
-        msg.PlainTextContent = text;
-        msg.Attachments = new List<Attachment>
-        {
-            new Attachment
-            {
-                Content = Base64String,
-                Filename = "FILE_NAME.pdf",
-                Type = "application/pdf",
-                Disposition = "attachment"
-            }
-        };
-        Response response = await sendGridClient.SendEmailAsync(msg);
-        Console.WriteLine(response.StatusCode);
-
-
-        return false;
-    }
-
-
-    public async Task<bool> SendQuotationPdfEmail(string base64, string text )
-    {
-
-        SendGridMessage msg = new SendGridMessage();
-        List<EmailAddress> recipients = new List<EmailAddress> { new EmailAddress("demurelgiovany@hotmail.com", "Your Name") };
-        msg.SetSubject("Test2");
-        msg.SetFrom(Sender);
-        msg.AddTos(recipients);
-        msg.PlainTextContent = text;
-        msg.Attachments = new List<Attachment>
-        {
-            new Attachment
-            {
-                Content = base64,
-                Filename = "FILE_NAME.pdf",
-                Type = "application/pdf",
-                Disposition = "attachment"
-            }
-        };
+        msg.SetSubject("Blanche Offerte Aanvraag");
+        msg.PlainTextContent = $"Beste {quotation.Customer.Firstname}, \n\nWe hebben jouw aanvraag goed ontvangen en proberen je zo snel mogelijk een antwoord te bezorgen.\n\nMet vriendelijke groet,\n\n{ADMIN_EMAIL.Name}";
+        msg.ReplyTo = ADMIN_EMAIL;
         Response response = await sendGridClient.SendEmailAsync(msg);
         return response.IsSuccessStatusCode;
     }
-}
 
-public class SampleDocument : IDocument
-{
-    public void Compose(IDocumentContainer container)
+    public async Task<bool> SendNewQuotationPdfToAdmin(QuotationDto.Detail quotation)
     {
-        container.Page(page =>
-        {
-            page.Margin(50);
-            page.Content().Background(Colors.Grey.Lighten3);
+        string pdfToSendAsBase64 = await pdfService.GetQuotationPdfAsBase64(quotation, quotation.QuotationVersions.Last());
+        string customerFullName = quotation.Customer.Firstname + " " + quotation.Customer.Lastname;
+       
+        string filename = $"Offerte_{quotation.Id}_{quotation.Customer.Lastname}_{quotation.Customer.Firstname}";
+        string subject = $"Nieuwe offerte aanvraag: {filename}";
 
-            page.Footer().AlignCenter().Text(text =>
+        SendGridMessage msg = new SendGridMessage();
+        List<EmailAddress> recipients = new List<EmailAddress> { ADMIN_EMAIL };
+        msg.SetSubject(subject);
+        msg.SetFrom(ADMIN_EMAIL);
+        msg.AddTos(recipients);
+        msg.PlainTextContent = "Zie nieuwe offerte in bijlage";
+        msg.Attachments = new List<Attachment>
+        {
+            new Attachment
             {
-                text.CurrentPageNumber();
-                text.Span(" / ");
-                text.TotalPages();
-            });
-        });
+                Content = pdfToSendAsBase64,
+                Filename = $"{filename}.pdf",
+                Type = "application/pdf",
+                Disposition = "attachment"
+            }
+        };
+        msg.ReplyTo = new EmailAddress(quotation.Customer.Email, customerFullName);
+        Response response = await sendGridClient.SendEmailAsync(msg);
+        return response.IsSuccessStatusCode;
     }
 }

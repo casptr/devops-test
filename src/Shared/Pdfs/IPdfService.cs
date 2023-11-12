@@ -10,6 +10,6 @@ namespace Foodtruck.Shared.Pdfs
 {
     public interface IPdfService
     {
-        Task<string> GetQuotationPdfAsBase64(QuotationDto.Detail quotation, QuotationVersionDto.Detail quotationVersion, string text);
+        Task<string> GetQuotationPdfAsBase64(QuotationDto.Detail quotation, QuotationVersionDto.Detail quotationVersion);
     }
 }

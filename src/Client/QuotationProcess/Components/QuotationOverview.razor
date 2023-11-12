@@ -2,7 +2,9 @@
 @using Foodtruck.Client.QuotationProcess.Helpers;
 @using Foodtruck.Shared.Customers;
 @using Foodtruck.Shared.Formulas;
+@using Foodtruck.Shared.Quotations;
 @using Foodtruck.Shared.Reservations;
+@inject IQuotationService QuotationService;
 
 <MudStack Spacing="5">
     <MudText Typo="Typo.h4" Align="Align.Center">
@@ -225,7 +227,8 @@
          <MudChip Class="ml-auto" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => QuotationProcessStepControl?.GoToStep(stepIndex))" Style="margin:0px;border-radius: 0px 4px 0px 4px">
              <MudIcon Icon="@Icons.Material.Filled.Edit" Color="Color.Surface" Size="Size.Small" />
          </MudChip>
-     </MudStack>;
+             </MudStack>
+    ;
 
     [Inject] public QuotationProcessState QuotationProcessState { get; set; } = default!;
     [CascadingParameter] private QuotationProcessStepControl? QuotationProcessStepControl { get; set; }
@@ -241,8 +244,9 @@
     CustomerDto.Create Customer => QuotationProcessState.Customer;
     string ExtraInfo => QuotationProcessState.QuotationVersion.ExtraInfo ?? "";
 
-    private void Submit()
+    private async Task Submit()
     {
+        await QuotationService.CreateAsync(QuotationProcessState.quotation);
     }
 
 }

@@ -9,6 +9,6 @@ namespace Foodtruck.Shared.Emails;
 
 public interface IEmailService
 {
-    Task<bool> SendEmail(string text);
-    Task<bool> SendQuotationPdfEmail(string base64, string text);
+    Task<bool> SendNewQuotationConfirmationToCustomer(QuotationDto.Detail quotation);
+    Task<bool> SendNewQuotationPdfToAdmin(QuotationDto.Detail quotation);
 }

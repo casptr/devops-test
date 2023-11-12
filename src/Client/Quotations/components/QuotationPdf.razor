@@ -29,7 +29,7 @@
         if (Quotation != null && Quotation.QuotationVersions != null)
         {
             QuotationVersionDto.Detail version = Quotation.QuotationVersions.Last();
-            string base64 = await PdfService.GetQuotationPdfAsBase64(Quotation, version, "");
+            string base64 = await PdfService.GetQuotationPdfAsBase64(Quotation, version);
             PdfData = $"data:application/pdf;base64,{base64}";
         }
     }

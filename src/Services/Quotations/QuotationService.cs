@@ -59,6 +59,7 @@ namespace Services.Quotations
                        Description = version.Reservation.Description,
                        Start = version.Reservation.Start,
                        End = version.Reservation.End,
+                       Status = (StatusDto)((int)version.Reservation.Status),
                    },
                    Formula = new FormulaDto.Index()
                    {
@@ -95,7 +96,7 @@ namespace Services.Quotations
 
         public async Task<int> CreateAsync(QuotationDto.Create model)
         {
-            Customer customer = new Customer(model.Customer.Firstname, model.Customer.Lastname, new EmailAddress(model.Customer.Email), model.Customer.CompanyName, model.Customer.CompanyNumber);
+            Customer customer = new Customer(model.Customer.Firstname, model.Customer.Lastname, new EmailAddress(model.Customer.Email), model.Customer.Phone, model.Customer.CompanyName, model.Customer.CompanyNumber);
 
             Formula? formula = await dbContext.Formulas.Include(x => x.Foodtruck.PricePerDays).SingleOrDefaultAsync(x => x.Id == model.QuotationVersion.FormulaId);
 
@@ -136,7 +137,8 @@ namespace Services.Quotations
 
             Address eventAddress = new Address(model.QuotationVersion.EventAddress.Zip, model.QuotationVersion.EventAddress.City, model.QuotationVersion.EventAddress.Street, model.QuotationVersion.EventAddress.Zip);
             Address billingAddress = new Address(model.QuotationVersion.BillingAddress.Zip, model.QuotationVersion.BillingAddress.City, model.QuotationVersion.BillingAddress.Street, model.QuotationVersion.BillingAddress.Zip);
-            Reservation reservation = new Reservation(model.QuotationVersion.Reservation.Start.Value, model.QuotationVersion.Reservation.End.Value, model.QuotationVersion.Reservation.Description);
+            string reservationDescription = model.Customer.Firstname + " " + model.Customer.Lastname;
+            Reservation reservation = new Reservation(model.QuotationVersion.Reservation.Start.Value, model.QuotationVersion.Reservation.End.Value,  reservationDescription);
             QuotationVersion quotationVersion = new QuotationVersion(model.QuotationVersion.NumberOfGuests, model.QuotationVersion.ExtraInfo, "No description", reservation, formula, formulaSupplementItems, extraSupplementItems, eventAddress, billingAddress);
 
 
@@ -177,6 +179,7 @@ namespace Services.Quotations
                         Description = version.Reservation.Description,
                         Start = version.Reservation.Start,
                         End = version.Reservation.End,
+                        Status = (StatusDto)((int)version.Reservation.Status),
                     },
                     Formula = new FormulaDto.Detail()
                     {

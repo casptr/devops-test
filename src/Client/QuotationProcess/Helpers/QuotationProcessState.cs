@@ -79,6 +79,8 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
         public void ConfigureQuotationCustomerDetails()
         {
+            quotation.QuotationVersion.NumberOfGuests = 50; // TODO this should be a form field !!!!!!!!!
+
             quotation.Customer = CustomerDetailsFormModel.Customer;
             QuotationVersion.EventAddress = CustomerDetailsFormModel.EventAddress;
             QuotationVersion.ExtraInfo = CustomerDetailsFormModel.ExtraInfo;
@@ -139,6 +141,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             // TEMP
             PrintQuotation();
         }
+        
 
         public void PrintQuotation()
         {

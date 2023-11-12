@@ -30,9 +30,7 @@ public class QuotationController : Controller
     [HttpGet]
     public async Task<QuotationResult.Index> GetIndex([FromQuery] QuotationRequest.Index request)
     {
-        await emailService.SendEmail("halloooooooooooo");
         return await quotationService.GetIndexAsync(request);
-
     }
 
 
@@ -41,7 +39,12 @@ public class QuotationController : Controller
     public async Task<IActionResult> Create(QuotationDto.Create model)
     {
         int quotationId = await quotationService.CreateAsync(model);
-        return CreatedAtAction(nameof(Create), quotationId) ;
+
+        QuotationDto.Detail quotation = await GetDetail(quotationId);
+        await emailService.SendNewQuotationPdfToAdmin(quotation);
+        await emailService.SendNewQuotationConfirmationToCustomer(quotation);
+
+        return CreatedAtAction(nameof(Create), quotationId);
     }
 
     [SwaggerOperation("Returns a specific quotation.")]
