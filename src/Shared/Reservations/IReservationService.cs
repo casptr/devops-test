@@ -2,8 +2,8 @@
 {
     public interface IReservationService
     {
-        Task<ReservationResult.Index> GetIndexAsync();
+        Task<ReservationResult.Index> GetIndexAsync(ReservationRequest.Index request);
 
-        Task<ReservationResult.Detailed> GetDetailedAsync();
+        Task<ReservationResult.Detailed> GetDetailedAsync(ReservationRequest.Detailed request);
     }
 }

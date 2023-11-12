@@ -24,7 +24,8 @@ namespace Foodtruck.Client.QuotationProcess.Components
         {
             if (Model.End is not null) startDateConfirmed = true;
 
-            reservations = (await ReservationService.GetIndexAsync()).Reservations;
+            ReservationRequest.Index request = new ReservationRequest.Index();
+            reservations = (await ReservationService.GetIndexAsync(request)).Reservations;
 
             if (reservations is not null)
                 foreach (var r in reservations)

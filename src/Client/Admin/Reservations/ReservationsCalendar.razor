@@ -1,5 +1,6 @@
 ﻿@page "/admin/reservaties"
 @using Foodtruck.Shared.Reservations;
+@using System.Diagnostics.CodeAnalysis;
 @attribute [Authorize]
 @layout AdminLayout
 @inject IReservationService ReservationService
@@ -30,11 +31,12 @@
     </MudCalendar>
 </div>
 @code {
+    // private readonly HashSet<int> yearsFetched = new();
+    // private readonly HashSet<int> uniqueReservationIds = new HashSet<int>();
 
     private IEnumerable<ReservationDto.Detail>? reservations;
     private List<CustomCalendarItem> calendarItems = new();
     private bool loading = true;
-
 
     private string GetColor(Color color) => $"var(--mud-palette-{color.ToDescriptionString()})";
     private Color[] calendarItemColors = { Color.Success, Color.Secondary, Color.Tertiary, Color.Dark };
@@ -44,16 +46,20 @@
 
     protected override async Task OnInitializedAsync()
     {
-
-        reservations = (await ReservationService.GetDetailedAsync()).Reservations;
+        ReservationRequest.Detailed request = new ReservationRequest.Detailed()
+            {
+                FromDate = DateTime.MinValue,
+                ToDate = DateTime.MaxValue,
+            };
+        reservations = (await ReservationService.GetDetailedAsync(request)).Reservations;
 
         if (reservations is not null)
         {
             int previousColorIndex = 0;
             calendarItems = reservations.Select(reservation => new CustomCalendarItem()
                 {
-                    Start = reservation.Start,
-                    End = reservation.End,
+                    Start = reservation.Start.ToLocalTime(),
+                    End = reservation.End.ToLocalTime(),
                     Text = reservation.Description ?? "Reservatie",
                     Color = calendarItemColors[previousColorIndex++ % calendarItemColors.Length],
                     Reservation = reservation,
@@ -63,6 +69,48 @@
         loading = false;
         StateHasChanged();
     }
+
+    // TODO: do we need to fetch all reservations at the start, or just a limited range?
+
+    // private async Task DateRangeChanged(DateRange dateRange)
+    // {
+    //     int yearToFetch = -1;
+    //     int startYear = dateRange.Start.Value.ToUniversalTime().Year;
+    //     int endYear = dateRange.End.Value.ToUniversalTime().Year;
+
+    //     if (!yearsFetched.Contains(startYear))
+    //         yearToFetch = startYear;
+    //     else if (!yearsFetched.Contains(endYear))
+    //         yearToFetch = endYear;
+
+    //     if (yearToFetch == -1)
+    //         return;
+
+
+    //     loading = true;
+
+    //     ReservationRequest.Detailed request = new ReservationRequest.Detailed()
+    //         {
+    //             FromDate = new DateTime(yearToFetch, 1, 1, 0, 0, 0),
+    //             ToDate = new DateTime(yearToFetch, 12, 31, 23, 59, 59),
+    //         };
+    //     reservations = (await ReservationService.GetDetailedAsync(request)).Reservations;
+    //     if (reservations is not null)
+    //     {
+    //         int previousColorIndex = 0;
+    //         calendarItems.AddRange(reservations.Where(r => uniqueReservationIds.Add(r.Id)).Select(reservation => new CustomCalendarItem()
+    //             {
+    //                 Start = reservation.Start,
+    //                 End = reservation.End,
+    //                 Text = reservation.Description ?? "Reservatie",
+    //                 Color = calendarItemColors[previousColorIndex++ % calendarItemColors.Length],
+    //                 Reservation = reservation,
+    //             }));
+    //     }
+    //     yearsFetched.Add(yearToFetch);
+
+    //     loading = false;
+    // }
 
     private class CustomCalendarItem : CalendarItem
     {
