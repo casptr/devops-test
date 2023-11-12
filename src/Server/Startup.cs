@@ -37,6 +37,10 @@ namespace Server
                     UserID = Configuration["MySql:User"],
                     Password = Configuration["MySql:Password"]
                 };
+
+                if(Configuration["MySql:Server"] != null)
+                    conStrBuilder["Server"] = Configuration["MySql:Server"];
+
                 var connectionString = conStrBuilder.ConnectionString;
 
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
