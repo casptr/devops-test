@@ -21,7 +21,7 @@
     <MudCalendar Items="calendarItems" ShowDay="false" Outlined="true" DayCellHeight="24" DayTimeInterval="CalendarTimeInterval.Minutes60">
         <CellTemplate>
             @{
-                CustomItem item = (CustomItem)context;
+                CustomCalendarItem item = (CustomCalendarItem)context;
             }
             <div class="@item.cssClasses" style="background-color: @GetColor(item.Color);" @onmouseover="() => MouseOverCalendarItem(item.Reservation)" @onmouseout="() => MouseOutCalendarItem(item.Reservation)" @onclick="() => CalendarItemClicked(item.Reservation)">
                 <MudText Style="color: #ffff">@context.Text</MudText>
@@ -32,7 +32,7 @@
 @code {
 
     private IEnumerable<ReservationDto.Detail>? reservations;
-    private List<CustomItem> calendarItems = new();
+    private List<CustomCalendarItem> calendarItems = new();
     private bool loading = true;
 
 
@@ -40,7 +40,7 @@
     private Color[] calendarItemColors = { Color.Success, Color.Secondary, Color.Tertiary, Color.Dark };
 
     [Inject]
-    private IDialogService DialogService { get; set; }
+    private IDialogService DialogService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -50,7 +50,7 @@
         if (reservations is not null)
         {
             int previousColorIndex = 0;
-            calendarItems = reservations.Select(reservation => new CustomItem()
+            calendarItems = reservations.Select(reservation => new CustomCalendarItem()
                 {
                     Start = reservation.Start,
                     End = reservation.End,
@@ -64,7 +64,7 @@
         StateHasChanged();
     }
 
-    private class CustomItem : CalendarItem
+    private class CustomCalendarItem : CalendarItem
     {
         public Color Color { get; set; } = Color.Primary;
         public ReservationDto.Detail Reservation { get; set; }
@@ -74,15 +74,9 @@
     }
 
     // Hover effect should apply to every CalendarItem of that reservation
-    private void MouseOverCalendarItem(ReservationDto.Detail reservation)
-    {
-        calendarItems.Where(calendarItem => calendarItem.Reservation.Id == reservation.Id).ToList().ForEach(c => c.IsBeingHovered = true);
-    }
+    private void MouseOverCalendarItem(ReservationDto.Detail reservation) => calendarItems.Where(calendarItem => calendarItem.Reservation.Id == reservation.Id).ToList().ForEach(c => c.IsBeingHovered = true);
+    private void MouseOutCalendarItem(ReservationDto.Detail reservation) => calendarItems.Where(calendarItem => calendarItem.Reservation.Id == reservation.Id).ToList().ForEach(c => c.IsBeingHovered = false);
 
-    private void MouseOutCalendarItem(ReservationDto.Detail reservation)
-    {
-        calendarItems.Where(calendarItem => calendarItem.Reservation.Id == reservation.Id).ToList().ForEach(c => c.IsBeingHovered = false);
-    }
 
     private void CalendarItemClicked(ReservationDto.Detail reservation)
     {
