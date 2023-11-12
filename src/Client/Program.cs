@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Client.QuotationProcess.Helpers;
 using Foodtruck.Client.QuotationProcess;
+using Foodtruck.Shared.Quotations;
+using Foodtruck.Client.Quotations;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -42,6 +44,7 @@ builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().Cre
 builder.Services.AddScoped<IFormulaService, FormulaService>();
 builder.Services.AddScoped<ISupplementService, SupplementService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IQuotationService, QuotationService>();
 builder.Services.AddScoped<QuotationProcessState>();
 
 builder.Services.AddMudServices();

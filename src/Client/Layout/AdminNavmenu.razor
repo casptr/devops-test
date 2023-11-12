@@ -3,11 +3,17 @@
 @inject SignOutSessionStateManager SignOutManager
 @inject NavigationManager NavigationManager
 
-<MudDrawer Open="true" Elevation="1" Variant="@DrawerVariant.Persistent">
-    <MudDrawerHeader>
-        <MudStack>
-            <MudText Typo="Typo.h5">Blanche Admin</MudText>
-            <MudText Typo="Typo.body2">@username</MudText>
+<MudDrawer Breakpoint="Breakpoint.Lg" @bind-Open="@open" Elevation="1" Variant="@DrawerVariant.Mini">
+    <MudDrawerHeader Style="padding-right: 0px; padding-top: 0px; padding-left: 0px;">
+        <MudStack Row AlignItems="AlignItems.Start">
+            @if (open)
+            {
+                <MudStack Style="padding-top: 12px; padding-left: 12px;">
+                    <MudText Align="Align.Center" Typo="Typo.h5">Blanche Admin</MudText>
+                    <MudText Typo="Typo.body2">@username</MudText>
+                </MudStack>
+            }
+            <MudIconButton Style="margin-top: 6px; margin-left: 6px;" Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@ToggleDrawer" />
         </MudStack>
     </MudDrawerHeader>
     <MudNavMenu>
@@ -51,6 +57,10 @@
         NavigationManager.NavigateTo("authentication/logout");
     }
 
+    bool open = true;
 
-
+    void ToggleDrawer()
+    {
+        open = !open;
+    }
 }
