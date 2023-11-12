@@ -12,7 +12,7 @@ namespace Foodtruck.Client.QuotationProcess.Components
 
         private MudForm form = default !;
        
-        bool useTestData = false;
+        bool useTestData = true;
 
         // For testing purposes TODO delete this
         protected override void OnInitialized()

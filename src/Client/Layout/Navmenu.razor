@@ -1,3 +1,4 @@
+@using Foodtruck.Client.QuotationProcess.Helpers;
 @inject NavigationManager MyNavigationManager
 
 <MudAppBar Elevation="0" Class="navbar">
@@ -26,7 +27,7 @@
             </div>
             <MudStack Row="true" Justify="Justify.FlexEnd" Class="offerte-aanvragen-button">
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="min-width: max-content;" Href="/aanvraag">
-                    Offerte aanvragen
+                    Offerte aanvragen @((QuotationProcessState.CurrentStepIndex != null) ? "" : "") @*TODO: display something if QuotationProcess has started*@
                 </MudButton>
             </MudStack>
         </MudStack>
@@ -49,6 +50,8 @@
 </MudDrawer>
 
 @code {
+    [Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
+
     protected IDictionary<string, string> links = new Dictionary<string, string>(){
 {"Home", "/"},
 {"Aanbod", "/aanbod"},

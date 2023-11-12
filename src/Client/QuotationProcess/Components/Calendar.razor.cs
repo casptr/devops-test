@@ -22,6 +22,13 @@ namespace Foodtruck.Client.QuotationProcess.Components
 
         protected override async Task OnInitializedAsync()
         {
+            bool useTestData = false;
+            if (useTestData)
+            {
+                Model.Start = DateTime.Now.Date.AddDays(1);
+                Model.End = DateTime.Now.Date.AddDays(2);
+            }
+
             if (Model.End is not null) startDateConfirmed = true;
 
             ReservationRequest.Index request = new ReservationRequest.Index();
@@ -59,7 +66,7 @@ namespace Foodtruck.Client.QuotationProcess.Components
 
             Model.Start = Model.Start?.AddHours(11);
             Model.End = Model.End?.AddHours(16);
-            QuotationProcessState.ConfigureReservation(Model.Start, Model.End);
+            QuotationProcessState.ConfigureQuotationReservation(Model.Start, Model.End);
             QuotationProcessStepControl.NextStep();
         }
 
