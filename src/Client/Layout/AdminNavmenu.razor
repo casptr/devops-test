@@ -25,7 +25,11 @@
         }
     </MudNavMenu>
     <MudSpacer />
-    <MudNavLink Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit" Class="mb-2" OnClick="BeginSignOut">Afmelden</MudNavLink>
+    <MudNavLink Icon="@Icons.Material.Filled.Logout" IconColor="Color.Inherit" Class="mb-2" OnClick="BeginSignOut">
+        @if (open) {
+            <span>Afmelden</span>
+        }
+    </MudNavLink>
 </MudDrawer>
 
 @code {
