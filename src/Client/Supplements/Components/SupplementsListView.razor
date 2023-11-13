@@ -1,4 +1,5 @@
-﻿@if (supplements is null)
+﻿@using Domain.Common;
+@if (supplements is null)
 {
     <p>Loading...</p>
 }
@@ -22,7 +23,7 @@ else
                                     <MudImage src="@supplement?.ImageUrls?.Last().ToString()" Width="450" Height="225" ObjectFit="ObjectFit.ScaleDown" />
                                 </div>
                                 <div Class="d-flex justify-space-between px-10">
-                                    <MudText Typo="Typo.h6" Style="font-weight: bold;">€ @supplement.Price</MudText>
+                                    <MudText Typo="Typo.h6" Style="font-weight: bold;">€ @(new Money(supplement.Price))</MudText>
                                     <MudText Typo="Typo.h6" Style="font-weight: bold;">Aantal: @supplement.AmountAvailable</MudText>
                                 </div>
                                 <div Class="px-10">
