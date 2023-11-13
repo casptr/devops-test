@@ -22,6 +22,7 @@ public class QuotationDocument : IDocument
 
 
 
+
     public void Compose(IDocumentContainer container)
     {
         container
@@ -51,14 +52,11 @@ public class QuotationDocument : IDocument
             {
                 row.RelativeItem().Component(new CustomerComponent(Model.Customer));
                 row.ConstantItem(50);
-                row.RelativeItem();
-            });
-            column.Item().Row(row =>
-            {
- 
-                row.RelativeItem().Component(new AddressComponent("Factuuradres", Model.BillingAddress));
-                row.ConstantItem(50);
-                row.RelativeItem().Component(new AddressComponent("Evenementadres", Model.EventAddress));
+                row.RelativeItem().Column(column =>
+                {
+                    column.Item().Component(new AddressComponent("Factuuradres", Model.BillingAddress));
+                    column.Item().Component(new AddressComponent("Evenementadres", Model.EventAddress));
+                });
             });
 
             column.Item().BorderBottom(1).BorderColor(Colors.Grey.Darken1).Element(ComposeFormulaSupplementsTable);
@@ -101,13 +99,14 @@ public class QuotationDocument : IDocument
             table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(Model.FoodtruckPrice)}");
             table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(Model.FoodtruckPrice)}");
             table.Cell().Element(CellStyle).AlignRight().Text($"€{new Money((Model.FoodtruckPrice) * 21 / 100M)}");
+
             foreach (var item in Model.FormulaSupplementLines)
             {
                 table.Cell().Element(CellStyle).AlignCenter().Text($"");
-                table.Cell().Element(CellStyle).Text($"incl. {item.Quantity}x {item.Name} btw {(int)item.SupplementVat}%");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(item.SupplementPrice)}");
-                table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(item.SupplementPrice * item.Quantity)}");
-                table.Cell().Element(CellStyle).AlignRight().Text($"€{new Money((item.SupplementPrice * item.Quantity) * item.SupplementVat / 100M)}");
+                table.Cell().Element(CellStyle).Text($"incl. {item.Quantity}x {item.Name} btw {(int)(item.SupplementVat/item.SupplementPrice*100)}%");
+                table.Cell().Element(CellStyle).AlignRight().Text($"");
+                table.Cell().Element(CellStyle).AlignRight().Text($"");
+                table.Cell().Element(CellStyle).AlignRight().Text($"");
             }
 
             table.Cell().Element(CellStyle).Text("");
@@ -132,7 +131,7 @@ public class QuotationDocument : IDocument
             foreach (var item in Model.ExtraSupplementLines)
             {
                 table.Cell().Element(CellStyle).AlignCenter().Text($"{item.Quantity}");
-                table.Cell().Element(CellStyle).Text($"{item.Name} btw {(int)item.SupplementVat}%");
+                table.Cell().Element(CellStyle).Text($"{item.Name} btw {(int)(item.SupplementVat / item.SupplementPrice * 100)}%");
                 table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(item.SupplementPrice)}");
                 table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(item.SupplementPrice * item.Quantity)}");
                 table.Cell().Element(CellStyle).AlignRight().Text($"€{new Money((item.SupplementPrice * item.Quantity) * item.SupplementVat / 100M)}");
@@ -160,9 +159,9 @@ public class QuotationDocument : IDocument
             totalbtw += Model.FoodtruckPrice * 21M / 100M;
             totalbtw += Model.NumberOfGuests * pricePerGuest * 12M /100M;
 
-            table.Cell().Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(totaltaxable)}");
-            table.Cell().ColumnSpan(2).Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(totalbtw)}");
-            table.Cell().ColumnSpan(2).Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(totaltaxable+totalbtw)}");
+            table.Cell().Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(Model.Price)}");
+            table.Cell().ColumnSpan(2).Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(Model.VatTotal)}");
+            table.Cell().ColumnSpan(2).Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(Model.Price + Model.VatTotal)}");
 
             static IContainer FooterHeader(IContainer container)
             {
@@ -178,12 +177,13 @@ public class QuotationDocument : IDocument
     void ComposeHeader(IContainer container)
     {
         container.Row(row =>
-        {
+        {   
             row.RelativeItem().Column(column =>
             {
+                column.Item().PaddingVertical(20).Text("blanche-logo.png");
                 column
                     .Item().Text($"Offerte #10{randomNumber.NextInt64(25, 99)}")
-                    .FontSize(16).SemiBold().FontColor(Colors.Grey.Darken3);
+                    .FontSize(14).SemiBold().FontColor(Colors.Grey.Darken3);
 
                 column.Item().Text(text =>
                 {
@@ -240,7 +240,7 @@ public class CustomerComponent : IComponent
 
     public void Compose(IContainer container) 
     { 
-        container.ShowEntire().Border(1).BorderColor(Colors.Black).Column(column =>
+        container.ShowEntire().Column(column =>
         {
             column.Spacing(0);
             column.Item().Text("Aan").SemiBold();
@@ -252,9 +252,6 @@ public class CustomerComponent : IComponent
             column.Item().Text($"{CompanyNumber}");
             
         });
-        
-        
-    
     }
 }
 
@@ -274,13 +271,10 @@ public class AddressComponent : IComponent
         container.ShowEntire().Column(column =>
         {
             column.Spacing(2);
-
             column.Item().Text(Title).SemiBold();
             column.Item().PaddingBottom(2).LineHorizontal(1);
             column.Item().Text($"{Address.Street} {Address.HouseNumber}");
             column.Item().Text($"{Address.City}, {Address.Zip}");
-            // column.Item().Text("email@address.be");
-            // column.Item().Text("049367883");
         });
     }
 }
