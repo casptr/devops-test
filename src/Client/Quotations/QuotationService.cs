@@ -29,6 +29,7 @@ public class QuotationService : IQuotationService
 
     public async Task<QuotationResult.Index> GetIndexAsync(QuotationRequest.Index request)
     {
-        throw new NotImplementedException();
+        var response = await client.GetFromJsonAsync<QuotationResult.Index>($"{endpoint}?{request.AsQueryString()}");
+        return response!;
     }
 }

@@ -15,6 +15,10 @@ using Foodtruck.Client.Quotations;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Pdfs;
 using Services.Pdfs;
+using Foodtruck.Shared.Quotations;
+using Foodtruck.Client.Quotations;
+using Foodtruck.Shared.Emails;
+using Foodtruck.Client.Admin;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -48,6 +52,7 @@ builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddScoped<IQuotationService, QuotationService>();
 builder.Services.AddScoped<QuotationProcessState>();
 builder.Services.AddScoped<IPdfService, PdfService>();
+builder.Services.AddScoped<EmailService>();
 
 builder.Services.AddMudServices();
 await builder.Build().RunAsync();

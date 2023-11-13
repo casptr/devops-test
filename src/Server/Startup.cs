@@ -5,6 +5,7 @@ using Foodtruck.Persistence;
 using Foodtruck.Persistence.Triggers;
 using Foodtruck.Server.Authentication;
 using Foodtruck.Server.Middleware;
+using Foodtruck.Shared.Emails;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Pdfs;
 using Foodtruck.Shared.Quotations;
@@ -18,6 +19,7 @@ using Persistence;
 using SendGrid.Extensions.DependencyInjection;
 using Services;
 using Services.Pdfs;
+using Services.Quotations;
 using System.Text.Json.Serialization;
 
 namespace Server
@@ -105,6 +107,9 @@ namespace Server
             services.AddFoodtruckServices();
             services.AddScoped<FoodTruckDataInitializer>();
             services.AddSendGrid(opt => opt.ApiKey = Configuration["SendGrid:ApiKey"]);
+
+            services.AddScoped<IPdfService, PdfService>();
+            services.AddScoped<IQuotationService, QuotationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

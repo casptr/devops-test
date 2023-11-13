@@ -23,9 +23,10 @@ public class EmailController : Controller
     }
 
     [SwaggerOperation("Sends a quotation pdf via mail")]
-    [HttpGet("mail/{quotationId}")]
+    [HttpGet("{quotationId}")]
     public async Task<bool> SendQuotationPdfEmail(int quotationId)
     {
+        Console.WriteLine("Talking to api mail/id");
         QuotationDto.Detail quotation = await quotationService.GetDetailAsync(quotationId);
         if (quotation != null && quotation.QuotationVersions != null)
         {
