@@ -1,0 +1,161 @@
+﻿@page "/admin/offertes"
+@using Foodtruck.Shared.Customers;
+@using Foodtruck.Shared.Quotations
+@attribute [Authorize]
+@layout AdminLayout
+@inject IQuotationService QuotationService
+
+<PageTitle>Admin - offertes</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-3">Offertes</MudText>
+<div class="relative">
+    @if (loading)
+    {
+        <MudText>Offertes ophalen..</MudText>
+    }
+    else
+    {
+        <MudDataGrid Items="@quotations" >
+            <Columns>
+                <HierarchyColumn T="QuotationDto.Index" />
+                <PropertyColumn Property="x => x.Id" Title="" />
+                <TemplateColumn SortBy="x => x.Customer.Firstname">
+                    <HeaderTemplate>
+                        <MudText Typo="Typo.subtitle2">Klant</MudText>
+                    </HeaderTemplate>
+                    <CellTemplate>
+                        <MudStack Column Spacing="0">
+                            <MudText>@context.Item.Customer?.Firstname</MudText>
+                            <MudText Style="@($"color:{Colors.Grey.Default};")" Typo="Typo.body2">@context.Item.Customer.Email</MudText>
+                        </MudStack>
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn SortBy="x => x.LastQuotationVersion.Reservation.Start">
+                    <HeaderTemplate>
+                        <MudText Typo="Typo.subtitle2">Datum</MudText>
+                    </HeaderTemplate>
+                    <CellTemplate>
+                        @if (context.Item.LastQuotationVersion?.Reservation?.Start.Date == context.Item.LastQuotationVersion?.Reservation?.End.Date)
+                        {
+                            <MudText Typo="Typo.body2">@context.Item.LastQuotationVersion?.Reservation?.Start.ToString("dd/MM")</MudText>
+                        }
+                        else
+                        {
+                            <MudText Typo="Typo.body2">van @context.Item.LastQuotationVersion?.Reservation?.Start.ToString("dd/MM")</MudText>
+                            <MudText Typo="Typo.body2">tot @context.Item.LastQuotationVersion?.Reservation?.End.ToString("dd/MM")</MudText>
+                        }
+                    </CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="x => x.LastQuotationVersion!.Formula!.Title" Title="Formule"/>
+                <TemplateColumn SortBy="x => x.LastQuotationVersion.Price">
+                    <HeaderTemplate>
+                        <MudText Typo="Typo.subtitle2">Prijs</MudText>
+                    </HeaderTemplate>
+                    <CellTemplate>
+                        <MudText Typo="Typo.body2">€@context.Item.LastQuotationVersion?.Price.ToString("0.##")</MudText>
+                    </CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="x => x.LastQuotationVersion!.Reservation!.Status.GetValueOrDefault()"/>
+                <TemplateColumn CellClass="d-flex justify-end" HeaderClass="d-flex justify-end">
+                    <HeaderTemplate>
+                        <MudText Typo="Typo.subtitle2">&nbsp;</MudText>
+                    </HeaderTemplate>
+                    <CellTemplate>
+                        <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" aria-label="delete"></MudIconButton>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <ChildRowContent>
+                <MudItem>
+                    <MudText Style="padding-bottom: 1rem;" Typo="Typo.h6">Offerte #@context.Item.LastQuotationVersion.Id</MudText>
+                    <MudStack Row>
+                        <MudCard>
+                            <MudCardHeader Style="padding-bottom: 6px; padding-top: 6px;">
+                                <MudText Typo="Typo.h6">Klant</MudText>
+                            </MudCardHeader>
+                            <MudCardContent Style="padding-top: 0px;">
+                                <MudStack Spacing="0">
+                                 <MudText Typo="Typo.body2">@(context.Item.Customer.Firstname + " " + context.Item.Customer.Lastname)</MudText>
+                                    <MudStack Row Spacing="1">
+                                        <MudIcon Size="Size.Small" Icon="@Icons.Material.Outlined.Email" Title="Favorite" />
+                                        <MudText Typo="Typo.body2">@context.Item.Customer.Email</MudText>
+                                    </MudStack>
+                                    <MudStack Row Spacing="1" Style="padding-bottom: 0.5rem;">
+                                        <MudIcon Size="Size.Small" Icon="@Icons.Material.Outlined.Phone" Title="Favorite" />
+                                        <MudText Typo="Typo.body2">@context.Item.Customer.Phone</MudText>
+                                    </MudStack>
+                                    @if (context.Item.Customer.CompanyName is not null)
+                                    {
+                                        <MudStack Row Spacing="1">
+                                            <MudText Typo="Typo.body2"><strong>Bedrijf:</strong></MudText>
+                                            <MudText Typo="Typo.body2"> @context.Item.Customer.CompanyName </MudText>
+                                        </MudStack>
+                                    }
+                                    @if (context.Item.Customer.CompanyNumber is not null)
+                                    {
+                                        <MudStack Row Spacing="1">
+                                            <MudText Typo="Typo.body2"><strong>Bedrijfsnummer:</strong></MudText>
+                                            <MudText Typo="Typo.body2"> @context.Item.Customer.CompanyNumber </MudText>
+                                        </MudStack>
+                                    }
+                                </MudStack>
+                            </MudCardContent>
+                        </MudCard>
+                        <MudCard>
+                            <MudCardHeader Style="padding-bottom: 6px; padding-top: 6px;">
+                                <MudText Typo="Typo.h6">Evenement</MudText>
+                            </MudCardHeader>
+                            <MudCardContent Style="padding-top: 0px;">
+                                <MudStack Spacing="0">
+                                    <MudStack Spacing="1" Style="padding-bottom: 0.5rem;">
+                                         <MudText Typo="Typo.body2"><strong>Adres:</strong></MudText>
+                                         <MudText Typo="Typo.body2">@(context.Item.LastQuotationVersion.EventAddress.Street + " " + context.Item.LastQuotationVersion.EventAddress.HouseNumber)</MudText>
+                                         <MudText Typo="Typo.body2">@(context.Item.LastQuotationVersion.EventAddress.Zip + " " + context.Item.LastQuotationVersion.EventAddress.City)</MudText>
+                                    </MudStack>
+                                    <MudStack Row Spacing="1">
+                                        <MudText Typo="Typo.body2"><strong>Aantal personen:</strong></MudText>
+                                        <MudText Typo="Typo.body2">@context.Item.LastQuotationVersion.NumberOfGuests</MudText>
+                                    </MudStack>
+                                </MudStack>
+                            </MudCardContent>
+                        </MudCard>
+                        <MudCard>
+                             <MudCardHeader Style="padding-bottom: 6px; padding-top: 6px;">
+                                <MudText Typo="Typo.h6">Extra info</MudText>
+                            </MudCardHeader>
+                            <MudCardContent Style="padding-top: 0px;">
+                                <MudText Typo="Typo.body2">@context.Item.LastQuotationVersion.ExtraInfo</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudStack>
+                </MudItem>
+            </ChildRowContent>
+            <PagerContent>
+                <MudDataGridPager T="QuotationDto.Index" />
+            </PagerContent>
+        </MudDataGrid>
+    }
+</div>
+
+@code {
+    private IEnumerable<QuotationDto.Index>? quotations;
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        QuotationRequest.Index request = new QuotationRequest.Index()
+        {
+            //TODO
+        };
+
+        quotations = (await QuotationService.GetIndexAsync(request)).Quotations;
+
+        loading = false;
+        StateHasChanged();
+    }
+
+    private string FullName(CustomerDto.Detail customer)
+    {
+        return customer.Firstname + customer.Lastname;
+    }
+}

@@ -10,8 +10,8 @@ namespace Foodtruck.Shared.Reservations;
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum StatusDto { 
-    VOORGESTELD,
-    BEVESTIGD,
-    BETAALD
+    Voorgesteld,
+    Bevestigd,
+    Betaald
 }
 

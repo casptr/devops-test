@@ -13,7 +13,7 @@ namespace Foodtruck.Shared.Reservations
         {
             public DateTime FromDate { get; set; } = DateTime.UtcNow.Date;
             public DateTime? ToDate { get; set; }
-            public StatusDto[] Statuses { get; set; } = { StatusDto.BEVESTIGD, StatusDto.BETAALD };
+            public StatusDto[] Statuses { get; set; } = { StatusDto.Bevestigd, StatusDto.Betaald };
             public int Page { get; set; } = 1;
             public int PageSize { get; set; } = 25;
         }
@@ -22,7 +22,7 @@ namespace Foodtruck.Shared.Reservations
         {
             public DateTime FromDate { get; set; } = DateTime.UtcNow.Date;
             public DateTime? ToDate { get; set; }
-            public StatusDto[] Statuses { get; set; } = { StatusDto.BEVESTIGD, StatusDto.BETAALD };
+            public StatusDto[] Statuses { get; set; } = { StatusDto.Bevestigd, StatusDto.Betaald };
             public int Page { get; set; } = 1;
             public int PageSize { get; set; } = 25;
         }
