@@ -9,6 +9,6 @@ public class FormulaSupplementLineFaker : EntityFaker<FormulaSupplementLine>
 {
 	public FormulaSupplementLineFaker(string locale = "nl") : base(locale)
 	{
-		CustomInstantiator(f => new FormulaSupplementLine(new FormulaFaker(), new SupplementItemFaker()));
+		CustomInstantiator(f => new FormulaSupplementLine(new SupplementItemFaker()));
 	}
 }

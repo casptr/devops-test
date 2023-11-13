@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_currentTheme" />
+<MudDialogProvider CloseOnEscapeKey="true" />
+<MudSnackbarProvider />
+
+<MudDrawerContainer Class="mud-height-full">
+    <AdminNavmenu />
+    <MudContainer Style="max-width:87.5vw;" MaxWidth="MaxWidth.Large" Class="pt-2">
+        @Body
+    </MudContainer>
+</MudDrawerContainer>
+
+
+@code {
+    private readonly MudTheme _currentTheme = new()
+        {
+            Palette = new PaletteLight()
+            {
+                Background = "#FAF9F6",
+            },
+            Typography = new Typography()
+            {
+                Button = new Button()
+                {
+                    TextTransform = "none",
+                },
+            }
+        };
+}

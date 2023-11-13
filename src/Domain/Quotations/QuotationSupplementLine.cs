@@ -1,33 +1,37 @@
 using Ardalis.GuardClauses;
 using Domain.Common;
+using Domain.Formulas;
 using Domain.Supplements;
-
 namespace Domain.Quotations;
 
-    public class QuotationSupplementLine : Entity
+
+public class QuotationSupplementLine : Entity
 {
-	public string Name { get; } = default!;
-	public string Description { get; } = default!;
-	public Category Category { get; } = default!;
-	public Money Price { get; } = default!;
-	public int Quantity { get; set; } = default!;
-	public bool IncludedInFormula { get; } = default!;
+    public bool IsIncludedInFormula {  get; set; }
 
-	/// <summary>
-	/// Database Constructor
-	/// </summary>
-	private QuotationSupplementLine() { }
+    public string Name { get; } = default!;
+    public string Description { get; } = default!;
 
-	public QuotationSupplementLine(SupplementItem supplementItem, bool includedInFormula)
-	{
-		Guard.Against.Null(supplementItem, nameof(supplementItem));
-		Supplement supplement = supplementItem.Supplement;
-		Name = supplement.Name;
-		Description = supplement.Description;
-		Category = supplement.Category;
-		Price = supplement.Price.Copy();
-		Quantity = supplementItem.Quantity;
+    public Money SupplementPrice { get; } = default!;
+    public Money SupplementVat { get; } = default!;
 
-		IncludedInFormula = includedInFormula;
-	}
+    public int Quantity { get; set; } = default!;
+    public int QuotationVersionId { get; set; }
+
+    /// <summary>
+    /// Database Constructor
+    /// </summary>
+    private QuotationSupplementLine() { }
+
+    public QuotationSupplementLine(SupplementItem supplementItem, bool isIncludedInFormula)
+    {
+        IsIncludedInFormula = isIncludedInFormula;
+        Guard.Against.Null(supplementItem, nameof(supplementItem));
+        Supplement supplement = supplementItem.Supplement;
+        Name = supplement.Name;
+        Description = supplement.Description;
+        SupplementPrice = supplement.Price.Copy();
+        SupplementVat = new Money(supplement.Price.Value * new decimal(supplement.Category.Vat) / 100M);
+        Quantity = supplementItem.Quantity;
+    }
 }

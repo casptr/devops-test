@@ -9,8 +9,6 @@ namespace Domain.Formulas
         private string name = default!;
         public string Name { get => name; set => name = Guard.Against.NullOrWhiteSpace(value, nameof(Name)); }
 
-        public bool IsQuantityNumberOfGuests { get; set; }
-
         private int minQuantity = default!;
         public int MinQuantity { get => minQuantity; set => minQuantity = Guard.Against.Negative(value, nameof(MinQuantity)); }
 
@@ -20,15 +18,17 @@ namespace Domain.Formulas
         private readonly List<Supplement> supplementsToChoose = new();
         public IReadOnlyCollection<Supplement> SupplementsToChoose => supplementsToChoose.AsReadOnly();
 
+        private readonly List<Formula> formulas = new();
+        public IReadOnlyCollection<Formula> Formulas => formulas.AsReadOnly();
+
         /// <summary>
         /// Database Constructor
         /// </summary>
         private FormulaSupplementChoice() { }
 
-        public FormulaSupplementChoice(string name, bool isQuantityNumberOfGuests, int minQuantity, Supplement defaultChoice)
+        public FormulaSupplementChoice(string name, int minQuantity, Supplement defaultChoice)
         {
             Name = name;
-            IsQuantityNumberOfGuests = isQuantityNumberOfGuests;
             MinQuantity = minQuantity;
             DefaultChoice = defaultChoice;
         }
@@ -37,6 +37,12 @@ namespace Domain.Formulas
         {
             Guard.Against.Null(supplement, nameof(supplement));
             supplementsToChoose.Add(supplement);
+        }
+
+        public void AddFormula(Formula formula)
+        {
+            Guard.Against.Null(formula, nameof(formula));
+            formulas.Add(formula);
         }
 
     }

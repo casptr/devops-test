@@ -1,0 +1,42 @@
+﻿@using Domain.Common;
+@if (supplements is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div Class="mx-8">
+        <MudGrid Justify="Justify.FlexStart">
+
+            @if (supplements != null)
+            {
+                @foreach (var supplement in supplements)
+                {
+                    <MudItem xs="3">
+                        <MudCard Outlined="true"Class="d-flex flex-column align-center justify-center mud-width-full py-4 rounded-lg" Style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); height: 100%;">
+                            <MudCardContent>
+                                <div style="text-align:center" Class="py-3">
+                                    <MudText Typo="Typo.h5" Style="font-weight: bold;">@supplement.Name</MudText>
+                                </div>
+
+                                <div Class="d-flex justify-center">
+                                    <MudImage src="@supplement?.ImageUrls?.Last().ToString()" Width="450" Height="225" ObjectFit="ObjectFit.ScaleDown" />
+                                </div>
+                                <div Class="d-flex justify-space-between px-10">
+                                    <MudText Typo="Typo.h6" Style="font-weight: bold;">€ @(new Money(supplement.Price))</MudText>
+                                    <MudText Typo="Typo.h6" Style="font-weight: bold;">Aantal: @supplement.AmountAvailable</MudText>
+                                </div>
+                                <div Class="px-10">
+                                    <MudText Typo="Typo.body2">@supplement.Description</MudText>
+                                </div>
+
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            }
+        </MudGrid>
+    </div>
+
+}
+

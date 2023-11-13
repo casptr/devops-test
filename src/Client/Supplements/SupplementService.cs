@@ -13,28 +13,12 @@ public class SupplementService : ISupplementService
     {
         this.client = client;
     }
-
-    public async Task<int> CreateAsync(SupplementDto.Mutate request)
+    public async Task<SupplementResult.Index> GetAllAsync()
     {
-        var response = await client.PostAsJsonAsync(endpoint, request);
-        return await response.Content.ReadFromJsonAsync<int>();
+        var response = await client.GetFromJsonAsync<SupplementResult.Index>($"{endpoint}/all");
+        return response!;
     }
 
-    public async Task DeleteAsync(int supplementId)
-    {
-        await client.DeleteAsync($"{endpoint}/{supplementId}");
-    }
-
-    public async Task EditAsync(int supplementId, SupplementDto.Mutate model)
-    {
-        var response = await client.PutAsJsonAsync($"{endpoint}/{supplementId}", model);
-    }
-
-    public async Task<SupplementDto.Detail> GetDetailAsync(int supplementId)
-    {
-        var response = await client.GetFromJsonAsync<SupplementDto.Detail>($"{endpoint}/{supplementId}");
-        return response;
-    }
 
     public async Task<SupplementResult.Index> GetIndexAsync(SupplementRequest.Index request)
     {
@@ -42,14 +26,32 @@ public class SupplementService : ISupplementService
         return response!;
     }
 
-    public async Task<SupplementResult.Index> GetAllAsync()
+
+    public async Task<SupplementDto.Detail> GetDetailAsync(int supplementId)
     {
-        var response = await client.GetFromJsonAsync<SupplementResult.Index>($"{endpoint}/all");
-        return response!;
+        var response = await client.GetFromJsonAsync<SupplementDto.Detail>($"{endpoint}/{supplementId}");
+        return response;
     }
 
-    public async Task AddImage(int supplementId)
-    {
-        await client.PostAsJsonAsync($"{endpoint}/{supplementId}/addimage",supplementId);
-    }
+    //public async Task<int> CreateAsync(SupplementDto.Mutate request)
+    //{
+    //    var response = await client.PostAsJsonAsync(endpoint, request);
+    //    return await response.Content.ReadFromJsonAsync<int>();
+    //}
+
+    //public async Task DeleteAsync(int supplementId)
+    //{
+    //    await client.DeleteAsync($"{endpoint}/{supplementId}");
+    //}
+
+    //public async Task EditAsync(int supplementId, SupplementDto.Mutate model)
+    //{
+    //    var response = await client.PutAsJsonAsync($"{endpoint}/{supplementId}", model);
+    //}
+
+
+    //public async Task AddImage(int supplementId)
+    //{
+    //    await client.PostAsJsonAsync($"{endpoint}/{supplementId}/addimage",supplementId);
+    //}
 }

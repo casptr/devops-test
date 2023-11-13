@@ -5,13 +5,21 @@ using Foodtruck.Shared.Customers;
 
 namespace Foodtruck.Shared.Quotations;
 
-public abstract class QuotationDto{
+public abstract class QuotationDto
+{
 
-
-    // offerte aanvraag als 
-    public class RequestForQuotation
+    public class Index
     {
-        public QuotationVersion QuotationVersion {get; set;} = default!;
+        public int Id { get; set; }
+        public CustomerDto.Detail? Customer { get; set; }
+        public QuotationVersionDto.Index? LastQuotationVersion { get; set; }
+    }
+
+    public class Detail
+    {
+        public int Id { get; set; }
+        public CustomerDto.Detail? Customer { get; set; }
+        public IEnumerable<QuotationVersionDto.Detail>? QuotationVersions { get; set; }
     }
 
     public class Create
@@ -21,7 +29,8 @@ public abstract class QuotationDto{
 
         public class Validator : AbstractValidator<Create>
         {
-            public Validator(){
+            public Validator()
+            {
                 RuleFor(q => q.QuotationVersion).NotNull();
             }
         }
