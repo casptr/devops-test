@@ -8,11 +8,12 @@ namespace Foodtruck.Shared.Supplements;
 
 public interface ISupplementService
 {
+    Task<SupplementResult.Index> GetAllAsync();
     Task<SupplementResult.Index> GetIndexAsync(SupplementRequest.Index request);
     Task<SupplementDto.Detail> GetDetailAsync(int supplementId);
-    Task<int> CreateAsync(SupplementDto.Mutate model);
-    Task EditAsync(int supplementId, SupplementDto.Mutate model);
-    Task DeleteAsync(int supplementId);
-    Task<SupplementResult.Index> GetAllAsync();
-    Task AddImage(int supplementId);
+
+    //Task<int> CreateAsync(SupplementDto.Mutate model);
+    //Task EditAsync(int supplementId, SupplementDto.Mutate model);
+    //Task DeleteAsync(int supplementId); 
+    //Task AddImage(int supplementId);
 }

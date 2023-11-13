@@ -1,6 +1,4 @@
-﻿using Domain.Customers;
-using Domain.Formulas;
-using Foodtruck.Shared.Customers;
+﻿using Foodtruck.Shared.Customers;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
@@ -10,63 +8,47 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 {
     public class QuotationProcessState
     {
-        private QuotationDto.Create configuringQuotation = new();
-        public QuotationVersionDto.Create ConfiguringQuotationVersion => configuringQuotation.QuotationVersion;
+        public int? CurrentStepIndex { get; set; }
 
-        public FormulaDto.Detail? CurrentSelectedFormula { get; private set; }
+        public QuotationDto.Create quotation = new();
+        public CustomerDto.Create Customer => quotation.Customer;
+        public QuotationVersionDto.Create QuotationVersion => quotation.QuotationVersion;
 
-        private readonly List<FormulaChoiceFormModel> CompletedChoiceFormModels = new();
-        private readonly List<FormulaChoiceFormModel> choiceFormModels = new();
-        public IReadOnlyList<FormulaChoiceFormModel> ChoiceFormModels => choiceFormModels.AsReadOnly();
-
-        // Item is chosen if quantity != 0
-        public IReadOnlyCollection<FormulaChoiceFormItem> ChosenFormulaChoiceItems => CompletedChoiceFormModels.SelectMany(choice => choice.Options.Where(option => option.Quantity != 0)).ToList();
-
-        public CustomerDetailsFormModel CustomerDetailsFormModel { get; set; } = new();
-
-        private readonly List<ExtraSupplementLine> extraSupplementLines = new();
-        public IReadOnlyCollection<ExtraSupplementLine> ExtraSupplementLines => extraSupplementLines.AsReadOnly();
+        // Reservation
         public ReservationDto.Create ReservationModel { get; set; } = new();
 
-        public void ConfigureReservation(DateTime? start, DateTime? end)
+        // Formula
+        public FormulaDto.Detail? CurrentSelectedFormula { get; private set; }
+
+        private readonly List<FormulaChoiceFormModel> completedChoiceFormModels = new();
+        private readonly List<FormulaChoiceFormModel> choiceFormModels = new();
+        public IReadOnlyList<FormulaChoiceFormModel> ChoiceFormModels => choiceFormModels.AsReadOnly();
+        public IReadOnlyCollection<FormulaChoiceFormItem> ChosenFormulaChoiceItems => // Item is chosen if quantity != 0
+            completedChoiceFormModels.SelectMany(choice => choice.Options.Where(option => option.Quantity != 0)).ToList();
+
+        // Supplements
+        private readonly List<ExtraSupplementLine> extraSupplementLines = new();
+        public IReadOnlyCollection<ExtraSupplementLine> ExtraSupplementLines => extraSupplementLines.AsReadOnly();
+
+        // CustomerDetails
+        public CustomerDetailsFormModel CustomerDetailsFormModel { get; set; } = new();
+
+        public void ConfigureQuotationReservation(DateTime? start, DateTime? end)
         {
-            ConfiguringQuotationVersion.Reservation.Start = start;
-            ConfiguringQuotationVersion.Reservation.End = end;
-            Console.WriteLine($"Reservation from {start} to {end}");
-        }
-
-        public void SetupFormulaChoiceFormModels(FormulaDto.Detail formula)
-        {
-            choiceFormModels.Clear();
-
-            if (formula.Choices?.Count() == 0)
-                return;
-
-            choiceFormModels.AddRange(formula.Choices.Select(choice => new FormulaChoiceFormModel(choice)));
-
-            // Apply the previously chosen quantities
-            if (CurrentSelectedFormula?.Id == formula.Id)
-            {
-                for (int choiceIndex = 0; choiceIndex < choiceFormModels.Count; choiceIndex++)
-                {
-                    for (int optionIndex = 0; optionIndex < choiceFormModels[choiceIndex].Options.Count(); optionIndex++)
-                    {
-                        choiceFormModels[choiceIndex].Options[optionIndex].Quantity = CompletedChoiceFormModels[choiceIndex].Options[optionIndex].Quantity;
-                    }
-                }
-            }
+            QuotationVersion.Reservation.Start = start;
+            QuotationVersion.Reservation.End = end;
         }
 
         public void ConfigureQuotationFormula(FormulaDto.Detail formula)
         {
-            CompletedChoiceFormModels.Clear();
-            CompletedChoiceFormModels.AddRange(ChoiceFormModels.ToList());
-            ConfiguringQuotationVersion.FormulaSupplementItems.Clear();
+            completedChoiceFormModels.Clear();
+            completedChoiceFormModels.AddRange(choiceFormModels.ToList());
+            QuotationVersion.FormulaSupplementItems.Clear();
 
             CurrentSelectedFormula = formula;
-            configuringQuotation.QuotationVersion.FormulaId = CurrentSelectedFormula.Id;
+            QuotationVersion.FormulaId = CurrentSelectedFormula.Id;
 
-            ConfiguringQuotationVersion.FormulaSupplementItems.AddRange(CompletedChoiceFormModels
+            QuotationVersion.FormulaSupplementItems.AddRange(completedChoiceFormModels
                 .SelectMany(choiceForm => choiceForm.Options)
                 .Where(option => option.Quantity != 0)
                 .Select(option => new SupplementItemDto.Create()
@@ -75,14 +57,55 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
                     Quantity = option.Quantity
                 }));
 
-
             // Add included supplements from formula
-            ConfiguringQuotationVersion.FormulaSupplementItems.AddRange(CurrentSelectedFormula.IncludedSupplements
-                .Select(includedSupplementLine => new SupplementItemDto.Create()
-                {
-                    SupplementId = includedSupplementLine.Supplement.Id,
-                    Quantity = includedSupplementLine.Quantity
-                }));
+            if (CurrentSelectedFormula.IncludedSupplements != null)
+                QuotationVersion.FormulaSupplementItems.AddRange(CurrentSelectedFormula.IncludedSupplements
+                    .Select(includedSupplementLine => new SupplementItemDto.Create()
+                    {
+                        SupplementId = includedSupplementLine.Supplement!.Id,
+                        Quantity = includedSupplementLine.Quantity
+                    }));
+        }
+
+        public void ConfigureQuotationExtraSupplements()
+        {
+            QuotationVersion.ExtraSupplementItems.Clear();
+            QuotationVersion.ExtraSupplementItems.AddRange(extraSupplementLines.Select(extraSupplementLine => new SupplementItemDto.Create()
+            {
+                Quantity = extraSupplementLine.Quantity,
+                SupplementId = extraSupplementLine.Supplement.Id,
+            }));
+        }
+
+        public void ConfigureQuotationCustomerDetails()
+        {
+            quotation.QuotationVersion.NumberOfGuests = 50; // TODO this should be a form field !!!!!!!!!
+
+            quotation.Customer = CustomerDetailsFormModel.Customer;
+            QuotationVersion.EventAddress = CustomerDetailsFormModel.EventAddress;
+            QuotationVersion.ExtraInfo = CustomerDetailsFormModel.ExtraInfo;
+
+            // we have to set the billing address if event address is the same as the billing address
+            if (CustomerDetailsFormModel.IsEventAddressDifferentThanBillingAddress)
+                QuotationVersion.BillingAddress = CustomerDetailsFormModel.BillingAddress;
+            else
+                QuotationVersion.BillingAddress = CustomerDetailsFormModel.EventAddress;
+        }
+
+        public void SetupFormulaChoiceFormModels(FormulaDto.Detail formula)
+        {
+            choiceFormModels.Clear();
+
+            if (formula.Choices == null || !formula.Choices.Any())
+                return;
+
+            choiceFormModels.AddRange(formula.Choices.Select(choice => new FormulaChoiceFormModel(choice)));
+
+            // Apply the previously chosen quantities
+            if (CurrentSelectedFormula?.Id == formula.Id)
+                for (int choiceIndex = 0; choiceIndex < choiceFormModels.Count; choiceIndex++)
+                    for (int optionIndex = 0; optionIndex < choiceFormModels[choiceIndex].Options.Count(); optionIndex++)
+                        choiceFormModels[choiceIndex].Options[optionIndex].Quantity = completedChoiceFormModels[choiceIndex].Options[optionIndex].Quantity;
         }
 
         public int CalculateMaxAmountToAdd(ExtraSupplementLine extraSupplementLine)
@@ -90,9 +113,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             ExtraSupplementLine? extraSupplementLineInState = extraSupplementLines.Where(e => e.Equals(extraSupplementLine)).FirstOrDefault();
 
             if (extraSupplementLineInState is null)
-            {
                 return extraSupplementLine.Supplement.AmountAvailable;
-            }
 
             int currentAmount = extraSupplementLineInState.Quantity;
             return extraSupplementLineInState.Supplement.AmountAvailable - currentAmount;
@@ -109,40 +130,9 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             ExtraSupplementLine? extraSupplementLineInState = extraSupplementLines.Where(extraSupplementLine => extraSupplementLine.Equals(extraSupplementLineToAdd)).FirstOrDefault();
 
             if (extraSupplementLineInState is null)
-            {
                 extraSupplementLines.Add(extraSupplementLineToAdd);
-            }
             else
-            {
                 extraSupplementLineInState.Quantity += extraSupplementLineToAdd.Quantity;
-            }
-        }
-
-        public void ConfigureQuotationExtraSupplements()
-        {
-            configuringQuotation.QuotationVersion.ExtraSupplementItems.Clear();
-            configuringQuotation.QuotationVersion.ExtraSupplementItems.AddRange(extraSupplementLines.Select(extraSupplementLine => new SupplementItemDto.Create()
-            {
-                Quantity = extraSupplementLine.Quantity,
-                SupplementId = extraSupplementLine.Supplement.Id,
-            }));
-        }
-
-        public void ConfigureQuotationCustomerDetails()
-        {
-            configuringQuotation.Customer = CustomerDetailsFormModel.Customer;
-            configuringQuotation.QuotationVersion.EventAddress = CustomerDetailsFormModel.EventAddress;
-            configuringQuotation.QuotationVersion.ExtraInfo = CustomerDetailsFormModel.ExtraInfo;
-
-            // we have to set the billing address if event address is the same as the billing address
-            if (CustomerDetailsFormModel.IsEventAddressDifferentThanBillingAddress)
-            {
-                configuringQuotation.QuotationVersion.BillingAddress = CustomerDetailsFormModel.BillingAddress;
-            }
-            else
-            {
-                configuringQuotation.QuotationVersion.BillingAddress = CustomerDetailsFormModel.EventAddress;
-            }
         }
 
         // Finish quotation request
@@ -151,15 +141,15 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
             // TEMP
             PrintQuotation();
         }
+        
 
         public void PrintQuotation()
         {
-            CustomerDto.Create Customer = configuringQuotation.Customer;
-            AddressDto EventAddress = configuringQuotation.QuotationVersion.EventAddress;
-            AddressDto BillingAddress = configuringQuotation.QuotationVersion.BillingAddress;
+            AddressDto EventAddress = QuotationVersion.EventAddress;
+            AddressDto BillingAddress = QuotationVersion.BillingAddress;
 
             Console.WriteLine("------------QUOTATION----------------");
-            Console.WriteLine($"Reservation from {ConfiguringQuotationVersion.Reservation.Start} to {ConfiguringQuotationVersion.Reservation.End}");
+            Console.WriteLine($"Reservation from {QuotationVersion.Reservation.Start} to {QuotationVersion.Reservation.End}");
             Console.WriteLine();
 
             Console.WriteLine("Customer Details:");
@@ -192,7 +182,7 @@ namespace Foodtruck.Client.QuotationProcess.Helpers
 
             Console.WriteLine();
             Console.WriteLine("Supplements included and chosen:");
-            foreach (var supplementItem in ConfiguringQuotationVersion.FormulaSupplementItems)
+            foreach (var supplementItem in QuotationVersion.FormulaSupplementItems)
             {
                 var supplement = allSupplements.Find(s => s.Id == supplementItem.SupplementId);
                 Console.WriteLine($"Formula Supplement: {supplement.Name}, Quantity: {supplementItem.Quantity}");

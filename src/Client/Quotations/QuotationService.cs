@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using Domain.Quotations;
 using Foodtruck.Shared.Quotations;
 using Client.Extensions;
+using Foodtruck.Shared.Supplements;
 
 namespace Foodtruck.Client.Quotations;
 
@@ -22,7 +23,8 @@ public class QuotationService : IQuotationService
 
     public async Task<QuotationDto.Detail> GetDetailAsync(int quotationId)
     {
-        throw new NotImplementedException();
+        var response = await client.GetFromJsonAsync<QuotationDto.Detail>(($"{endpoint}/{quotationId}"));
+        return response;
     }
 
     public async Task<QuotationResult.Index> GetIndexAsync(QuotationRequest.Index request)

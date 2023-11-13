@@ -1,8 +1,11 @@
 using Foodtruck.Shared.Customers;
+using Foodtruck.Shared.Emails;
+using Foodtruck.Shared.Pdfs;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Services.Pdfs;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Foodtruck.Server.Controllers;
@@ -13,10 +16,14 @@ namespace Foodtruck.Server.Controllers;
 public class QuotationController : Controller
 {
     private readonly IQuotationService quotationService;
+    private readonly IEmailService emailService;
+    private readonly IPdfService pdfService;
 
-    public QuotationController(IQuotationService quotationService)
+    public QuotationController(IQuotationService quotationService, IEmailService emailService, IPdfService pdfService)
     {
         this.quotationService = quotationService;
+        this.emailService = emailService;
+        this.pdfService = pdfService;
     }
 
     [SwaggerOperation("Returns a list of all the quotations.")]
@@ -32,7 +39,12 @@ public class QuotationController : Controller
     public async Task<IActionResult> Create(QuotationDto.Create model)
     {
         int quotationId = await quotationService.CreateAsync(model);
-        return CreatedAtAction(nameof(Create), quotationId) ;
+
+        QuotationDto.Detail quotation = await GetDetail(quotationId);
+        await emailService.SendNewQuotationPdfToAdmin(quotation);
+        await emailService.SendNewQuotationConfirmationToCustomer(quotation);
+
+        return CreatedAtAction(nameof(Create), quotationId);
     }
 
     [SwaggerOperation("Returns a specific quotation.")]
@@ -41,8 +53,6 @@ public class QuotationController : Controller
     {
         return await quotationService.GetDetailAsync(quotationId);
     }
-
-
 
 
 }

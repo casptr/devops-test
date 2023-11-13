@@ -3,6 +3,10 @@
     @for (var i = 0; i < Steps.Count; i++)
     {
         int stepIndex = i;
+
+        if (@Steps[stepIndex].Title == null)
+            break;
+
         <MudTimelineItem Color="@GetColor(stepIndex)" Variant="@GetVariant(stepIndex)">
             <ItemDot>
                 @if (stepIndex < CurrentStepIndex)

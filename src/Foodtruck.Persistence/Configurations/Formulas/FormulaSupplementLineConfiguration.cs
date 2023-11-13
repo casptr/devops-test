@@ -14,5 +14,6 @@ public class FormulaSupplementLineConfiguration : IEntityTypeConfiguration<Formu
     public void Configure(EntityTypeBuilder<FormulaSupplementLine> builder)
     {
         builder.HasOne(e => e.Supplement).WithMany().HasForeignKey("SupplementId");
+        builder.Property(e => e.Quantity);
     }
 }

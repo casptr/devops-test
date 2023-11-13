@@ -6,13 +6,18 @@ using Foodtruck.Persistence.Triggers;
 using Foodtruck.Server.Authentication;
 using Foodtruck.Server.Middleware;
 using Foodtruck.Shared.Formulas;
+using Foodtruck.Shared.Pdfs;
+using Foodtruck.Shared.Quotations;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using SendGrid.Extensions.DependencyInjection;
 using Services;
+using Services.Pdfs;
 using System.Text.Json.Serialization;
 
 namespace Server
@@ -44,7 +49,8 @@ namespace Server
 
                 var connectionString = conStrBuilder.ConnectionString;
 
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions => mySqlOptions.EnableStringComparisonTranslations());
+                
                 if (Environment.IsDevelopment())
                 {
                     options.EnableDetailedErrors();
@@ -98,6 +104,7 @@ namespace Server
             services.AddRazorPages();
             services.AddFoodtruckServices();
             services.AddScoped<FoodTruckDataInitializer>();
+            services.AddSendGrid(opt => opt.ApiKey = Configuration["SendGrid:ApiKey"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

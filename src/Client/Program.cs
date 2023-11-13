@@ -7,13 +7,15 @@ using Foodtruck.Client.Formulas;
 using Foodtruck.Shared.Supplements;
 using Foodtruck.Client.Supplements;
 using Foodtruck.Client.Infrastructure;
-using Foodtruck.Client.Authentication;
-using Microsoft.AspNetCore.Components.Authorization;
+
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Client.QuotationProcess.Helpers;
 using Foodtruck.Client.QuotationProcess;
-using Foodtruck.Shared.Quotations;
+
 using Foodtruck.Client.Quotations;
+using Foodtruck.Shared.Quotations;
+using Foodtruck.Shared.Pdfs;
+using Services.Pdfs;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -46,6 +48,7 @@ builder.Services.AddScoped<ISupplementService, SupplementService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
 builder.Services.AddScoped<IQuotationService, QuotationService>();
 builder.Services.AddScoped<QuotationProcessState>();
+builder.Services.AddScoped<IPdfService, PdfService>();
 
 builder.Services.AddMudServices();
 await builder.Build().RunAsync();
