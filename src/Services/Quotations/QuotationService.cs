@@ -11,7 +11,6 @@ using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Services.Quotations
 {
@@ -179,7 +178,7 @@ namespace Services.Quotations
                         Start = version.Reservation.Start,
                         End = version.Reservation.End,
                     },
-                    Formula = new FormulaDto.Index()
+                    Formula = new FormulaDto.Detail()
                     {
                         Id = version.Formula.Id,
                         Title = version.Formula.Title,

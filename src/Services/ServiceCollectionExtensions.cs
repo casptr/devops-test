@@ -1,8 +1,10 @@
-﻿using Foodtruck.Shared.Formulas;
+﻿using Foodtruck.Shared.Emails;
+using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Shared.Supplements;
 using Microsoft.Extensions.DependencyInjection;
+using Services.Emails;
 using Services.Formulas;
 using Services.Quotations;
 using Services.Reservations;
@@ -23,6 +25,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISupplementService, FakeSupplementService>();
         services.AddScoped<IReservationService, ReservationService>();
         services.AddScoped<IQuotationService, QuotationService>();
+        services.AddScoped<IEmailService, EmailService>();
         // Add more services here...
 
         return services;
