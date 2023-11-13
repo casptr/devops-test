@@ -30,7 +30,7 @@ public class QuotationController : Controller
     [HttpGet]
     public async Task<QuotationResult.Index> GetIndex([FromQuery] QuotationRequest.Index request)
     {
-        await emailService.SendEmail("halloooooooooooo");
+        await emailService.SendEmail("test");
         return await quotationService.GetIndexAsync(request);
 
     }

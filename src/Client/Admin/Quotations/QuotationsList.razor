@@ -4,6 +4,7 @@
 @attribute [Authorize]
 @layout AdminLayout
 @inject IQuotationService QuotationService
+@inject NavigationManager NavigationManager
 
 <PageTitle>Admin - offertes</PageTitle>
 
@@ -61,7 +62,7 @@
                         <MudText Typo="Typo.subtitle2">&nbsp;</MudText>
                     </HeaderTemplate>
                     <CellTemplate>
-                        <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" aria-label="delete"></MudIconButton>
+                        <MudIconButton Icon="@Icons.Material.Filled.RemoveRedEye" OnClick="@(()=>ShowPdf(context.Item.Id))" aria-label="delete"></MudIconButton>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
@@ -135,11 +136,13 @@
             </PagerContent>
         </MudDataGrid>
     }
+
 </div>
 
 @code {
     private IEnumerable<QuotationDto.Index>? quotations;
     private bool loading = true;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -152,6 +155,14 @@
 
         loading = false;
         StateHasChanged();
+    }
+
+    private bool isPdfDialogVisible = false;
+    private int selectedQuotationId;
+
+    private void ShowPdf(int Id)
+    {
+        NavigationManager.NavigateTo($"/admin/offertes/{Id}");
     }
 
     private string FullName(CustomerDto.Detail customer)

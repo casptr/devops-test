@@ -61,7 +61,7 @@ public class EmailService : IEmailService
     }
 
 
-    public async Task<bool> SendQuotationPdfEmail(string base64, string text )
+    public async Task<bool> SendQuotationPdfEmailController(string base64, string text )
     {
 
         SendGridMessage msg = new SendGridMessage();
@@ -81,8 +81,18 @@ public class EmailService : IEmailService
             }
         };
         Response response = await sendGridClient.SendEmailAsync(msg);
+        Console.WriteLine(response.StatusCode);
         return response.IsSuccessStatusCode;
     }
+
+    public Task<bool> SendQuotationPdfEmail(int quotationId)
+    {
+        throw new NotImplementedException();
+    }
+
+  
+
+
 }
 
 public class SampleDocument : IDocument

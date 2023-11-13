@@ -5,6 +5,7 @@ using Foodtruck.Persistence;
 using Foodtruck.Persistence.Triggers;
 using Foodtruck.Server.Authentication;
 using Foodtruck.Server.Middleware;
+using Foodtruck.Shared.Emails;
 using Foodtruck.Shared.Formulas;
 using Foodtruck.Shared.Pdfs;
 using Foodtruck.Shared.Quotations;
@@ -16,6 +17,7 @@ using Microsoft.OpenApi.Models;
 using Persistence;
 using SendGrid.Extensions.DependencyInjection;
 using Services;
+using Services.Emails;
 using Services.Pdfs;
 using Services.Quotations;
 using System.Text.Json.Serialization;
@@ -108,6 +110,7 @@ namespace Server
 
             services.AddScoped<IPdfService, PdfService>();
             services.AddScoped<IQuotationService,QuotationService>();
+            services.AddScoped<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
