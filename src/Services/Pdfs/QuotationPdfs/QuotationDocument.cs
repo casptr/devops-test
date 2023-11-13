@@ -95,10 +95,18 @@ public class QuotationDocument : IDocument
                 }
             });
             table.Cell().Element(CellStyle).AlignCenter().Text($"1");
-            table.Cell().Element(CellStyle).Text($"Mobiele bar Blanche btw 21%");
+            table.Cell().Element(CellStyle).Text($"Formule: {Model.Formula.Title}").SemiBold();
             table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(Model.FoodtruckPrice)}");
             table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(Model.FoodtruckPrice)}");
             table.Cell().Element(CellStyle).AlignRight().Text($"€{new Money((Model.FoodtruckPrice) * 21 / 100M)}");
+
+
+            table.Cell().Element(CellStyle).Text("");
+            table.Cell().Element(CellStyle).Text($"Mobiele bar Blanche btw 21%");
+            table.Cell().Element(CellStyle).Text("");
+            table.Cell().Element(CellStyle).Text("");
+            table.Cell().Element(CellStyle).Text("");
+
 
             foreach (var item in Model.FormulaSupplementLines)
             {
@@ -115,18 +123,18 @@ public class QuotationDocument : IDocument
             table.Cell().Element(CellStyle).Text("");
             table.Cell().Element(CellStyle).Text("");
 
-            decimal pricePerGuest = 12;
-            table.Cell().Element(CellStyle).AlignCenter().Text($"{Model.NumberOfGuests}");
-            table.Cell().Element(CellStyle).Text($"{Model.Formula.Title} {Model.NumberOfGuests} personen BTW 12%");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(pricePerGuest)}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(Model.NumberOfGuests * pricePerGuest)}");
-            table.Cell().Element(CellStyle).AlignRight().Text($"€{new Money(Model.NumberOfGuests * pricePerGuest * 12M / 100M)}");
+            //decimal pricePerGuest = 12;
+            //table.Cell().Element(CellStyle).AlignCenter().Text($"{Model.NumberOfGuests}");
+            //table.Cell().Element(CellStyle).Text($"{Model.Formula.Title} {Model.NumberOfGuests} personen BTW 12%");
+            //table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(pricePerGuest)}");
+            //table.Cell().Element(CellStyle).AlignRight().Text($"{new Money(Model.NumberOfGuests * pricePerGuest)}");
+            //table.Cell().Element(CellStyle).AlignRight().Text($"€{new Money(Model.NumberOfGuests * pricePerGuest * 12M / 100M)}");
 
-            table.Cell().Element(CellStyle).Text("");
-            table.Cell().Element(CellStyle).Text("");
-            table.Cell().Element(CellStyle).Text("");
-            table.Cell().Element(CellStyle).Text("");
-            table.Cell().Element(CellStyle).Text("");
+            //table.Cell().Element(CellStyle).Text("");
+            //table.Cell().Element(CellStyle).Text("");
+            //table.Cell().Element(CellStyle).Text("");
+            //table.Cell().Element(CellStyle).Text("");
+            //table.Cell().Element(CellStyle).Text("");
 
             foreach (var item in Model.ExtraSupplementLines)
             {
@@ -141,23 +149,23 @@ public class QuotationDocument : IDocument
             table.Cell().ColumnSpan(2).Element(FooterHeader).AlignCenter().Text("BTW");
             table.Cell().ColumnSpan(2).Element(FooterHeader).AlignCenter().Text("Totaal");
 
-            decimal totaltaxable = 0;
-            decimal totalbtw = 0;
-            foreach (var item in Model.FormulaSupplementLines)
-            {
-                totaltaxable += item.SupplementPrice * item.Quantity;
-                totalbtw += item.SupplementPrice * item.SupplementVat / 100M * item.Quantity;
-            }
-            foreach (var item in Model.ExtraSupplementLines)
-            {
-                totaltaxable += item.SupplementPrice * item.Quantity;
-                totalbtw += item.SupplementPrice * item.SupplementVat / 100M * item.Quantity;
-            }
-            totaltaxable += Model.FoodtruckPrice;
-            totaltaxable += Model.NumberOfGuests * pricePerGuest;
+            //decimal totaltaxable = 0;
+            //decimal totalbtw = 0;
+            //foreach (var item in Model.FormulaSupplementLines)
+            //{
+            //    totaltaxable += item.SupplementPrice * item.Quantity;
+            //    totalbtw += item.SupplementPrice * item.SupplementVat / 100M * item.Quantity;
+            //}
+            //foreach (var item in Model.ExtraSupplementLines)
+            //{
+            //    totaltaxable += item.SupplementPrice * item.Quantity;
+            //    totalbtw += item.SupplementPrice * item.SupplementVat / 100M * item.Quantity;
+            //}
+            //totaltaxable += Model.FoodtruckPrice;
+            //totaltaxable += Model.NumberOfGuests * pricePerGuest;
 
-            totalbtw += Model.FoodtruckPrice * 21M / 100M;
-            totalbtw += Model.NumberOfGuests * pricePerGuest * 12M /100M;
+            //totalbtw += Model.FoodtruckPrice * 21M / 100M;
+            //totalbtw += Model.NumberOfGuests * pricePerGuest * 12M /100M;
 
             table.Cell().Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(Model.Price)}");
             table.Cell().ColumnSpan(2).Element(CellStyle).AlignCenter().PaddingTop(1).PaddingBottom(1).Text($"{new Money(Model.VatTotal)}");
