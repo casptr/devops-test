@@ -11,13 +11,11 @@ using Foodtruck.Client.Infrastructure;
 using Foodtruck.Shared.Reservations;
 using Foodtruck.Client.QuotationProcess.Helpers;
 using Foodtruck.Client.QuotationProcess;
+
 using Foodtruck.Client.Quotations;
 using Foodtruck.Shared.Quotations;
 using Foodtruck.Shared.Pdfs;
 using Services.Pdfs;
-using Foodtruck.Shared.Quotations;
-using Foodtruck.Client.Quotations;
-using Foodtruck.Shared.Emails;
 using Foodtruck.Client.Admin;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
