@@ -1,43 +1,49 @@
 ﻿@using Foodtruck.Client.QuotationProcess.Helpers;
 <MudTimeline TimelineOrientation="TimelineOrientation.Horizontal" TimelinePosition="TimelinePosition.Top" Class="mb-10">
-    @for (var i = 0; i < steps.Length; i++)
+    @for (var i = 0; i < Steps.Count; i++)
     {
         int stepIndex = i;
+
+        if (@Steps[stepIndex].Title == null)
+            break;
+
         <MudTimelineItem Color="@GetColor(stepIndex)" Variant="@GetVariant(stepIndex)">
             <ItemDot>
-                @if (stepIndex < (int)currentStep)
+                @if (stepIndex < CurrentStepIndex)
                 {
                     <MudIcon Icon="@Icons.Material.Filled.Check" />
                 }
-                else if (stepIndex == (int)currentStep)
+                else if (stepIndex == CurrentStepIndex)
                 {
                     <MudIcon Icon="@Icons.Material.Outlined.Circle" />
                 }
             </ItemDot>
             <ItemContent>
-                <MudText Align="Align.Center" Style="margin-top: -30px;">@steps[stepIndex].StepTitle</MudText>
+                <MudText Align="Align.Center" Style="margin-top: -30px;">@Steps[stepIndex].Title</MudText>
             </ItemContent>
         </MudTimelineItem>
     }
 </MudTimeline>
 
 @code {
-    [EditorRequired][Parameter] public QuotationProcessStep currentStep { get; set; }
-
-    public QuotationProcessTimelineStep[] steps = {
-        new QuotationProcessTimelineStep(QuotationProcessStep.CHOOSE_DATE, "Datum Selecteren"),
-        new QuotationProcessTimelineStep(QuotationProcessStep.SELECT_FORMULA, "Formule Selecteren"),
-        new QuotationProcessTimelineStep(QuotationProcessStep.ADD_SUPPLEMENTS, "Formule Uitbreiden"),
-        new QuotationProcessTimelineStep(QuotationProcessStep.ENTER_DETAILS, "Gegevens Invullen")
-    };
+    [EditorRequired][Parameter] public int CurrentStepIndex { get; set; }
+    [EditorRequired][Parameter] public List<QuotationProcessStep> Steps { get; set; } = default!;
 
     public Variant GetVariant(int stepIndex)
     {
-        return stepIndex < (int)currentStep ? Variant.Filled : Variant.Outlined; // Filled if completed
+        return stepIndex < CurrentStepIndex ? Variant.Filled : Variant.Outlined; // Filled if completed
     }
 
     public Color GetColor(int stepIndex)
     {
-        return stepIndex <= (int)currentStep ? Color.Primary : Color.Default; // Primary color if completed or current step
+        return stepIndex <= CurrentStepIndex ? Color.Primary : Color.Default; // Primary color if completed or current step
+    }
+
+    protected override void OnInitialized()
+    {
+        if (Steps == null)
+            throw new ArgumentNullException(nameof(Steps), "QuotationProcessTimeline must have steps");
+
+        base.OnInitialized();
     }
 }

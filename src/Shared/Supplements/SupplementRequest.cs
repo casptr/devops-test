@@ -16,9 +16,7 @@ public abstract class SupplementRequest
         public int PageSize { get; set; } = 25; // Wat houdt PageSize in - Hoeveel elements of hoeveel pages?
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
-
         public string? Category { get; set; }
-
         public int? MinAvailableAmount { get; set; }
         public int? MaxAvailableAmount { get; set; }
     }

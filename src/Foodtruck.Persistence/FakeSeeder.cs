@@ -10,16 +10,16 @@ namespace Foodtruck.Persistence;
 
 public class FakeSeeder
 {
-    private readonly BogusDbContext dbContext;
+    private readonly FoodtruckDbContext dbContext;
    
-    public FakeSeeder(BogusDbContext dbContext)
+    public FakeSeeder(FoodtruckDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
 
     public void Seed()
     {
-		SeedCustomers();
+		//SeedCustomers();
         SeedReservation();
         SeedCategories();
        
@@ -30,22 +30,22 @@ public class FakeSeeder
 		SeedFormulaSupplementChoices();
 		SeedFormulaSupplementLines();
         SeedQuotationSupplementLines();
-		SeedQuotation();
+		//SeedQuotation();
 	}
 
    
 
-    private void SeedQuotation()
-	{
-		var quotation = new QuotationFaker().AsTransient().UseSeed(101).Generate(1).First();
-		var quotationVersion = new QuotationVersionFaker().AsTransient().UseSeed(101).Generate(1).First();
+ //   private void SeedQuotation()
+	//{
+	//	var quotation = new QuotationFaker().AsTransient().UseSeed(101).Generate(1).First();
+	//	var quotationVersion = new QuotationVersionFaker().AsTransient().UseSeed(101).Generate(1).First();
 
-		quotation.AddVersion(quotationVersion);
+	//	quotation.AddVersion(quotationVersion);
 
-		dbContext.QuotationVersions.AddRange(quotationVersion);
-        dbContext.Quotations.AddRange(quotation);
-		dbContext.SaveChanges();
-	}
+	//	dbContext.QuotationVersions.AddRange(quotationVersion);
+ //       dbContext.Quotations.AddRange(quotation);
+	//	dbContext.SaveChanges();
+	//}
 
 	private void SeedQuotationSupplementLines()
 	{
@@ -95,13 +95,13 @@ public class FakeSeeder
 		dbContext.SaveChanges();
 	}
 
-	private void SeedCustomers()
-    {
-        var customers = new CustomerFaker().AsTransient().UseSeed(123).Generate(3);
+	//private void SeedCustomers()
+ //   {
+ //       var customers = new CustomerFaker().AsTransient().UseSeed(123).Generate(3);
 
-		dbContext.Customers.AddRange(customers);
-		dbContext.SaveChanges();
-	}
+	//	dbContext.Customers.AddRange(customers);
+	//	dbContext.SaveChanges();
+	//}
 
     private void SeedSupplements()
     {

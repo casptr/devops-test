@@ -18,6 +18,8 @@ public class Address : ValueObject
         HouseNumber = Guard.Against.NullOrWhiteSpace(houseNumber, nameof(HouseNumber));
     }
 
+    private Address() { }
+
     protected override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Zip.ToLower();

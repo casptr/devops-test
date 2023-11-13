@@ -1,0 +1,45 @@
+@page "/admin/offertes/{QuotationId:int}"
+@using Foodtruck.Shared.Emails;
+@using Foodtruck.Shared.Pdfs;
+@using Foodtruck.Shared.Quotations;
+
+<div class="pdf-container">
+    <iframe class="quotation-pdf" id="pdfIframe" src="@PdfData"></iframe>
+</div>
+<MudButton Variant="Variant.Outlined" OnClick="SendEmail">Verstuur als Email</MudButton>
+
+@inject IQuotationService QuotationService
+@inject IPdfService PdfService
+@inject EmailService EmailService
+
+@code{
+    [Parameter] public int QuotationId { get; set; }
+    private string? PdfData { get; set; }
+    private QuotationDto.Detail? QuotationDetail;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetQuotation(QuotationId);
+        await GetPdf();
+    }
+
+    private async Task GetQuotation(int Id)
+    {
+        QuotationDetail = await QuotationService.GetDetailAsync(Id);
+    }
+
+    private async Task SendEmail()
+    {
+        await EmailService.SendNewQuotationPdfToAdmin(QuotationDetail);
+    }
+
+    private async Task GetPdf()
+    {
+        if (QuotationDetail != null && QuotationDetail.QuotationVersions != null)
+        {
+            QuotationVersionDto.Detail version = QuotationDetail.QuotationVersions.Last();
+            string base64 = await PdfService .GetQuotationPdfAsBase64(QuotationDetail, version);
+            PdfData = $"data:application/pdf;base64,{base64}";
+        }
+    }
+}

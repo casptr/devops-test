@@ -7,6 +7,6 @@ public class FoodtruckFaker : EntityFaker<Foodtruck>
 {
 	public FoodtruckFaker(string locale = "nl") : base(locale)
 	{
-		CustomInstantiator(f => new Foodtruck());
+		//CustomInstantiator(f => new Foodtruck());
 	}
 }

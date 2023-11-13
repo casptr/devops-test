@@ -6,6 +6,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
 }
 
 h1:focus {
@@ -101,3 +102,54 @@ a, .btn-link {
     flex-wrap: wrap;
     justify-content: space-evenly;
 }
+
+/* Calendar.razor */
+
+.mud-picker-content {
+    padding: 10px 25px;
+}
+
+.mud-picker.mud-picker-static {
+    border-radius: 0px 0px 5px 5px !important;
+}
+
+button.mud-range-start-selected:disabled {
+    background-color: #C2CCC5 !important;
+}
+
+.calendar-card {
+    background: #d0a039 !important;
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+.calendar-loading {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: auto;
+    left: 0;
+    background: white;
+    z-index: 100;
+    border-radius: 5px;
+    display:flex;
+}
+
+.mud-picker-calendar-content {
+    justify-content: center !important;
+}
+
+.admin_reservation_calendar_item {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+.admin_reservation_calendar_item_hover {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+/*.admin_reservation_calendar_item:hover {
+    opacity: 0.7;
+    cursor: pointer;
+}*/

@@ -1,0 +1,76 @@
+﻿@using Foodtruck.Client.QuotationProcess.Components
+@using Foodtruck.Client.QuotationProcess.Helpers;
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-2">
+    <QuotationProcessTimeline Steps="Steps" CurrentStepIndex="ActiveStepIndex" />
+
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</MudContainer>
+
+@* more advanced implementation:  https://stackoverflow.com/questions/68792911/detecting-when-a-user-leaves-i-e-by-closing-their-browser *@
+
+@if (QuotationProcessState.CurrentStepIndex != 0)
+{
+    <script>
+        window.onbeforeunload = function (event) {
+            return "";
+        }
+    </script>
+}
+
+@code {
+    [Inject] private QuotationProcessState QuotationProcessState { get; set; } = default!;
+
+    [Inject] IJSRuntime JsRuntime { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    public int ActiveStepIndex => QuotationProcessState.CurrentStepIndex ?? 0;
+    public QuotationProcessStep ActiveStep => Steps[ActiveStepIndex];
+
+    List<QuotationProcessStep> Steps = new();
+
+    internal void AddStep(QuotationProcessStep step)
+    {
+        Steps.Add(step);
+
+        if (ActiveStepIndex == Steps.Count - 1)
+            GoToStep(ActiveStepIndex);
+    }
+
+    public void GoToStep(int stepIndex)
+    {
+        if (stepIndex > ActiveStepIndex)
+            return;
+
+        QuotationProcessState.CurrentStepIndex = stepIndex;
+        ActivateStep();
+    }
+
+    public void NextStep()
+    {
+        if (Steps.Count - 1 == ActiveStepIndex)
+            return;
+
+        QuotationProcessState.CurrentStepIndex++;
+        ActivateStep();
+    }
+
+    public void PreviousStep()
+    {
+        if (ActiveStepIndex == 0)
+            return;
+
+        QuotationProcessState.CurrentStepIndex--;
+        ActivateStep();
+    }
+
+    private void ActivateStep()
+    {
+        StateHasChanged();
+        JsRuntime.InvokeVoidAsync("backToTop");
+    }
+
+
+}
